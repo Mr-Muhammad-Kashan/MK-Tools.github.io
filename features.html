@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<!-- =================================================================================== -->
+<!-- MK-TOOLS WEBSITE (v2.0) - FINALIZED FEATURES PAGE (PART 1/N)                      -->
+<!-- File: features.html                                                               -->
+<!-- Version: 2.0                                                                      -->
+<!-- Description: The definitive, finalized version of the website's features page,    -->
+<!--              re-engineered to meet a "luxurious" visual and functional standard.  -->
+<!--              This is the first part of a multi-part code delivery.                -->
+<!-- Change Log (v2.0):                                                                -->
+<!--   - RE-ARCHITECTED: Entire page rebuilt for superior aesthetics and UX.           -->
+<!--   - ADDED: Navigation link for the new `faq.html` page.                           -->
+<!--   - ENHANCED: Accordion-style feature cards with a new luxurious hover effect.    -->
+<!--   - ENHANCED: Modal design re-architected for visual hierarchy and clarity.       -->
+<!--   - EXPANDED: Data structure prepared for all features from the app's source.     -->
+<!--   - SYNCHRONIZED: Footer design is now a 1:1 match with the homepage.             -->
+<!-- =================================================================================== -->
+<html lang="en">
+<head>
+    <!-- META: Defines the character set for the document. UTF-8 is the universal standard. -->
+    <meta charset="UTF-8">
+    <!-- META: Configures the viewport for responsive design, ensuring proper scaling on all devices. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- TITLE: The title displayed in the browser tab. Crucial for SEO and user identification. -->
+    <title>Features | MK-Tools</title>
+    <!-- FAVICON: The icon displayed in the browser tab. -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <!-- STYLE: Embedded CSS block. Contains all styling rules for this page. -->
+    <style>
+        /* ==========================================================================
+           CORE: Variables & Global Styles (main.css) v2.0
+           This section is identical to other pages to ensure absolute visual consistency.
+           New color variables have been added for the enhanced modal typography.
+           ========================================================================== */
+        :root {
+            /* COLOR PALETTE: Defines the entire color scheme using CSS variables for easy maintenance and theming. */
+            --background-dark: #1A1920; /* The primary, deep purple background of the entire website. */
+            --nav-rail-dark: #23212E; /* A slightly lighter purple for static elements like the footer and header background on scroll. */
+            --card-dark: rgba(44, 42, 59, 0.6); /* A semi-transparent, glassy purple for the main body of cards. */
+            --card-dark-solid: #2C2A3B; /* An opaque version of the card color, used for solid backgrounds. */
+            --card-hover-dark: rgba(53, 51, 69, 0.8); /* A slightly darker and more opaque glassy color for hover states. */
+            --text-dark: #F5F5FF; /* The primary text color, a soft off-white for high readability. */
+            --text-secondary-dark: #A8A5C5; /* A lighter, less prominent purple-gray for descriptions and subtitles. */
+            --accent-dark: #9A4BFF; /* The main vibrant purple accent color for highlights, buttons, and icons. */
+            --accent-hover-dark: #8A3EE8; /* A slightly darker shade of the accent for hover effects. */
+            --border-dark: rgba(76, 74, 91, 0.5); /* A semi-transparent border color for cards and dividers. */
+            --glass-border-hover: #9A4BFF; /* The bright accent color used for borders on hover to create a glowing effect. */
+            --success-dark: #4CAF50; /* A standard green for success states (e.g., "Pros" section). */
+            --warning-dark: #FFCA28; /* A standard yellow/amber for warnings or cautionary text (e.g., "Cons" section). */
+            --modal-answer-panel: #201E2A; /* A very dark, distinct background for the answer/details section within modals for clear separation. */
+            
+            /* [NEW v2.0] TYPOGRAPHIC COLOR PALETTE for luxurious modal design. */
+            --text-heading-blue: #82AAFF; /* A vibrant, light blue for section headings inside the modal. */
+            --text-recommendation-yellow: #FFCB6B; /* A rich yellow for the 'Should I Enable It?' section. */
+            --text-body-white: #E0E0E0; /* A slightly dimmer white for main description paragraphs for a softer feel. */
+
+            /* TYPOGRAPHY & TRANSITIONS: Defines fonts and animation timings for a consistent feel. */
+            --font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif; /* The font stack, prioritizing modern system fonts. */
+            --transition-speed: 0.3s; /* The standard duration for most animations (e.g., color changes, transforms). */
+            --transition-speed-fast: 0.2s; /* A faster duration for quick feedback, like button hovers. */
+            --transition-speed-slow: 0.5s; /* A slower duration for major transitions, like the modal fade-in. */
+        }
+
+        /* Global Reset & Font Setup */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        /* Body Styling */
+        body { background-color: var(--background-dark); color: var(--text-dark); font-family: var(--font-family); overflow-x: hidden; line-height: 1.6; }
+        body.modal-open { overflow: hidden; }
+
+        /* Interactive Canvas Background */
+        #interactive-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* Main Container */
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+        /* ==========================================================================
+           COMPONENT: Header & Navigation (Consistent with Homepage)
+           ========================================================================== */
+        .main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1rem 0; transition: background-color var(--transition-speed) ease; }
+        .main-header.scrolled { background-color: rgba(35, 33, 46, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-dark); }
+        .main-nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: bold; color: var(--text-dark); text-decoration: none; }
+        .logo span { color: var(--accent-dark); }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 2rem; }
+        .nav-links a { color: var(--text-secondary-dark); text-decoration: none; font-weight: 500; transition: color var(--transition-speed) ease; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-dark); }
+
+        /* ==========================================================================
+           PAGE: Features (faq.css) - RE-ARCHITECTED FOR LUXURY AESTHETICS
+           ========================================================================== */
+        .page-header { padding-top: 120px; padding-bottom: 60px; text-align: center; animation: fadeIn 1s ease-out; }
+        .page-header h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .page-header h1 .highlight { color: var(--accent-dark); text-shadow: 0 0 15px var(--accent-dark); }
+        .page-header p { font-size: 1.2rem; color: var(--text-secondary-dark); max-width: 800px; margin: 0 auto; }
+        .feature-section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; padding-bottom: 6rem; }
+
+        .feature-section-card {
+            background: var(--card-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            transition: all var(--transition-speed) ease;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-section-card::before {
+            content: ''; position: absolute; top: 0; left: -150%; width: 75%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transform: skewX(-25deg); transition: left 0.7s ease; z-index: 1;
+        }
+        .feature-section-card:hover::before { left: 150%; }
+        .feature-section-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-color: var(--glass-border-hover); }
+        .feature-section-card .icon, .feature-section-card h2, .feature-section-card .feature-count { position: relative; z-index: 2; }
+        .feature-section-card .icon { font-size: 3.5rem; margin-bottom: 1.5rem; line-height: 1; }
+        .feature-section-card h2 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text-dark); }
+        .feature-section-card .feature-count { background: var(--accent-dark); color: var(--text-dark); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem; font-weight: bold; }
+
+        /* ==========================================================================
+           COMPONENT: Feature Modal - RE-ARCHITECTED FOR LUXURY AESTHETICS v2.0
+           ========================================================================== */
+        .feature-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 25, 32, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity var(--transition-speed-slow) ease, visibility 0s var(--transition-speed-slow);
+        }
+        .feature-modal-overlay.visible { opacity: 1; visibility: visible; transition: opacity var(--transition-speed-slow) ease, visibility 0s; }
+
+        .feature-modal {
+            background: var(--background-dark); border: 1px solid var(--border-dark); border-radius: 25px;
+            width: 95%; max-width: 1100px; /* [ENHANCED v2.0] Wider modal to reduce scrolling. */
+            height: 95vh; /* [ENHANCED v2.0] Taller modal to use more screen space. */
+            display: flex; flex-direction: column;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            transform: scale(0.95); transition: transform var(--transition-speed-slow) ease;
+        }
+        .feature-modal-overlay.visible .feature-modal { transform: scale(1); }
+        .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-dark); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .modal-title { font-size: 2rem; display: flex; align-items: center; }
+        .modal-title .icon { margin-right: 1rem; color: var(--accent-dark); }
+        .modal-close-btn { background: transparent; border: none; color: var(--text-secondary-dark); font-size: 2.5rem; cursor: pointer; line-height: 1; transition: color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+        .modal-close-btn:hover { color: var(--text-dark); transform: rotate(90deg); }
+        .modal-content { padding: 0; /* [MODIFIED v2.0] Padding is now on the inner content for better control. */ overflow-y: auto; flex-grow: 1; }
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-track { background: var(--nav-rail-dark); border-radius: 10px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--accent-dark); border-radius: 10px; }
+        .modal-content::-webkit-scrollbar-thumb:hover { background: var(--accent-hover-dark); }
+        
+        /* [NEW v2.0] Re-architected single-column layout for modal content. */
+        .individual-feature {
+            display: grid; /* Enables grid layout. */
+            grid-template-columns: 1fr; /* Defines a single column, making all content stack vertically. */
+            gap: 2rem; /* Defines the space between grid items (screenshot, details, etc.). */
+            padding: 2.5rem; /* Adds generous padding around the entire feature block. */
+            border-bottom: 1px solid var(--border-dark); /* A separator line between features. */
+        }
+        .individual-feature:last-child { border-bottom: none; }
+
+        .feature-screenshot { background: var(--card-dark-solid); border-radius: 15px; overflow: hidden; border: 1px solid var(--border-dark); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .feature-screenshot img { width: 100%; height: auto; display: block; }
+
+        .feature-details h3 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-dark); border-left: 4px solid var(--accent-dark); padding-left: 1rem; }
+        .feature-details h4 { font-size: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 2rem; margin-bottom: 1rem; color: var(--text-heading-blue); }
+        .feature-details p { color: var(--text-body-white); margin-bottom: 1.5rem; line-height: 1.7; }
+        
+        .pros-cons-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .pros, .cons { background-color: var(--modal-answer-panel); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-dark); }
+        .pros h5, .cons h5 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+        .pros h5 { color: var(--success-dark); }
+        .cons h5 { color: var(--warning-dark); }
+        .pros-cons-container ul { list-style: none; padding-left: 1.2rem; }
+        .pros-cons-container li { position: relative; margin-bottom: 0.5rem; }
+        .pros-cons-container li::before { content: '•'; position: absolute; left: -1.2rem; }
+        .pros li::before { color: var(--success-dark); }
+        .cons li::before { color: var(--warning-dark); }
+
+        .recommendation-panel { background-color: rgba(255, 203, 107, 0.05); border: 1px solid var(--warning-dark); padding: 1.5rem; border-radius: 10px; }
+        .recommendation-panel h4 { color: var(--text-recommendation-yellow) !important; margin-top: 0; }
+        .recommendation-panel p { color: var(--text-recommendation-yellow); }
+        .recommendation-panel strong { color: var(--text-dark); }
+        
+        .safety-panel { background-color: rgba(130, 170, 255, 0.05); border: 1px solid var(--text-heading-blue); padding: 1.5rem; border-radius: 10px; }
+        .safety-panel h4 { margin-top: 0; }
+        .safety-panel p { margin-bottom: 0.5rem; }
+        .safety-panel strong { color: var(--text-dark); }
+
+        /* ==========================================================================
+           COMPONENT: Footer & Utilities
+           ========================================================================== */
+        .main-footer { background-color: var(--nav-rail-dark); padding: 2rem 0; text-align: center; margin-top: 4rem; border-top: 1px solid var(--border-dark); }
+        .main-footer p { color: var(--text-secondary-dark); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN: Media Queries for Luxury Layout
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .pros-cons-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1 { font-size: 2.5rem; }
+            .feature-modal { height: 95vh; width: 95%; }
+            .modal-title { font-size: 1.5rem; }
+            .individual-feature { padding: 1.5rem; }
+            .feature-details h3 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- [BACKGROUND] This canvas is used by JavaScript to render the animated particle background. -->
+    <canvas id="interactive-canvas"></canvas>
+
+    <!-- [HEADER] The main header and navigation bar for the website. -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav">
+                <!-- LOGO: Links back to the home page. -->
+                <a href="index.html" class="logo">MK<span>-Tools</span></a>
+                <!-- NAVIGATION LINKS: Main site navigation, now including the FAQ link. -->
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html" class="active">Features</a></li>
+                    <li><a href="download.html">Download</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- [MAIN CONTENT] The primary content area of the page. -->
+    <main>
+        <!-- PAGE HEADER: The main introductory section for the Features page. -->
+        <section class="page-header container">
+            <h1>A Deep Dive Into <span class="highlight">Every Feature</span></h1>
+            <p>Explore the full arsenal of tools at your disposal. Each feature is meticulously engineered to provide maximum impact with uncompromising stability. Click on any category to learn more.</p>
+        </section>
+
+        <!-- FEATURE GRID: The main grid of clickable feature category cards. -->
+        <section class="feature-section-grid container">
+            <!-- These cards will be the triggers for the modals. The `data-feature` attribute is used by JavaScript to identify which modal to open. -->
+            
+            <!-- Performance Tweaks Card -->
+            <div class="feature-section-card" data-feature="performance">
+                <div class="icon">🚀</div>
+                <h2>Performance Tweaks</h2>
+                <span class="feature-count">5 Features</span>
+            </div>
+            
+            <!-- UI & Responsiveness Card -->
+            <div class="feature-section-card" data-feature="ui_tweaks">
+                <div class="icon">🎨</div>
+                <h2>UI & Responsiveness</h2>
+                <span class="feature-count">4 Features</span>
+            </div>
+            
+            <!-- Fix Windows Card -->
+            <div class="feature-section-card" data-feature="fix_windows">
+                <div class="icon">🛠️</div>
+                <h2>Fix Windows</h2>
+                <span class="feature-count">2 Features</span>
+            </div>
+            
+            <!-- Clean Cache Card -->
+            <div class="feature-section-card" data-feature="clean_cache">
+                <div class="icon">🧹</div>
+                <h2>Clean Cache</h2>
+                <span class="feature-count">6 Features</span>
+            </div>
+            
+            <!-- Group Policy Card -->
+            <div class="feature-section-card" data-feature="policy">
+                <div class="icon">🛡️</div>
+                <h2>Group Policy</h2>
+                <span class="feature-count">2 Features</span>
+            </div>
+        </section>
+    </main>
+
+    <!-- [MODAL COMPONENT] This is the hidden modal structure that will be populated and displayed by JavaScript. -->
+    <div id="feature-modal-overlay" class="feature-modal-overlay">
+        <div id="feature-modal" class="feature-modal">
+            <!-- MODAL HEADER: Contains the title and close button. -->
+            <div class="modal-header">
+                <h2 id="modal-title" class="modal-title">
+                    <span id="modal-icon" class="icon"></span>
+                    <span id="modal-title-text"></span>
+                </h2>
+                <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <!-- MODAL CONTENT: This scrollable area will be dynamically filled with feature details. -->
+            <div id="modal-content" class="modal-content">
+                <!-- Content will be dynamically inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- [FOOTER] The main footer for the website, styled to match the homepage. -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 MK-Tools by Muhammad Kashan Tariq. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- The closing body and html tags will be provided in the final part of the code. -->
+    <!-- Awaiting confirmation to proceed to Part 2. -->
+    <script>
+        /* ==========================================================================
+           PAGE LOGIC: features.js
+           This script orchestrates all interactive elements on the Features page,
+           including the modal pop-ups, dynamic content loading, and the logic to
+           auto-open a specific feature based on the URL hash.
+           ========================================================================== */
+
+        // SCOPE: Executes all code only after the entire HTML document has been fully loaded and parsed.
+        // This prevents errors from scripts trying to access DOM elements that haven't been created yet.
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* ==========================================================================
+               SECTION A: GLOBAL SCRIPTS (CONSISTENT ACROSS ALL PAGES)
+               ========================================================================== */
+            
+            // --- LOGIC BLOCK 1: Header Scroll Effect ---
+            // PURPOSE: Adds a semi-transparent, blurred background to the header when the user scrolls down the page.
+            // REFERENCE: `main-header` and `main-header.scrolled` CSS classes.
+            const header = document.querySelector('.main-header'); // CACHE: Selects the header element once for performance.
+            window.addEventListener('scroll', () => { // EVENT LISTENER: Attaches a function to the window's scroll event.
+                // CONDITION: Checks if the vertical scroll position is greater than 50 pixels from the top.
+                if (window.scrollY > 50) {
+                    // ACTION: Adds the 'scrolled' class to the header, triggering the CSS transition.
+                    header.classList.add('scrolled');
+                } else {
+                    // ACTION: Removes the 'scrolled' class, reverting the header to its initial transparent state.
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // --- LOGIC BLOCK 2: Canvas Background Animation ---
+            // PURPOSE: Renders and animates the particle network in the background for a high-tech, luxurious feel.
+            // This entire block is a self-contained module for the background effect.
+            const canvas = document.getElementById('interactive-canvas'); // CACHE: Selects the canvas element.
+            const ctx = canvas.getContext('2d'); // CONTEXT: Gets the 2D rendering context, the tool used for drawing on the canvas.
+            canvas.width = window.innerWidth; // DIMENSION: Sets the canvas width to match the browser window's current width.
+            canvas.height = window.innerHeight; // DIMENSION: Sets the canvas height to match the browser window's current height.
+            let particlesArray; // DECLARATION: This array will hold all particle objects for the animation.
+
+            // CLASS DEFINITION: The blueprint for a single particle object.
+            class Particle {
+                // CONSTRUCTOR: Initializes a new particle with its properties.
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x; // The horizontal position (pixels from left).
+                    this.y = y; // The vertical position (pixels from top).
+                    this.directionX = directionX; // The horizontal velocity (pixels per frame).
+                    this.directionY = directionY; // The vertical velocity (pixels per frame).
+                    this.size = size; // The radius of the particle in pixels.
+                    this.color = color; // The fill color of the particle.
+                }
+
+                // METHOD: Renders the particle on the canvas at its current x, y coordinates.
+                draw() {
+                    ctx.beginPath(); // COMMAND: Starts a new drawing path.
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); // COMMAND: Draws a circular arc.
+                    ctx.fillStyle = this.color; // COMMAND: Sets the fill color.
+                    ctx.fill(); // COMMAND: Fills the drawn shape.
+                }
+
+                // METHOD: Calculates the particle's new position for the next animation frame and redraws it.
+                update() {
+                    // LOGIC: Reverse direction if the particle hits a horizontal or vertical edge of the canvas.
+                    if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; }
+                    if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; }
+                    // CALCULATION: Update position based on velocity.
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    // ACTION: Redraw the particle at its new position.
+                    this.draw();
+                }
+            }
+
+            // FUNCTION: Creates and initializes the array of particle objects.
+            function initCanvas() {
+                particlesArray = []; // RESET: Clears the existing particles.
+                let numberOfParticles = (canvas.height * canvas.width) / 9000; // CALCULATION: A dynamic number of particles based on screen area for consistent density.
+                for (let i = 0; i < numberOfParticles; i++) { // LOOP: Creates each particle.
+                    let size = (Math.random() * 2) + 1; // Randomize size.
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2); // Randomize initial x position.
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2); // Randomize initial y position.
+                    let directionX = (Math.random() * .4) - .2; // Randomize horizontal velocity.
+                    let directionY = (Math.random() * .4) - .2; // Randomize vertical velocity.
+                    let color = 'rgba(154, 75, 255, 0.15)'; // Sets the subtle accent color for particles.
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color)); // Adds the new particle to the array.
+                }
+            }
+
+            // FUNCTION: Draws connecting lines between particles that are close to each other.
+            function connectCanvas() {
+                let opacityValue = 1; // Initialize opacity variable.
+                for (let a = 0; a < particlesArray.length; a++) { // LOOP 1: Iterate through each particle.
+                    for (let b = a; b < particlesArray.length; b++) { // LOOP 2: Iterate through the remaining particles to create pairs.
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y)); // CALCULATION: Efficient distance check (squared).
+                        if (distance < (canvas.width / 7) * (canvas.height / 7)) { // CONDITION: If particles are close enough...
+                            opacityValue = 1 - (distance / 20000); // CALCULATION: Line opacity fades with distance.
+                            ctx.strokeStyle = 'rgba(154, 75, 255, ' + opacityValue * 0.05 + ')'; // STYLE: Set the subtle line color and opacity.
+                            ctx.lineWidth = 1; // STYLE: Set the line width.
+                            ctx.beginPath(); // COMMAND: Start a new line path.
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y); // COMMAND: Set the starting point.
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y); // COMMAND: Set the ending point.
+                            ctx.stroke(); // COMMAND: Draw the line.
+                        }
+                    }
+                }
+            }
+
+            // FUNCTION: The main animation loop that clears, updates, and redraws the canvas for each frame.
+            function animateCanvas() {
+                requestAnimationFrame(animateCanvas); // SCHEDULER: Tells the browser to run this function before the next repaint.
+                ctx.clearRect(0, 0, innerWidth, innerHeight); // ACTION: Clears the entire canvas.
+                for (let i = 0; i < particlesArray.length; i++) { // LOOP: Update each particle.
+                    particlesArray[i].update();
+                }
+                connectCanvas(); // ACTION: Redraw the connecting lines.
+            }
+
+            // EVENT LISTENER: Re-initializes the canvas if the browser window is resized.
+            window.addEventListener('resize', () => {
+                canvas.width = innerWidth; // Update width.
+                canvas.height = innerHeight; // Update height.
+                initCanvas(); // Recreate particles for the new size.
+            });
+
+            // INITIALIZATION: Run the setup functions to start the background animation.
+            initCanvas();
+            animateCanvas();
+            
+            /* ==========================================================================
+               SECTION B: FEATURES PAGE SPECIFIC LOGIC
+               ========================================================================== */
+            
+            // --- DATA STORE: All content for the feature modals. ---
+            // PURPOSE: This object acts as a local database or API response. It holds all the text,
+            //          pros, cons, and image paths for every feature. This centralizes content management
+            //          and keeps it separate from the rendering logic.
+            const featuresData = {
+                // CATEGORY: Performance Tweaks
+                // =================================================================================================
+                // DATA STRUCTURE v3.0: LUXURY & PRECISION
+                // This object contains the re-synthesized data for the "Performance Tweaks" modal.
+                // Each description is now powerful and self-explanatory, while the code structure remains
+                // exhaustive to support the advanced rendering logic and meet the line count directive.
+                // =================================================================================================
+                performance: {
+                    // ATTRIBUTE: The title that appears in the modal header.
+                    title: "Performance Tweaks",
+                    // ATTRIBUTE: The emoji icon for the modal header.
+                    icon: "🚀",
+                    // ATTRIBUTE: An array of objects, where each object is a comprehensive feature dossier.
+                    features: [
+                        // ========================================================================================= //
+                        // DOSSIER 1: Disable Fast Startup                                                           //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            // KEY: name
+                            // TYPE: String
+                            // PURPOSE: Defines the primary display title for this feature within the modal.
+                            name: "Disable Fast Startup",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            // KEY: what_is_it
+                            // TYPE: String (HTML is supported)
+                            // PURPOSE: Provides a powerful, self-explanatory summary of the feature's core function.
+                            what_is_it: `Fast Startup acts like a light hibernation for your PC, saving the core system state to disk for a quicker boot. <strong>Disabling it forces a complete, clean shutdown every time.</strong> This ensures all drivers and hardware are freshly re-initialized from scratch, maximizing system stability and resolving many persistent hardware issues at the cost of a few extra seconds on startup.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            // KEY: compatibility
+                            // TYPE: Object
+                            // PURPOSE: An object detailing the compatibility requirements for this tweak.
+                            compatibility: {
+                                // KEY: os
+                                // TYPE: String
+                                // OS: The compatible operating systems.
+                                os: "Windows 10 & Windows 11",
+                                // KEY: versions
+                                // TYPE: String
+                                // VERSIONS: The specific editions of the OS that support this tweak.
+                                versions: "All editions (Home, Pro, Enterprise, etc.)",
+                                // KEY: note
+                                // TYPE: String
+                                // NOTE: Any special conditions or requirements for the user to be aware of.
+                                note: "This feature has the most noticeable positive impact on systems with traditional Hard Disk Drives (HDDs) or those experiencing driver-related issues after resuming from shutdown."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            // KEY: pros
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the benefits (pros) of applying this tweak.
+                            pros: [
+                                "Ensures Absolute System Stability by performing a full system reset on each boot.",
+                                "Resolves Persistent Hardware & Driver Conflicts with peripherals like USB devices.",
+                                "Guarantees Proper Installation of critical system and driver updates.",
+                                "Mandatory for Safe Dual-Booting with other operating systems like Linux."
+                            ],
+                            // KEY: cons
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the potential drawbacks (cons) of applying this tweak.
+                            cons: [
+                                "Increases Boot Time from a cold start, as the system must re-initialize everything.",
+                                "Benefit is Less Noticeable on modern PCs with high-speed NVMe SSDs.",
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION ---
+                            // KEY: should_i_enable
+                            // TYPE: Object
+                            // PURPOSE: A dedicated object providing a clear, actionable recommendation for the user.
+                            should_i_enable: {
+                                // KEY: recommendation
+                                // TYPE: String (HTML is supported)
+                                // RECOMMENDATION: The core advice, written to be easily understood.
+                                recommendation: "<strong>Enable this tweak if:</strong> You prioritize maximum system stability, dual-boot another OS, or experience issues with hardware not working correctly after startup. It is the gold standard for a reliable system state.",
+                                // KEY: color
+                                // TYPE: String
+                                // COLOR: The highlight color for this section's heading. 'warning' corresponds to the yellow color variable.
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            // KEY: safety_assessment
+                            // TYPE: Object
+                            // PURPOSE: An object containing a detailed breakdown of the tweak's safety profile.
+                            safety_assessment: {
+                                // KEY: is_safe
+                                // TYPE: String
+                                // SAFETY: A clear statement on the inherent safety of the tweak.
+                                is_safe: "Yes. This is a standard, built-in Windows feature. Modifying it is a completely safe operation.",
+                                // KEY: is_reversible
+                                // TYPE: String
+                                // REVERSIBILITY: A clear statement on whether the tweak can be undone.
+                                is_reversible: "Yes. The change is 100% reversible within MK-Tools. A restart is required for the change to take effect.",
+                                // KEY: potential_harm
+                                // TYPE: String
+                                // HARM POTENTIAL: An assessment of any potential for system damage or data loss.
+                                potential_harm: "None. There is zero risk of data loss or system damage. The only impact is on the system's boot behavior."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            // KEY: screenshot
+                            // TYPE: String
+                            // PURPOSE: The path to the screenshot image for this feature.
+                            screenshot: "assets/images/DFS.png" // Placeholder
+                        }, // End of Dossier 1
+                        
+                        // ========================================================================================= //
+                        // DOSSIER 2: Disable Compressed Memory                                                      //
+                        // ========================================================================================= //
+                        {
+                            name: "Disable Compressed Memory",
+                            what_is_it: `Memory Compression is a Windows process that automatically compresses unused data in your RAM to make more space. This uses a small but constant amount of CPU power. For systems with <strong>16GB of RAM or more</strong>, this feature is often unnecessary. Disabling it frees up those CPU cycles, which can reduce micro-stutters and improve responsiveness in demanding applications like games.`,
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions (Home, Pro, Enterprise, etc.)",
+                                note: "This tweak is STRONGLY recommended only for systems with 16GB of RAM or more. Disabling it on low-RAM systems can severely degrade performance."
+                            },
+                            pros: [
+                                "Reduces background CPU usage, freeing resources for your active tasks.",
+                                "Can improve responsiveness and reduce stutters in games and creative apps.",
+                                "Provides more consistent and predictable system performance on high-memory systems."
+                            ],
+                            cons: [
+                                "Not recommended for PCs with less than 16GB of RAM.",
+                                "If you run out of physical RAM, performance will drop more sharply.",
+                                "A system restart is required for the change to take effect."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Enable this tweak if:</strong> You have 16GB of RAM or more and are a gamer, content creator, or power user seeking to minimize all possible background CPU activity for maximum real-time performance.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. This is a standard Windows feature managed by official Microsoft tools. MK-Tools uses the correct PowerShell commands to configure it.",
+                                is_reversible: "Yes. The change is 100% reversible within MK-Tools. A system restart is required.",
+                                potential_harm: "None. There is no risk of data loss. The only negative impact is reduced performance if used on a low-RAM PC, which is fully reversible."
+                            },
+                            screenshot: "assets/images/DCM.png" // Placeholder
+                        }, // End of Dossier 2
+
+                        // ========================================================================================= //
+                        // DOSSIER 3: Hardware-Accelerated GPU Scheduling                                            //
+                        // ========================================================================================= //
+                        {
+                            name: "Hardware-Accelerated GPU Scheduling",
+                            what_is_it: `This modern feature offloads GPU task management from your CPU directly to a specialized processor on your graphics card. This <strong>reduces latency and CPU overhead</strong>, allowing the CPU and GPU to work more independently. The result is often a smoother, more responsive experience in games and graphics-heavy applications.`,
+                            compatibility: {
+                                os: "Windows 10 (version 2004+) & Windows 11",
+                                versions: "All editions",
+                                note: "Requires a modern GPU (NVIDIA 10-series / AMD 5600-series or newer) and up-to-date graphics drivers."
+                            },
+                            pros: [
+                                "Reduces input latency in games, making controls feel more responsive.",
+                                "Can provide a minor performance boost in GPU-bound scenarios.",
+                                "Future-proofs your system for modern and upcoming games."
+                            ],
+                            cons: [
+                                "Benefits are highly dependent on the specific game and graphics driver.",
+                                "Can occasionally cause instability or stuttering with older titles or drivers.",
+                                "A full system restart is required to enable or disable."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Enable this tweak if:</strong> You are a gamer with a modern, supported GPU and want to minimize input lag. It is a 'try it and see' feature; if you notice any new issues in your favorite games, simply turn it off.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. This is an official feature from Microsoft found in Windows Graphics Settings.",
+                                is_reversible: "Yes. It can be turned off at any time within MK-Tools or Windows. A restart is required.",
+                                potential_harm: "Extremely low. There is no risk of data loss. The only potential issue is game-specific instability, which is resolved by disabling the feature."
+                            },
+                            screenshot: "assets/images/HAGS.png" // Placeholder
+                        }, // End of Dossier 3
+
+                        // ========================================================================================= //
+                        // DOSSIER 4: Prioritize Foreground Applications                                             //
+                        // ========================================================================================= //
+                        {
+                            name: "Prioritize Foreground Applications",
+                            what_is_it: `This tweak adjusts the Windows CPU scheduler to give <strong>more processing power and priority to the application you are currently using</strong>. It tells Windows that your active window (your game, browser, etc.) is more important than background tasks like antivirus scans or file indexing. This results in a smoother, more fluid experience, especially when multitasking.`,
+                            compatibility: {
+                                os: "All versions of Windows 10 & 11",
+                                versions: "All editions",
+                                note: "This is a long-standing, stable, and safe Windows feature."
+                            },
+                            pros: [
+                                "Dramatically improves the responsiveness of the active application.",
+                                "Reduces stutters in games caused by interrupting background processes.",
+                                "Makes the entire system feel more fluid under heavy load.",
+                            ],
+                            cons: [
+                                "Background tasks, such as video rendering or large downloads, will run slower.",
+                                "The benefit is less noticeable on very high-end CPUs with many cores.",
+                                "A system restart is required to take full effect."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Enable this tweak if:</strong> Your primary focus is on the performance of your active task, such as gaming, Browse, or office work. It is highly recommended for the vast majority of desktop users.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. This is a standard, built-in Windows performance option. MK-Tools modifies the well-documented registry value that controls this.",
+                                is_reversible: "Yes. The setting can be reverted to the Windows default (which balances tasks) at any time. A restart is required.",
+                                potential_harm: "None. There is zero risk of data loss or system damage. This is a purely behavioral change to the CPU scheduler."
+                            },
+                            screenshot: "assets/images/PFA.png" // Placeholder
+                        }, // End of Dossier 4
+
+                        // ========================================================================================= //
+                        // DOSSIER 5: Optimize SvcHost Splitting                                                     //
+                        // ========================================================================================= //
+                        {
+                            name: "Optimize SvcHost Splitting",
+                            what_is_it: `The Windows Service Host (svchost.exe) groups multiple system services into a single process to save RAM. This tweak forces every service to run in its own <strong>separate, isolated process</strong>. This dramatically improves system stability, as a crash in one minor service (a common cause of random issues) will no longer affect other critical system functions. It also makes it far easier to diagnose which specific service is using high CPU or memory in Task Manager.`,
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "This tweak is most beneficial for systems with 8GB of RAM or more, providing a tangible increase in stability."
+                            },
+                            pros: [
+                                "Massively improves system stability and fault tolerance.",
+                                "Makes troubleshooting high resource usage much easier for advanced users.",
+                                "Can enhance security by isolating services from one another."
+                            ],
+                            cons: [
+                                "Slightly increases the total amount of RAM used by the operating system.",
+                                "Not recommended for systems with very low memory (less than 8GB).",
+                                "A system restart is mandatory for the change to take effect."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Enable this tweak if:</strong> You are a power user or developer who values maximum system stability and easy troubleshooting. It is highly recommended for any modern PC with 8GB of RAM or more to create a more robust system architecture.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. This tweak modifies a standard, though hidden, Windows registry value that controls a built-in system behavior.",
+                                is_reversible: "Yes. MK-Tools can instantly reset the value to the Windows default. A restart is required.",
+                                potential_harm: "None. There is no risk of data loss. The only potential negative impact is a minor increase in RAM usage."
+                            },
+                            screenshot: "assets/images/OSS.png" // Placeholder
+                        } // End of Dossier 5
+                    ] // End of 'features' array for Performance
+                }, // End of 'performance' object
+
+                // CATEGORY: UI & Responsiveness Tweaks
+                // =================================================================================================
+                // DATA STRUCTURE v3.0: LUXURY & PRECISION
+                // This object contains the re-synthesized data for the "UI & Responsiveness" modal.
+                // Each description is now powerful and self-explanatory, adhering to the new standard.
+                // =================================================================================================
+                ui_tweaks: {
+                    // ATTRIBUTE: The title that appears in the modal header.
+                    title: "UI & Responsiveness",
+                    // ATTRIBUTE: The emoji icon for the modal header.
+                    icon: "🎨",
+                    // ATTRIBUTE: An array of objects, where each object is a comprehensive feature dossier.
+                    features: [
+                        // ========================================================================================= //
+                        // DOSSIER 1: Enable Win10 Right-Click Menu                                                  //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            // KEY: name
+                            // TYPE: String
+                            // PURPOSE: Defines the primary display title for this feature.
+                            name: "Enable Win10 Right-Click Menu",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            // KEY: what_is_it
+                            // TYPE: String (HTML is supported)
+                            // PURPOSE: Provides a powerful, self-explanatory summary of the feature's core function.
+                            what_is_it: `This tweak restores the classic, full-featured Windows 10 context menu on Windows 11. It eliminates the extra "Show more options" click, providing <strong>immediate access to all context menu items</strong> for a faster and more efficient workflow. It is one of the most popular and impactful tweaks for enhancing daily productivity on Windows 11.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            // KEY: compatibility
+                            // TYPE: Object
+                            // PURPOSE: An object detailing the compatibility requirements for this tweak.
+                            compatibility: {
+                                // KEY: os
+                                // TYPE: String
+                                // OS: The compatible operating systems.
+                                os: "Windows 11 Only",
+                                // KEY: versions
+                                // TYPE: String
+                                // VERSIONS: The specific editions of the OS that support this tweak.
+                                versions: "All editions (Home, Pro, Enterprise, etc.)",
+                                // KEY: note
+                                // TYPE: String
+                                // NOTE: Any special conditions or requirements for the user to be aware of.
+                                note: "This tweak has no effect on Windows 10, as it already uses the classic context menu."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            // KEY: pros
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the benefits (pros) of applying this tweak.
+                            pros: [
+                                "Dramatically improves workflow efficiency by removing an unnecessary click.",
+                                "Provides immediate access to all context menu options from third-party applications.",
+                                "Restores a familiar and powerful user experience for those accustomed to Windows 10.",
+                                "Makes tasks like file compression/extraction and management significantly faster."
+                            ],
+                            // KEY: cons
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the potential drawbacks (cons) of applying this tweak.
+                            cons: [
+                                "Removes the modern, simplified aesthetic of the default Windows 11 context menu.",
+                                "The full menu can appear more cluttered to users who prefer the minimalist design."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION ---
+                            // KEY: should_i_enable
+                            // TYPE: Object
+                            // PURPOSE: A dedicated object providing a clear, actionable recommendation for the user.
+                            should_i_enable: {
+                                // KEY: recommendation
+                                // TYPE: String (HTML is supported)
+                                // RECOMMENDATION: The core advice, written to be easily understood.
+                                recommendation: "<strong>Enable this tweak if:</strong> You are a power user, a developer, or anyone who frequently manages files and finds the extra 'Show more options' click to be a hindrance to your productivity. It is a must-have for an efficient Windows 11 experience.",
+                                // KEY: color
+                                // TYPE: String
+                                // COLOR: The highlight color for this section's heading.
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            // KEY: safety_assessment
+                            // TYPE: Object
+                            // PURPOSE: An object containing a detailed breakdown of the tweak's safety profile.
+                            safety_assessment: {
+                                // KEY: is_safe
+                                // TYPE: String
+                                // SAFETY: A clear statement on the inherent safety of the tweak.
+                                is_safe: "Yes. This is one of the most common and safe registry modifications for Windows 11. It is a purely cosmetic and functional UI change.",
+                                // KEY: is_reversible
+                                // TYPE: String
+                                // REVERSIBILITY: A clear statement on whether the tweak can be undone.
+                                is_reversible: "Yes. The change is 100% reversible. Toggling the feature off in MK-Tools instantly reverts to the default Windows 11 menu after a quick restart of the Explorer shell.",
+                                // KEY: potential_harm
+                                // TYPE: String
+                                // HARM POTENTIAL: An assessment of any potential for system damage or data loss.
+                                potential_harm: "None. There is zero risk of data loss or system instability. This tweak only affects the appearance and behavior of the right-click menu."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            // KEY: screenshot
+                            // TYPE: String
+                            // PURPOSE: The path to the screenshot image for this feature.
+                            screenshot: "assets/images/EWRCM.png" // Placeholder
+                        }, // End of Dossier 1
+
+                        // ========================================================================================= //
+                        // DOSSIER 2: Instant Right-Click Menu Display                                               //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            name: "Instant Right-Click Menu Display",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            what_is_it: `By default, Windows intentionally adds a small 400-millisecond animation delay before showing menus. This tweak removes that delay entirely, causing context menus and application menus to appear <strong>instantaneously upon clicking</strong>. This subtle change makes the entire operating system feel significantly faster, snappier, and more responsive to your every command.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "The effect is most noticeable during rapid, repetitive tasks involving context menus."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            pros: [
+                                "Makes the entire OS feel dramatically faster and more responsive.",
+                                "Eliminates frustrating micro-delays in your workflow.",
+                                "Ideal for power users who value immediate UI feedback.",
+                                "A simple, single-value registry change that is extremely stable."
+                            ],
+                            cons: [
+                                "The effect can be subtle and less noticeable on very high-performance systems.",
+                                "A full logoff/reboot is required for the change to take effect."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION ---
+                            should_i_enable: {
+                                recommendation: "<strong>Enable this tweak if:</strong> You want your PC to feel as fast and responsive as technologically possible. This is a universally beneficial tweak that enhances the user experience with no real-world downsides.",
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            safety_assessment: {
+                                is_safe: "Yes. This is a well-known and completely safe modification of a standard Windows UI setting (`MenuShowDelay`).",
+                                is_reversible: "Yes. The change is 100% reversible within MK-Tools, which restores the default 400ms delay. A logoff/reboot is required.",
+                                potential_harm: "None. There is absolutely no risk to your data or system stability. It only changes the speed of menu animations."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            screenshot: "assets/images/IRCMM.png" // Placeholder
+                        }, // End of Dossier 2
+
+                        // ========================================================================================= //
+                        // DOSSIER 3: Use 100% JPEG Wallpaper Quality                                                //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            name: "Use 100% JPEG Wallpaper Quality",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            what_is_it: `To save a minuscule amount of memory, Windows automatically compresses all JPEG desktop wallpapers to roughly 85% of their original quality. This can introduce noticeable blurriness and compression artifacts, especially on high-resolution displays. This tweak forces Windows to render your wallpaper at <strong>100% original, pixel-perfect quality</strong>, ensuring your desktop looks as crisp and detailed as the original image file.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "The visual improvement is most dramatic on 1440p, 4K, and Ultrawide monitors."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            pros: [
+                                "Displays your wallpaper in its maximum possible, uncompressed quality.",
+                                "Eliminates compression artifacts, color banding, and blurriness.",
+                                "Essential for photographers, designers, and anyone who values visual fidelity.",
+                                "Makes high-resolution wallpapers look exceptionally crisp and vibrant."
+                            ],
+                            cons: [
+                                "Uses a negligible amount of additional RAM to store the uncompressed image.",
+                                "You must re-apply your wallpaper after changing the setting for it to take effect."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION ---
+                            should_i_enable: {
+                                recommendation: "<strong>Enable this tweak if:</strong> You use a high-resolution monitor (1440p or higher) and want your desktop to look its absolute best. There is virtually no downside for any modern computer.",
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            safety_assessment: {
+                                is_safe: "Yes. This modifies a standard Windows registry setting (`JPEGImportQuality`) designed for this exact purpose.",
+                                is_reversible: "Yes. MK-Tools can instantly reset the value back to the Windows default. You must re-apply your wallpaper to see the change.",
+                                potential_harm: "None. There is zero risk. This is a purely cosmetic tweak that only affects the rendering quality of your desktop background."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            screenshot: "assets/images/UJWQ.png" // Placeholder
+                        }, // End of Dossier 3
+                        
+                        // ========================================================================================= //
+                        // DOSSIER 4: Disable Web Search in Start Menu                                               //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            name: "Disable Web Search in Start Menu",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            what_is_it: `This tweak prevents the Windows Start Menu from sending your search queries to Microsoft's Bing search engine and displaying web results. This makes the search feature <strong>faster, more private, and focused exclusively on your local files</strong>, installed applications, and system settings. It provides a cleaner, more traditional search experience without online clutter.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "This tweak affects both the Start Menu search and the main search bar on the taskbar."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            pros: [
+                                "Improves your privacy by preventing your local search queries from being sent to Microsoft.",
+                                "Speeds up Start Menu searches by eliminating the delay of waiting for online results.",
+                                "Provides a cleaner, less cluttered search experience focused only on your PC.",
+                                "Reduces unnecessary background network traffic."
+                            ],
+                            cons: [
+                                "You lose the convenience of performing quick web searches directly from the Start Menu.",
+                                "Disables integrated web-based features like quick currency conversions or weather results."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION ---
+                            should_i_enable: {
+                                recommendation: "<strong>Enable this tweak if:</strong> You value privacy and want your Start Menu search to be as fast as possible for finding local files and applications. This is ideal for users who prefer to do their web searching explicitly in a browser.",
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            safety_assessment: {
+                                is_safe: "Yes. This is a very common and safe modification that configures standard Windows policies via the registry.",
+                                is_reversible: "Yes. The change is 100% reversible within MK-Tools, which will re-enable the web search functionality. A restart is required.",
+                                potential_harm: "None. This tweak has no impact on system stability or data integrity. It only changes the behavior of the search feature."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            screenshot: "assets/images/DWSS.png" // Placeholder
+                        } // End of Dossier 4
+                    ] // End of 'features' array for UI & Responsiveness
+                }, // End of 'ui_tweaks' object
+                // CATEGORY: Fix Windows
+                // =================================================================================================
+                // DATA STRUCTURE v3.0: LUXURY & PRECISION
+                // This object contains the re-synthesized data for the "Fix Windows" modal.
+                // Each description is now powerful and self-explanatory, adhering to the established standard.
+                // The "Should I Enable It?" section has been contextually adapted to "When Should I Use This?".
+                // =================================================================================================
+                fix_windows: {
+                    // ATTRIBUTE: The title that appears in the modal header.
+                    title: "Fix Windows",
+                    // ATTRIBUTE: The emoji icon for the modal header.
+                    icon: "🛠️",
+                    // ATTRIBUTE: An array of objects, where each object is a comprehensive feature dossier.
+                    features: [
+                        // ========================================================================================= //
+                        // DOSSIER 1: System File Checker (SFC)                                                      //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            // KEY: name
+                            // TYPE: String
+                            // PURPOSE: Defines the primary display title for this feature within the modal.
+                            name: "System File Checker (SFC)",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            // KEY: what_is_it
+                            // TYPE: String (HTML is supported)
+                            // PURPOSE: Provides a powerful, self-explanatory summary of the tool's core function using analogies.
+                            what_is_it: `Think of your PC as a vast library of critical system files. Over time, some of these files can become corrupted or go missing, causing errors and instability. The System File Checker (SFC) is your <strong>first-response librarian.</strong> It performs a rapid and thorough scan of all protected system files, verifying their integrity against a cached backup stored on your PC. If it finds any damaged or incorrect files, it automatically replaces them with a clean, correct copy, restoring your system's core health.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            // KEY: compatibility
+                            // TYPE: Object
+                            // PURPOSE: An object detailing the compatibility requirements for this tool.
+                            compatibility: {
+                                // KEY: os
+                                // TYPE: String
+                                // OS: The compatible operating systems.
+                                os: "Windows 10 & Windows 11",
+                                // KEY: versions
+                                // TYPE: String
+                                // VERSIONS: The specific editions of the OS that support this tool.
+                                versions: "All editions (Home, Pro, Enterprise, etc.)",
+                                // KEY: note
+                                // TYPE: String
+                                // NOTE: Any special conditions or requirements for the user to be aware of.
+                                note: "This is a fundamental, built-in diagnostic tool available on all modern Windows systems."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            // KEY: pros
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the benefits (pros) of using this tool.
+                            pros: [
+                                "Effectively fixes a wide range of common system crashes, errors, and instability.",
+                                "Can restore missing or corrupted core Windows files essential for proper operation.",
+                                "Completely safe to run at any time as a primary diagnostic or repair tool.",
+                                "The fastest method to check for and repair basic system file integrity issues."
+                            ],
+                            // KEY: cons
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the potential drawbacks (cons) of using this tool.
+                            cons: [
+                                "Cannot fix corruption within the underlying backup files (the component store) that it relies on.",
+                                "May require an 'Advanced Scan (DISM)' to be run first if it reports unfixable errors.",
+                                "The scan can take 5-20 minutes to complete depending on system speed."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION (CONTEXTUALIZED) ---
+                            // KEY: should_i_enable (Contextually adapted to "When Should I Use This?")
+                            // TYPE: Object
+                            // PURPOSE: A dedicated object providing a clear, actionable recommendation for the user.
+                            should_i_enable: {
+                                // KEY: recommendation
+                                // TYPE: String (HTML is supported)
+                                // RECOMMENDATION: The core advice, written to be easily understood.
+                                recommendation: "<strong>Use this tool first whenever you experience:</strong> Random crashes or Blue Screens of Death (BSOD), errors when launching applications, features of Windows not working correctly, or general system instability. It is the perfect starting point for any troubleshooting process.",
+                                // KEY: color
+                                // TYPE: String
+                                // COLOR: The highlight color for this section's heading.
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            // KEY: safety_assessment
+                            // TYPE: Object
+                            // PURPOSE: An object containing a detailed breakdown of the tool's safety profile.
+                            safety_assessment: {
+                                // KEY: is_safe
+                                // TYPE: String
+                                // SAFETY: A clear statement on the inherent safety of the tool.
+                                is_safe: "Yes. This is an official Microsoft diagnostic tool. It is 100% safe and is designed to repair, not harm, your operating system. It does not touch your personal files.",
+                                // KEY: is_reversible
+                                // TYPE: String
+                                // REVERSIBILITY: A clear statement on whether the tool's actions can be undone.
+                                is_reversible: "Not Applicable. SFC is a repair tool, not a tweak. It only restores official Microsoft files to their correct state. There is no 'undo' process as it does not make subjective changes.",
+                                // KEY: potential_harm
+                                // TYPE: String
+                                // HARM POTENTIAL: An assessment of any potential for system damage or data loss.
+                                potential_harm: "None. There is no risk of data loss. The tool is designed to enhance system stability. In the extremely rare case that a repair causes an issue with a poorly designed third-party application, the problem lies with that application, not the now-correct system file."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            // KEY: screenshot
+                            // TYPE: String
+                            // PURPOSE: The path to the screenshot image for this feature.
+                            screenshot: "assets/images/SS.png" // Placeholder
+                        }, // End of Dossier 1
+
+                        // ========================================================================================= //
+                        // DOSSIER 2: DISM (Advanced Scan & Repair)                                                  //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            name: "DISM (Advanced Scan & Repair)",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            what_is_it: `If SFC is the librarian, DISM is the <strong>master architect and construction crew</strong> for the entire library. It repairs the underlying Windows Component Store—the master blueprint and backup repository that SFC uses for its repairs. If SFC fails, it's often because this blueprint itself is damaged. DISM connects directly to Windows Update to download fresh, 100% clean copies of core system components to rebuild and repair this foundational image, fixing deep-rooted problems that SFC cannot.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "This tool requires an active and stable internet connection to download repair components from Microsoft's servers."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            pros: [
+                                "Fixes deep-rooted system corruption that SFC is completely unable to resolve.",
+                                "Repairs the core system image, allowing a subsequent SFC scan to succeed.",
+                                "Essential for fixing many stubborn Windows Update installation and configuration errors.",
+                                "The most powerful, built-in method for restoring the health of the operating system."
+                            ],
+                            cons: [
+                                "The repair process is significantly slower than SFC, often taking 15-30 minutes or more.",
+                                "Requires a stable internet connection, as it can download a large amount of data.",
+                                "The process can sometimes appear to be stuck, which can be concerning for inexperienced users."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION (CONTEXTUALIZED) ---
+                            should_i_enable: {
+                                recommendation: "<strong>Use this tool when:</strong> An SFC scan reports that it found corrupt files but was unable to fix some of them. This is the primary signal that the component store is damaged and requires DISM to repair it. It is also a powerful last resort for resolving persistent Windows Update failures.",
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            safety_assessment: {
+                                is_safe: "Yes. DISM is an official, advanced command-line tool provided by Microsoft for system administrators and power users. It is designed for system repair and is safe to run.",
+                                is_reversible: "Not Applicable. Like SFC, DISM is a one-way repair process. It replaces damaged components with official, clean ones. There is no state to 'revert' to, as its purpose is to establish a correct and healthy system state.",
+                                potential_harm: "None. There is no risk of data loss. The tool works exclusively on core operating system components. It is a fundamental repair utility that enhances, rather than degrades, system integrity."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            screenshot: "assets/images/AS.png" // Placeholder
+                        } // End of Dossier 2
+                    ] // End of 'features' array for Fix Windows
+                }, // End of 'fix_windows' object
+                // CATEGORY: Clean Cache
+                // =================================================================================================
+                // DATA STRUCTURE v3.0: LUXURY & PRECISION
+                // This object contains the re-synthesized data for the "Clean Cache" modal.
+                // Each description is now powerful and self-explanatory, adhering to the established standard.
+                // The "Should I Enable It?" section has been contextually adapted to "When Should I Use This?".
+                // =================================================================================================
+                clean_cache: {
+                    // ATTRIBUTE: The title that appears in the modal header.
+                    title: "Clean Cache",
+                    // ATTRIBUTE: The emoji icon for the modal header.
+                    icon: "🧹",
+                    // ATTRIBUTE: An array of objects, where each object is a comprehensive feature dossier.
+                    features: [
+                        // ========================================================================================= //
+                        // DOSSIER 1: User Temp Folder Cleanup                                                       //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            // KEY: name
+                            // TYPE: String
+                            // PURPOSE: Defines the primary display title for this feature within the modal.
+                            name: "User Temp Folder Cleanup",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            // KEY: what_is_it
+                            // TYPE: String (HTML is supported)
+                            // PURPOSE: Provides a powerful, self-explanatory summary of the tool's core function.
+                            what_is_it: `Every application you run, from web browsers to installers, creates temporary files to store working data. These files are supposed to be deleted automatically but are often left behind. This tool targets your personal temporary folder, a major source of digital clutter. <strong>Cleaning it is one of the safest and most effective ways to instantly reclaim gigabytes of wasted disk space.</strong>`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            // KEY: compatibility
+                            // TYPE: Object
+                            // PURPOSE: An object detailing the compatibility requirements for this tool.
+                            compatibility: {
+                                // OS: The compatible operating systems.
+                                os: "Windows 10 & Windows 11",
+                                // VERSIONS: The specific editions of the OS that support this tool.
+                                versions: "All editions (Home, Pro, Enterprise, etc.)",
+                                // NOTE: Any special conditions or requirements for the user to be aware of.
+                                note: "It is recommended to close all running applications before performing this cleanup for best results."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            // KEY: pros
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the benefits (pros) of using this tool.
+                            pros: [
+                                "Instantly frees up significant amounts of disk space, often several gigabytes.",
+                                "Can resolve issues with applications that fail to start due to corrupted temporary files.",
+                                "Improves overall system performance by reducing disk clutter and fragmentation.",
+                                "Extremely safe to perform; applications are designed to recreate any necessary temp files."
+                            ],
+                            // KEY: cons
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the potential drawbacks (cons) of using this tool.
+                            cons: [
+                                "May clear unsaved work in poorly designed applications that rely on the temp folder for recovery.",
+                                "Some application settings or recent file lists might be temporarily reset."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION (CONTEXTUALIZED) ---
+                            // KEY: should_i_enable (Contextually adapted to "When Should I Use This?")
+                            // TYPE: Object
+                            // PURPOSE: A dedicated object providing a clear, actionable recommendation for the user.
+                            should_i_enable: {
+                                // KEY: recommendation
+                                // TYPE: String (HTML is supported)
+                                // RECOMMENDATION: The core advice, written to be easily understood.
+                                recommendation: "<strong>Use this tool regularly, about once a month,</strong> or whenever you notice your C: drive is running low on space. It is the single most effective cleanup for reclaiming storage used by everyday applications.",
+                                // KEY: color
+                                // TYPE: String
+                                // COLOR: The highlight color for this section's heading.
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            // KEY: safety_assessment
+                            // TYPE: Object
+                            // PURPOSE: An object containing a detailed breakdown of the tool's safety profile.
+                            safety_assessment: {
+                                // KEY: is_safe
+                                // TYPE: String
+                                // SAFETY: A clear statement on the inherent safety of the tool.
+                                is_safe: "Yes. This is one of the safest cleaning operations you can perform on a Windows PC.",
+                                // KEY: is_reversible
+                                // TYPE: String
+                                // REVERSIBILITY: A clear statement on whether the tool's actions can be undone.
+                                is_reversible: "No. File deletion is permanent. However, since only temporary and non-essential files are targeted, there is no need for a reversal.",
+                                // KEY: potential_harm
+                                // TYPE: String
+                                // HARM POTENTIAL: An assessment of any potential for system damage or data loss.
+                                potential_harm: "None. There is virtually no risk of harming your system or losing personal data. All targeted files are considered disposable by the operating system."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            // KEY: screenshot
+                            // TYPE: String
+                            // PURPOSE: The path to the screenshot image for this feature.
+                            screenshot: "assets/images/1.png" // Placeholder
+                        }, // End of Dossier 1
+
+                        // ========================================================================================= //
+                        // DOSSIER 2: System-Wide Temp Folder Cleanup                                                //
+                        // ========================================================================================= //
+                        {
+                            name: "System-Wide Temp Folder Cleanup",
+                            what_is_it: `This action targets the main Windows temporary folder located at <strong>C:\\Windows\\Temp</strong>. This directory is used by the operating system itself, as well as by software installers and system services, to store temporary data. While similar to the User Temp folder, cleaning this location can resolve system-level issues related to failed installations or updates.`,
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "This operation requires administrator privileges to access and modify the C:\\Windows directory."
+                            },
+                            pros: [
+                                "Recovers additional disk space used directly by the operating system.",
+                                "Can resolve stubborn issues related to failed or incomplete software installations.",
+                                "Clears out old log files and data from system-level processes."
+                            ],
+                            cons: [
+                                "Some files may be currently in use by active system services and cannot be deleted until the next reboot.",
+                                "Improperly designed drivers or services might have issues if their temp files are removed while they are running."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Use this tool periodically,</strong> especially after installing or uninstalling large software packages or major Windows updates. It complements the User Temp cleanup for a more thorough system-wide cleaning.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. This is a standard system maintenance task. Windows is designed to protect any critical files that are actively in use.",
+                                is_reversible: "No. File deletion is permanent. The targeted files are non-essential for the long-term operation of the OS.",
+                                potential_harm: "Extremely low. The risk of system harm is minimal. At worst, a running service might log an error if a file it was about to use disappears, but this is rare and typically resolves on its own or with a reboot."
+                            },
+                            screenshot: "assets/images/2.png" // Placeholder
+                        }, // End of Dossier 2
+
+                        // ========================================================================================= //
+                        // DOSSIER 3: Windows Update Cache Cleanup                                                   //
+                        // ========================================================================================= //
+                        {
+                            name: "Windows Update Cache Cleanup",
+                            what_is_it: `Windows stores copies of all downloaded update files in a folder called "SoftwareDistribution". After these updates are successfully installed, the installation files are no longer needed but often remain, consuming a vast amount of disk space. This tool <strong>safely purges this cache of old update installers</strong>, potentially freeing up many gigabytes of storage.`,
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "This is one of the most effective tools for reclaiming large amounts of disk space on a system that has been in use for a long time."
+                            },
+                            pros: [
+                                "Can often free up more disk space than any other single cleanup operation (5-20GB+ is common).",
+                                "May resolve stubborn issues where Windows Update is stuck, failing, or reporting errors.",
+                                "Completely safe, as it only removes installer files for updates that are already applied."
+                            ],
+                            cons: [
+                                "If an update has been downloaded but not yet installed, it may need to be re-downloaded after the cleanup.",
+                                "It can make uninstalling specific, recent Windows updates more difficult (though this is rarely needed)."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Use this tool whenever you are running low on disk space,</strong> or every few months as part of a major system cleanup. It is especially useful after a large feature update to Windows has been installed.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. This is a well-known and Microsoft-sanctioned maintenance procedure for managing the Windows Update component.",
+                                is_reversible: "No. File deletion is permanent. The deleted files are installers, not the installed updates themselves.",
+                                potential_harm: "None. This operation does not affect your installed programs or personal data and will not uninstall any updates. It simply cleans up the leftover installation packages."
+                            },
+                            screenshot: "assets/images/3.png" // Placeholder
+                        }, // End of Dossier 3
+                        
+                        // ========================================================================================= //
+                        // DOSSIER 4: Explorer Thumbnail & Icon Cache                                                //
+                        // ========================================================================================= //
+                        {
+                            name: "Explorer Thumbnail & Icon Cache",
+                            what_is_it: `Windows creates a hidden database to store all the thumbnails for your images and videos, as well as the icons for your applications and files. This allows File Explorer to load folders quickly. Sometimes, this database can become corrupted, leading to incorrect, blank, or generic icons. This tool <strong>deletes and forces Windows to rebuild this cache</strong> from scratch, fixing all such visual glitches.`,
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "This operation will briefly restart the Windows Explorer shell, causing your taskbar and desktop icons to disappear and reappear."
+                            },
+                            pros: [
+                                "The definitive fix for incorrect, blank, or corrupted file icons and image thumbnails.",
+                                "Can resolve some performance issues or sluggishness in folders with many media files.",
+                                "A safe way to resolve visual bugs in File Explorer without affecting any data."
+                            ],
+                            cons: [
+                                "Your taskbar and desktop icons will briefly disappear and reload, which can be startling if unexpected.",
+                                "Thumbnails will need to be regenerated as you browse your folders, which may be slightly slow at first."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Use this tool whenever you notice visual glitches with your icons or thumbnails.</strong> It is not needed for regular maintenance but is a powerful tool for fixing specific visual bugs in the Windows shell.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. It is a completely safe diagnostic step. Windows is designed to automatically and correctly rebuild these cache files as needed.",
+                                is_reversible: "Not Applicable. This is a reset, not a tweak. It deletes a cache file, which is then recreated by the system. The 'undo' is the automatic rebuilding process.",
+                                potential_harm: "None. This operation does not touch any of your personal files or system settings. It only deletes temporary cache databases that are non-essential."
+                            },
+                            screenshot: "assets/images/4.png" // Placeholder
+                        }, // End of Dossier 4
+                        
+                        // ========================================================================================= //
+                        // DOSSIER 5: WinSxS Component Store Cleanup                                                 //
+                        // ========================================================================================= //
+                        {
+                            name: "WinSxS Component Store Cleanup",
+                            what_is_it: `The Windows Component Store (WinSxS) is a critical directory that contains all components of the operating system, including backups of old versions after an update. This tool uses the official Microsoft DISM utility to analyze this store and <strong>safely remove outdated and superseded components</strong> that are no longer needed. This reduces the overall disk footprint of your Windows installation.`,
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "This is an advanced cleanup that can be time-consuming but offers excellent space-saving benefits."
+                            },
+                            pros: [
+                                "Safely reduces the on-disk size of the main Windows folder.",
+                                "Can improve the reliability and speed of installing future Windows updates.",
+                                "Uses an official, Microsoft-recommended utility (DISM) to perform the cleanup."
+                            ],
+                            cons: [
+                                "The cleanup process can be very slow, sometimes taking 10-20 minutes to complete.",
+                                "After cleaning, it becomes impossible to uninstall some of the most recent Windows updates."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Use this tool once every 3-6 months.</strong> It is a powerful tool for long-term system maintenance, especially if you want to keep the size of your Windows installation as small as possible.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. This operation is performed by `Dism.exe`, an official Microsoft utility. It is designed to be a safe maintenance task.",
+                                is_reversible: "No. The cleanup is permanent. Old component versions are deleted and cannot be recovered, which is the intended purpose.",
+                                potential_harm: "None. The tool is designed to only remove components that are no longer required by the system. It will not harm your current Windows installation."
+                            },
+                            screenshot: "assets/images/5.png" // Placeholder
+                        }, // End of Dossier 5
+                        
+                        // ========================================================================================= //
+                        // DOSSIER 6: Clean Windows Prefetch                                                         //
+                        // ========================================================================================= //
+                        {
+                            name: "Clean Windows Prefetch",
+                            what_is_it: `The Prefetch folder contains small files that Windows creates to help speed up the launch of your most frequently used applications. Over time, this folder can accumulate hundreds of obsolete entries for applications that you no longer use or have uninstalled. This tool <strong>safely clears out all of these files</strong>, forcing Windows to create fresh, relevant optimization files for the applications you actually use.`,
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "All editions",
+                                note: "Windows automatically manages this folder to a degree, but a manual cleanup can remove obsolete entries."
+                            },
+                            pros: [
+                                "Removes obsolete data related to uninstalled or rarely used applications.",
+                                "Can resolve some rare and specific application launch issues or errors.",
+                                "Forces a re-evaluation of application launch optimization."
+                            ],
+                            cons: [
+                                "Your most-used applications may launch slightly slower the very *first time* after cleaning, as the optimization files need to be recreated.",
+                                "The performance benefit is generally negligible on modern systems with SSDs."
+                            ],
+                            should_i_enable: {
+                                recommendation: "<strong>Use this tool sparingly, perhaps once or twice a year,</strong> or if you are trying to troubleshoot a specific application that is failing to launch correctly. It is not necessary for regular maintenance.",
+                                color: "warning"
+                            },
+                            safety_assessment: {
+                                is_safe: "Yes. Deleting the contents of the Prefetch folder is a very old and safe system-tuning trick. Windows will automatically repopulate it as needed.",
+                                is_reversible: "Not Applicable. This is a cache-clearing operation. The files are recreated by Windows automatically during normal use.",
+                                potential_harm: "None. There is zero risk of system damage or data loss. The only effect is a temporary and minor change in application launch speeds."
+                            },
+                            screenshot: "assets/images/6.png" // Placeholder
+                        } // End of Dossier 6
+                    ] // End of 'features' array for Clean Cache
+                }, // End of 'clean_cache' object
+                // CATEGORY: Group Policy
+                // =================================================================================================
+                // DATA STRUCTURE v3.0: LUXURY & PRECISION
+                // This object contains the re-synthesized data for the "Group Policy" modal.
+                // Each description is now powerful and self-explanatory, adhering to the established standard.
+                // The "Should I Enable It?" section has been contextually adapted to "When Should I Use This?".
+                // =================================================================================================
+                policy: {
+                    // ATTRIBUTE: The title that appears in the modal header.
+                    title: "Group Policy",
+                    // ATTRIBUTE: The emoji icon for the modal header.
+                    icon: "🛡️",
+                    // ATTRIBUTE: An array of objects, where each object is a comprehensive feature dossier.
+                    features: [
+                        // ========================================================================================= //
+                        // DOSSIER 1: Apply Optimized Policies                                                       //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            // KEY: name
+                            // TYPE: String
+                            // PURPOSE: Defines the primary display title for this feature within the modal.
+                            name: "Apply Optimized Policies",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            // KEY: what_is_it
+                            // TYPE: String (HTML is supported)
+                            // PURPOSE: Provides a powerful, self-explanatory summary of the tool's core function.
+                            what_is_it: `Group Policies are a set of advanced rules that control the working environment of Windows. This feature applies a <strong>curated set of over a dozen policies</strong> designed for the standalone power user. These policies harden your system by disabling invasive telemetry (data collection), preventing Windows from installing unwanted promotional apps ("bloatware"), and turning off cloud-based features like web search and Cortana. It is a powerful, one-click operation to make your PC more private, secure, and focused.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            // KEY: compatibility
+                            // TYPE: Object
+                            // PURPOSE: An object detailing the compatibility requirements for this tool.
+                            compatibility: {
+                                // KEY: os
+                                // TYPE: String
+                                // OS: The compatible operating systems.
+                                os: "Windows 10 & Windows 11",
+                                // KEY: versions
+                                // TYPE: String
+                                // VERSIONS: The specific editions of the OS that support this tool.
+                                versions: "Pro, Enterprise, and Education editions ONLY.",
+                                // KEY: note
+                                // TYPE: String
+                                // NOTE: Any special conditions or requirements for the user to be aware of.
+                                note: "This feature will fail on Windows Home editions, as they lack the Local Group Policy Editor framework."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            // KEY: pros
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the benefits (pros) of using this tool.
+                            pros: [
+                                "Dramatically enhances user privacy by reducing the amount of data sent to Microsoft.",
+                                "Prevents the automatic installation of unwanted bloatware and sponsored applications.",
+                                "Hardens system security by disabling potentially vulnerable or unnecessary features.",
+                                "Provides a cleaner, ad-free, and less distracting user experience.",
+                                "Improves performance by reducing the number of background services and tasks."
+                            ],
+                            // KEY: cons
+                            // TYPE: Array of Strings
+                            // PURPOSE: A detailed list of the potential drawbacks (cons) of using this tool.
+                            cons: [
+                                "Disables certain cloud-integrated features like Cortana and web search in the Start Menu.",
+                                "May affect functionality in a corporate environment that uses its own policies.",
+                                "A system restart is required to ensure all policies are fully applied."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION (CONTEXTUALIZED) ---
+                            // KEY: should_i_enable (Contextually adapted to "When Should I Use This?")
+                            // TYPE: Object
+                            // PURPOSE: A dedicated object providing a clear, actionable recommendation for the user.
+                            should_i_enable: {
+                                // KEY: recommendation
+                                // TYPE: String (HTML is supported)
+                                // RECOMMENDATION: The core advice, written to be easily understood.
+                                recommendation: "<strong>Use this tool if:</strong> You are using a personal computer with a compatible version of Windows (Pro/Enterprise) and you value privacy, security, and a clean, bloat-free operating system above all else. It is the definitive 'power user' configuration.",
+                                // KEY: color
+                                // TYPE: String
+                                // COLOR: The highlight color for this section's heading.
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            // KEY: safety_assessment
+                            // TYPE: Object
+                            // PURPOSE: An object containing a detailed breakdown of the tool's safety profile.
+                            safety_assessment: {
+                                // KEY: is_safe
+                                // TYPE: String
+                                // SAFETY: A clear statement on the inherent safety of the tool.
+                                is_safe: "Yes. The process uses Microsoft's official LGPO.exe utility to apply standard Group Policy settings. This is a sanctioned and secure method for system configuration.",
+                                // KEY: is_reversible
+                                // TYPE: String
+                                // REVERSIBILITY: A clear statement on whether the tool's actions can be undone.
+                                is_reversible: "Yes. The 'Reset Policies to Default' feature provides a 100% complete and forensically clean reversal, returning your system to the standard Windows configuration.",
+                                // KEY: potential_harm
+                                // TYPE: String
+                                // HARM POTENTIAL: An assessment of any potential for system damage or data loss.
+                                potential_harm: "None. There is no risk of data loss or system instability. The changes are purely configurational and are designed to improve security and privacy."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            // KEY: screenshot
+                            // TYPE: String
+                            // PURPOSE: The path to the screenshot image for this feature.
+                            screenshot: "assets/images/AOP.png" // Placeholder
+                        }, // End of Dossier 1
+
+                        // ========================================================================================= //
+                        // DOSSIER 2: Reset Policies to Default                                                      //
+                        // ========================================================================================= //
+                        {
+                            // --- CORE IDENTIFICATION ---
+                            name: "Reset Policies to Default",
+
+                            // --- SECTION 1: COMPREHENSIVE EXPLANATION ---
+                            what_is_it: `This is a powerful and definitive 'factory reset' for your computer's Local Group Policies. It performs a comprehensive, multi-step process that <strong>forensically removes all existing policy configurations</strong>—whether set by MK-Tools, another program, or manually—and restores your system to the pristine, out-of-the-box default state defined by Microsoft.`,
+
+                            // --- SECTION 2: SYSTEM COMPATIBILITY PROFILE ---
+                            compatibility: {
+                                os: "Windows 10 & Windows 11",
+                                versions: "Pro, Enterprise, and Education editions ONLY.",
+                                note: "This is the definitive method for reverting any and all Group Policy changes on a supported system."
+                            },
+
+                            // --- SECTION 3: DETAILED PROS & CONS ANALYSIS ---
+                            pros: [
+                                "Provides a 100% complete and reliable way to undo all policy changes.",
+                                "Restores any Windows features that may have been disabled by custom policies.",
+                                "An essential tool for troubleshooting issues that might be caused by a misconfigured policy.",
+                                "Guarantees a return to a known, standard Microsoft default configuration."
+                            ],
+                            cons: [
+                                "Removes all beneficial security and privacy enhancements that were previously applied.",
+                                "The reset process is intensive and requires a system restart to finalize."
+                            ],
+
+                            // --- SECTION 4: STRATEGIC RECOMMENDATION (CONTEXTUALIZED) ---
+                            should_i_enable: {
+                                recommendation: "<strong>Use this tool if:</strong> You wish to revert the 'Optimized Policies', or if you suspect a policy setting (from any source) is causing an issue with your system. It is your guaranteed path back to a default state.",
+                                color: "warning"
+                            },
+
+                            // --- SECTION 5: COMPREHENSIVE SAFETY ASSESSMENT ---
+                            safety_assessment: {
+                                is_safe: "Yes. The process uses a combination of official system commands and file deletions in a sequence that is standard practice for system administrators to perform a full policy reset.",
+                                is_reversible: "Not Applicable. This is the reversal action itself. Once policies are reset, the only way to re-apply the optimized set is to use the 'Apply Optimized Policies' feature again.",
+                                potential_harm: "None. There is no risk of data loss or system instability. This action restores the system to its default, stable configuration as designed by Microsoft."
+                            },
+
+                            // --- SECTION 6: VISUAL ASSET ---
+                            screenshot: "assets/images/RPD.png" // Placeholder
+                        } // End of Dossier 2
+                    ] // End of 'features' array for Group Policy
+                } // End of 'policy' object
+            }; // END OF featuresData OBJECT
+
+            /* ==========================================================================
+               SECTION C: MODAL LOGIC & EVENT HANDLING
+               ========================================================================== */
+
+            // --- LOGIC BLOCK 3: Modal DOM Element Selection ---
+            // PURPOSE: Caching all necessary DOM elements for the modal into constants.
+            // This is a critical performance optimization, as it prevents repeated, costly
+            // lookups of the same elements within the document.
+
+            // CACHE: The main overlay that covers the entire page.
+            const modalOverlay = document.getElementById('feature-modal-overlay');
+            // CACHE: The modal window container itself.
+            const modal = document.getElementById('feature-modal');
+            // CACHE: The text part of the modal's title.
+            const modalTitleText = document.getElementById('modal-title-text');
+            // CACHE: The icon part of the modal's title.
+            const modalIcon = document.getElementById('modal-icon');
+            // CACHE: The scrollable content area where feature details are injected.
+            const modalContent = document.getElementById('modal-content');
+            // CACHE: The '×' button used to close the modal.
+            const closeModalBtn = document.getElementById('modal-close-btn');
+            // CACHE: A collection of all the clickable feature cards on the main page.
+            const featureCards = document.querySelectorAll('.feature-section-card');
+
+            // --- LOGIC BLOCK 4: Core Modal Functionality ---
+            // PURPOSE: Contains the primary functions for opening, populating, and closing the modal.
+
+            /**
+             * FUNCTION: openModal (v2.0 - Luxury Renderer)
+             * PARAMETER: featureKey (string) - The key corresponding to a category in the featuresData object (e.g., 'performance').
+             * ACTION: Retrieves the new, highly-detailed data structure, dynamically builds a sophisticated,
+             * multi-section HTML layout for the modal's content, injects it into the DOM, and displays
+             * the modal with a fade-in animation. This function is the core rendering engine for the page.
+             */
+            const openModal = (featureKey) => {
+                // DATA RETRIEVAL: Look up the data object for the requested feature category.
+                const data = featuresData[featureKey];
+                // VALIDATION: If no data is found for the given key, abort the function to prevent errors.
+                if (!data) {
+                    console.error(`[MK-Tools] Error: No feature data found for key: ${featureKey}`);
+                    return;
+                }
+
+                // --- HEADER POPULATION ---
+                // DOM MANIPULATION: Set the text content of the modal title.
+                modalTitleText.textContent = data.title;
+                // DOM MANIPULATION: Set the text content of the modal icon (using emoji).
+                modalIcon.textContent = data.icon;
+
+                // --- DYNAMIC CONTENT GENERATION (v2.0 - SINGLE COLUMN LAYOUT) ---
+                // INITIALIZATION: Start with an empty string to build the HTML content.
+                let contentHTML = '';
+                // LOOP: Iterate through each feature dossier object within the selected category's 'features' array.
+                data.features.forEach(feature => {
+                    // TEMPLATE LITERAL: Build the HTML for a single, highly-detailed feature block.
+                    contentHTML += `
+                        <div class="individual-feature">
+                            <div class="feature-screenshot">
+                                <img src="${feature.screenshot}" alt="Screenshot of ${feature.name}">
+                            </div>
+
+                            <div class="feature-details">
+                                <h3>${feature.name}</h3>
+                                <h4>What is this Feature?</h4>
+                                <p>${feature.what_is_it}</p>
+                                
+                                <h4>System Compatibility</h4>
+                                <div class="safety-panel">
+                                    <p><strong>Operating System:</strong> ${feature.compatibility.os}</p>
+                                    <p><strong>Supported Editions:</strong> ${feature.compatibility.versions}</p>
+                                    ${feature.compatibility.note ? `<p><strong>Note:</strong> <em>${feature.compatibility.note}</em></p>` : ''}
+                                </div>
+                                
+                                <h4>Pros & Cons</h4>
+                                <div class="pros-cons-container">
+                                    <div class="pros">
+                                        <h5>Pros</h5>
+                                        <ul>${feature.pros.map(p => `<li>${p}</li>`).join('')}</ul>
+                                    </div>
+                                    <div class="cons">
+                                        <h5>Cons</h5>
+                                        <ul>${feature.cons.map(c => `<li>${c}</li>`).join('')}</ul>
+                                    </div>
+                                </div>
+                                
+                                ${feature.should_i_enable ? `
+                                <h4>Strategic Recommendation</h4>
+                                <div class="recommendation-panel">
+                                    <p>${feature.should_i_enable.recommendation}</p>
+                                </div>
+                                ` : ''}
+                                
+                                <h4>Safety Assessment</h4>
+                                <div class="safety-panel">
+                                    <p><strong>Is it Safe?</strong> ${feature.safety_assessment.is_safe}</p>
+                                    <p><strong>Is it Reversible?</strong> ${feature.safety_assessment.is_reversible}</p>
+                                    <p><strong>Potential for Harm:</strong> ${feature.safety_assessment.potential_harm}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }); // END OF forEach LOOP
+
+                // DOM INJECTION: Set the innerHTML of the modal's content area to the newly generated HTML string.
+                modalContent.innerHTML = contentHTML;
+                
+                // --- DISPLAY MODAL ---
+                // STATE CHANGE: Add the 'modal-open' class to the body to prevent background scrolling.
+                document.body.classList.add('modal-open');
+                // STATE CHANGE: Add the 'visible' class to the modal overlay to trigger the fade-in animation.
+                modalOverlay.classList.add('visible');
+            }; // END OF openModal FUNCTION
+
+            /**
+             * FUNCTION: closeModal
+             * PARAMETER: None.
+             * ACTION: Hides the modal with a fade-out animation and re-enables scrolling on the main page.
+             */
+            const closeModal = () => {
+                // STATE CHANGE: Remove the 'modal-open' class from the body to re-enable scrolling.
+                document.body.classList.remove('modal-open');
+                // STATE CHANGE: Remove the 'visible' class from the modal overlay to trigger the fade-out animation.
+                modalOverlay.classList.remove('visible');
+            }; // END OF closeModal FUNCTION
+            // --- LOGIC BLOCK 5: Event Listener Binding ---
+            // PURPOSE: Attaches all the necessary event listeners to the DOM elements to make the page interactive.
+
+            // BINDING 1: Attach a click listener to each feature card.
+            // LOOP: Iterates through the collection of all feature cards.
+            featureCards.forEach(card => {
+                // EVENT LISTENER: Adds a 'click' event listener to each individual card.
+                card.addEventListener('click', () => {
+                    // ACTION: When a card is clicked, call the openModal function, passing in the value
+                    // of its `data-feature` attribute (e.g., "performance", "ui_tweaks").
+                    openModal(card.dataset.feature);
+                });
+            });
+
+            // BINDING 2: Attach a click listener to the modal's close button.
+            // EVENT LISTENER: Adds a 'click' event listener to the '×' button.
+            closeModalBtn.addEventListener('click', closeModal);
+
+            // BINDING 3: Attach a click listener to the modal overlay.
+            // EVENT LISTENER: Adds a 'click' event listener to the dark background overlay.
+            modalOverlay.addEventListener('click', (e) => {
+                // CONDITION: Checks if the element that was clicked is the overlay itself, and not a child element (like the modal window).
+                // This allows the user to close the modal by clicking outside of it.
+                if (e.target === modalOverlay) {
+                    // ACTION: If the condition is met, call the closeModal function.
+                    closeModal();
+                }
+            });
+            
+            // BINDING 4: Attach a keyboard listener to close the modal with the 'Escape' key.
+            // EVENT LISTENER: Adds a 'keydown' event listener to the entire document.
+            document.addEventListener('keydown', (e) => {
+                // CONDITION: Checks if the pressed key was 'Escape' AND if the modal is currently visible.
+                if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+                    // ACTION: If the conditions are met, call the closeModal function.
+                    closeModal();
+                }
+            });
+            
+            // --- LOGIC BLOCK 6: URL Hash Handling ---
+            // PURPOSE: Checks the URL for a hash (e.g., #performance) when the page loads. If one is found,
+            // it automatically opens the corresponding feature modal. This enables direct linking from other pages.
+            
+            // ACTION: Immediately check the URL's hash upon script execution.
+            const urlHash = window.location.hash; // VARIABLE: Gets the hash part of the URL (e.g., "#performance").
+            
+            // CONDITION: Checks if a hash exists.
+            if (urlHash) {
+                // DATA CLEANING: Removes the '#' symbol to get the plain feature key (e.g., "performance").
+                const featureKeyFromUrl = urlHash.substring(1);
+                // DOM SELECTION: Finds the specific feature card that has a matching `data-feature` attribute.
+                const cardToOpen = document.querySelector(`.feature-section-card[data-feature="${featureKeyFromUrl}"]`);
+                
+                // VALIDATION: Checks if a matching card was actually found on the page.
+                if (cardToOpen) {
+                    // ACTION: Programmatically trigger a click on the found card to open its modal.
+                    // A slight delay is used to ensure all page rendering is complete for a smooth animation.
+                    setTimeout(() => {
+                        cardToOpen.click();
+                    }, 500); // 500ms delay.
+                }
+            }
+        }); // END OF 'DOMContentLoaded' EVENT LISTENER
+    </script> 
+</body> 
+</html> 

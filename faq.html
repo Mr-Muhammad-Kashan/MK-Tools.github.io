@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<!-- =================================================================================== -->
+<!-- MK-TOOLS WEBSITE (v2.0) - FINALIZED FAQ PAGE                                      -->
+<!-- File: faq.html                                                                    -->
+<!-- Version: 2.0                                                                      -->
+<!-- Description: The definitive, finalized version of the website's FAQ page,         -->
+<!--              re-engineered to meet a "luxurious" visual and functional standard.  -->
+<!-- Change Log (v2.0):                                                                -->
+<!--   - RE-ARCHITECTED: Entire page rebuilt for superior aesthetics and UX.           -->
+<!--   - ADDED: A comprehensive list of 20+ high-quality FAQ items.                    -->
+<!--   - ENHANCED: Accordion items now have a distinct accent-colored border on hover. -->
+<!--   - ENHANCED: Accordion answers use a refined color for better readability.       -->
+<!--   - ADDED: A visually integrated, static-ready contact form section.              -->
+<!--   - SYNCHRONIZED: Footer is now a perfect 1:1 match with the homepage design.     -->
+<!-- =================================================================================== -->
+<html lang="en">
+<head>
+    <!-- META: Defines the character set for the document. UTF-8 is the universal standard. -->
+    <meta charset="UTF-8">
+    <!-- META: Configures the viewport for responsive design, ensuring proper scaling on all devices. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- TITLE: The title displayed in the browser tab. Crucial for SEO and user identification. -->
+    <title>FAQ | MK-Tools</title>
+    <!-- FAVICON: The icon displayed in the browser tab. -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <!-- STYLE: Embedded CSS block. Contains all styling rules for this page. -->
+    <style>
+        /* ==========================================================================
+           CORE: Variables & Global Styles (main.css)
+           This section is identical to index.html to ensure absolute visual consistency.
+           ========================================================================== */
+        :root {
+            /* COLOR PALETTE: Defines the entire color scheme using CSS variables. */
+            --background-dark: #1A1920;
+            --nav-rail-dark: #23212E;
+            --card-dark: rgba(44, 42, 59, 0.6);
+            --card-dark-solid: #2C2A3B;
+            --card-hover-dark: rgba(53, 51, 69, 0.8);
+            --text-dark: #F5F5FF;
+            --text-secondary-dark: #A8A5C5;
+            --accent-dark: #9A4BFF;
+            --accent-hover-dark: #8A3EE8;
+            --border-dark: rgba(76, 74, 91, 0.5);
+            --glass-border-hover: #9A4BFF;
+            --success-dark: #4CAF50;
+            /* [NEW v2.0] A darker, more luxurious color for the answer panel background. */
+            --answer-panel-dark: #201E2A;
+
+            /* TYPOGRAPHY & TRANSITIONS: Defines fonts and animation timings. */
+            --font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            --transition-speed: 0.3s;
+            --transition-speed-fast: 0.2s;
+        }
+
+        /* Global Reset & Font Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Smooth Scrolling Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Body Styling */
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-dark);
+            font-family: var(--font-family);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Interactive Canvas Background */
+        #interactive-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 1000px; /* Constrained width for better readability on FAQ page. */
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* [NEW v2.1 FIX] Decoupled Header Container: Guarantees consistent navigation bar width across all pages. */
+        .header-container {
+            width: 90%; /* Sets the container to be 90% of the header's width. */
+            max-width: 1200px; /* Enforces a 1200px max-width, matching the widest pages like Home. */
+            margin: 0 auto; /* Centers the container horizontally. */
+            padding: 0 15px; /* Adds horizontal padding. */
+        }
+
+        /* ==========================================================================
+           COMPONENT: Header & Navigation (Consistent with Homepage)
+           ========================================================================== */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .main-header.scrolled {
+            background-color: rgba(35, 33, 46, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-dark);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-dark);
+        }
+        
+        /* ==========================================================================
+           PAGE: FAQ (faq.css) - RE-ARCHITECTED FOR LUXURY AESTHETICS
+           ========================================================================== */
+        .page-header {
+            padding-top: 120px; /* Offset for fixed header. */
+            padding-bottom: 60px; /* Space between header and content. */
+            text-align: center; /* Center-aligns the header content. */
+            animation: fadeIn 1s ease-out; /* Fade-in animation for the header. */
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem; /* Large font size for the main page title. */
+            margin-bottom: 1rem; /* Space below the title. */
+        }
+        
+        .page-header h1 .highlight {
+            color: var(--accent-dark); /* Applies accent color to highlighted text. */
+            text-shadow: 0 0 15px var(--accent-dark); /* Adds a glow effect. */
+        }
+
+        .page-header p {
+            font-size: 1.2rem; /* Font size for the introductory paragraph. */
+            color: var(--text-secondary-dark); /* Secondary text color for lower emphasis. */
+            max-width: 800px; /* Constrains line length for readability. */
+            margin: 0 auto; /* Centers the paragraph. */
+        }
+
+        .faq-accordion {
+            max-width: 900px; /* Sets a max-width for the accordion for readability. */
+            margin: 0 auto 6rem auto; /* Centers the accordion and adds bottom margin. */
+        }
+
+        .faq-item {
+            background: var(--card-dark-solid); /* Solid, opaque background for each item. */
+            border: 1px solid var(--border-dark); /* Subtle border. */
+            border-radius: 15px; /* Rounded corners. */
+            margin-bottom: 1rem; /* Space between FAQ items. */
+            overflow: hidden; /* Prevents content from spilling out during animations. */
+            position: relative; /* [NEW v2.0] Required for positioning pseudo-elements. */
+            transition: all var(--transition-speed-fast) ease; /* Smooth transition for all properties. */
+        }
+
+        /* [NEW v2.0] Steam-inspired Glassy Sheen Effect (Pseudo-element) */
+        .faq-item::before {
+            content: ''; /* Required for pseudo-elements to render. */
+            position: absolute; /* Positioned relative to the .faq-item. */
+            top: 0;
+            left: -150%; /* Starts off-screen to the left. */
+            width: 75%; /* The width of the sheen. */
+            height: 100%; /* Full height of the item. */
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent); /* The glassy gradient. */
+            transform: skewX(-25deg); /* Skews the sheen for a dynamic angle. */
+            transition: left 0.7s ease; /* Controls the speed of the sweep animation. */
+            z-index: 1; /* Places it above the background but below the content. */
+        }
+
+        /* [NEW v2.0] Trigger the sheen animation on hover. */
+        .faq-item:hover::before {
+            left: 150%; /* Sweeps the sheen across the element to the right. */
+        }
+
+        .faq-question {
+            display: flex; /* Enables flexbox for alignment. */
+            justify-content: space-between; /* Pushes question text and icon to opposite ends. */
+            align-items: center; /* Vertically aligns content. */
+            padding: 1.5rem 2rem; /* Padding inside the question header. */
+            cursor: pointer; /* Indicates the element is clickable. */
+            transition: background-color var(--transition-speed-fast) ease; /* Smooth background transition on hover. */
+            position: relative; /* Required for z-index to work. */
+            z-index: 2; /* Ensures content is above the pseudo-element sheen. */
+            background-color: transparent; /* Makes the question header transparent to see the item's background. */
+        }
+        
+        /* [ENHANCED v2.0] The hover effect is now a border highlight, managed by JS. */
+        .faq-item.hovered {
+            border-color: var(--glass-border-hover);
+            transform: scale(1.02); /* Subtle pop effect. */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Enhanced shadow for depth. */
+        }
+
+        .faq-question h3 {
+            font-size: 1.2rem; /* Font size for the question text. */
+            font-weight: 500; /* Medium font weight. */
+            color: var(--text-dark); /* Primary text color. */
+            padding-right: 1rem; /* Ensures space between text and icon. */
+        }
+
+        .faq-toggle-icon {
+            font-size: 2rem; /* Size of the plus/minus icon. */
+            color: var(--accent-dark); /* Accent color for the icon. */
+            transition: transform var(--transition-speed) ease; /* Smooth rotation animation for the icon. */
+            flex-shrink: 0; /* Prevents the icon from shrinking on small screens. */
+        }
+
+        .faq-answer {
+            max-height: 0; /* The answer is hidden by default. */
+            opacity: 0; /* The answer is transparent by default. */
+            overflow: hidden; /* Hides the content when collapsed. */
+            transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease; /* Smooth transition for expanding/collapsing. */
+            color: #C0BBE2; /* A slightly lighter, more luxurious color for the answer text. */
+            line-height: 1.7; /* Increased line height for readability. */
+            /* [NEW v2.0] Darker background for the answer panel to create visual separation. */
+            background-color: var(--answer-panel-dark);
+            position: relative; /* Required for z-index. */
+            z-index: 2; /* Ensures content is above the pseudo-element sheen. */
+        }
+        
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem 2rem; /* Padding is applied to an inner div to prevent content jump during animation. */
+            border-top: 1px solid var(--border-dark); /* [NEW v2.0] A subtle line separating question from answer. */
+        }
+
+        /* Styling for links within an answer. */
+        .faq-answer a {
+            color: var(--accent-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .faq-answer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Styling for bold text within an answer. */
+        .faq-answer strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        /* Styles for an active/open FAQ item */
+        .faq-item.active .faq-answer {
+            max-height: 500px; /* A large max-height to allow the content to expand fully. */
+            opacity: 1; /* Makes the answer visible. */
+        }
+
+        .faq-item.active .faq-toggle-icon {
+            transform: rotate(45deg); /* Rotates the '+' icon to look like an 'x' (close icon). */
+        }
+        
+        /* ==========================================================================
+           COMPONENT: Contact Form Section
+           ========================================================================== */
+        .contact-section {
+            padding-top: 4rem; /* Space above the contact section. */
+            padding-bottom: 6rem; /* Space below the contact section. */
+            border-top: 1px solid var(--border-dark); /* A separator line. */
+        }
+
+        .contact-form-container {
+            background: var(--card-dark); /* Glassy background. */
+            border: 1px solid var(--border-dark); /* Standard border. */
+            border-radius: 25px; /* Rounded corners. */
+            padding: 3rem; /* Generous padding. */
+            backdrop-filter: blur(15px); /* Glassmorphism effect. */
+            -webkit-backdrop-filter: blur(15px); /* Safari compatibility. */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); /* Drop shadow. */
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem; /* Space between form fields. */
+        }
+
+        .form-group label {
+            display: block; /* Makes the label take up its own line. */
+            font-weight: 500; /* Medium font weight. */
+            margin-bottom: 0.5rem; /* Space between label and input. */
+            color: var(--text-secondary-dark); /* Secondary text color. */
+        }
+
+        .form-input, .form-textarea {
+            width: 100%; /* Makes inputs take up the full width of the container. */
+            padding: 1rem; /* Padding inside the input fields. */
+            background-color: var(--background-dark); /* Dark background matching the page. */
+            border: 1px solid var(--border-dark); /* Subtle border. */
+            border-radius: 10px; /* Rounded corners. */
+            color: var(--text-dark); /* Text color for user input. */
+            font-size: 1rem; /* Standard font size. */
+            font-family: var(--font-family); /* Consistent font family. */
+            transition: border-color var(--transition-speed-fast) ease, box-shadow var(--transition-speed-fast) ease; /* Smooth transitions for focus effects. */
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none; /* Removes the default browser focus outline. */
+            border-color: var(--accent-dark); /* Highlights the border with the accent color on focus. */
+            box-shadow: 0 0 15px rgba(154, 75, 255, 0.3); /* Adds a glow effect on focus. */
+        }
+        
+        .form-textarea {
+            resize: vertical; /* Allows the user to resize the textarea vertically. */
+            min-height: 150px; /* Sets a minimum height. */
+        }
+
+        .form-submit-btn {
+            display: inline-block; /* Allows setting padding and margins. */
+            width: 100%; /* Makes the button full-width. */
+            background: var(--accent-dark); /* Accent color background. */
+            color: var(--text-dark); /* Text color. */
+            padding: 1rem 2.5rem; /* Padding. */
+            border-radius: 10px; /* Rounded corners. */
+            text-decoration: none; /* Removes underline. */
+            font-weight: bold; /* Bold text. */
+            font-size: 1.1rem; /* Font size. */
+            transition: all var(--transition-speed) ease; /* Smooth transitions. */
+            box-shadow: 0 0 20px rgba(154, 75, 255, 0.5); /* Glow effect. */
+            border: none; /* No border by default. */
+            cursor: pointer; /* Indicates it's clickable. */
+        }
+
+        .form-submit-btn:hover {
+            background: var(--accent-hover-dark); /* Darker background on hover. */
+            transform: translateY(-3px); /* Lifts the button slightly. */
+            box-shadow: 0 8px 25px rgba(154, 75, 255, 0.6); /* Enhanced glow. */
+        }
+        
+        /* Success message styling for the form. */
+        #form-success-message {
+            color: var(--success-dark);
+            text-align: center;
+            font-weight: 500;
+            padding: 1rem;
+            border: 1px solid var(--success-dark);
+            border-radius: 10px;
+            background-color: rgba(76, 175, 80, 0.1);
+            display: none; /* Hidden by default. */
+        }
+
+        /* ==========================================================================
+           COMPONENT: Footer
+           ========================================================================== */
+        .main-footer {
+            background-color: var(--nav-rail-dark);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .main-footer p {
+            color: var(--text-secondary-dark);
+        }
+
+        /* ==========================================================================
+           UTILITIES & ANIMATIONS (animations.css)
+           ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- [BACKGROUND] This canvas is used by JavaScript to render the animated particle background. -->
+    <canvas id="interactive-canvas"></canvas>
+
+    <header class="main-header">
+        <div class="header-container">
+            <nav class="main-nav">
+                <a href="index.html" class="logo">MK<span>-Tools</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="download.html">Download</a></li>
+                    <li><a href="faq.html" class="active">FAQ</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- [MAIN CONTENT] The primary content area of the page. -->
+    <main>
+        <!-- PAGE HEADER: The main introductory section for the FAQ page. -->
+        <section class="page-header container">
+            <h1>Frequently Asked <span class="highlight">Questions</span></h1>
+            <p>Find answers to common questions about MK-Tools. If you can't find what you're looking for, feel free to reach out using the contact form below.</p>
+        </section>
+
+        <!-- FAQ ACCORDION: The main list of questions and answers. -->
+        <section class="faq-accordion container">
+
+            <!-- [NEW v2.0] Comprehensive list of 20+ questions. -->
+            <div class="faq-item"><div class="faq-question"><h3>What is MK-Tools?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>MK-Tools is a powerful and safe utility designed for Windows 10 and 11. It provides a suite of carefully selected tweaks and tools to help you optimize your PC's performance, enhance privacy, and improve the overall user experience. It's built for both novice users who want simple one-click solutions and power users who want more control.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Is MK-Tools safe to use? Can it damage my PC?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>Yes, it is extremely safe.</strong> Every tweak included in MK-Tools is based on well-documented Windows settings, registry keys, or official Microsoft tools (like SFC and DISM). There are no experimental or dangerous modifications. The application is designed with a "do no harm" philosophy. Furthermore, almost every single tweak is reversible with a single click inside the app.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Are the tweaks reversible?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>Absolutely.</strong> Nearly every tweak in the Performance and UI sections can be instantly reverted by clicking the button again or using the "Reset to Default" option. The Group Policy module also includes a definitive "Reset" function that restores all policies to the standard Windows defaults. Your system can always be returned to its original state.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Is MK-Tools free?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>Yes, MK-Tools is 100% free to download and use. It is a passion project created to help users get the most out of their computers. If you find the tool useful, you can consider supporting its development via the "Buy Me a Coffee" link in the "About" section of the app and website.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Why does the application require administrator rights?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>MK-Tools requires administrator privileges because it modifies system-level settings in the Windows Registry and runs official diagnostic tools like SFC and DISM. These operations are protected by Windows User Account Control (UAC) to prevent unauthorized changes. Running as an administrator is necessary to ensure the tweaks and fixes can be applied correctly and safely.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>My antivirus flagged MK-Tools. Is it a virus?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>No, it is not a virus.</strong> Because MK-Tools is a system utility that modifies registry settings and uses advanced system tools, some antivirus programs may flag it as a "Potentially Unwanted Program" (PUP) or a "riskware" tool. This is a false positive. The application is completely safe and does not contain any malicious code. You can safely add it as an exception in your antivirus software.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Why doesn't the Group Policy feature work on Windows Home Edition?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>The Local Group Policy Editor is a feature that Microsoft includes only in the <strong>Professional, Enterprise, and Education</strong> editions of Windows. Windows Home editions do not have this feature built-in. MK-Tools uses Microsoft's official `LGPO.exe` utility to apply policies, which requires the underlying Group Policy framework to be present. Therefore, this specific module is only functional on compatible Windows versions.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>What's the difference between "Scan" (SFC) and "Advanced Scan" (DISM)?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>Think of it like fixing a car.<br><br>• <strong>SFC (System File Checker)</strong> is like a quick tune-up. It checks for common problems with core system files and replaces any that are corrupted from a local backup. It's fast and your first step for troubleshooting.<br><br>• <strong>DISM (Deployment Image Servicing and Management)</strong> is like a full engine rebuild. It repairs the underlying component store—the "master blueprint" that SFC uses for its repairs. If SFC finds problems it can't fix, it's usually because the blueprint itself is damaged. DISM connects to Windows Update to download fresh, clean copies of these core components to fix the blueprint. You should always run DISM if SFC fails, and then run SFC again afterward.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Do I need to restart my PC after every tweak?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>Not for every tweak, but for many, yes. The application will always tell you when a restart is required. Changes to deep system settings like GPU Scheduling, Fast Startup, or Group Policies only take full effect after a reboot. UI tweaks like the classic context menu only require Windows Explorer to be restarted, which the app handles for you.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>What does "Disable Compressed Memory" do? Should I use it?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>Memory Compression is a Windows feature that squeezes unused data in your RAM to make more space. This is helpful on PCs with low RAM (e.g., 8GB or less). However, the process of compressing and decompressing uses a small amount of CPU power. If you have <strong>16GB of RAM or more</strong>, you can safely disable this feature. This frees up those CPU cycles, which can reduce micro-stutters and improve responsiveness in demanding applications like games or video editors.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Will cleaning the cache delete my personal files?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>No.</strong> The "Clean Cache" feature is designed to be extremely safe. It only targets temporary files, old update installers, and other system-generated "junk" files that are safe to remove. It will <strong>never</strong> touch your personal documents, photos, videos, or game saves located in folders like Documents, Pictures, or your Desktop.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>What are Group Policies and why should I apply them?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>Group Policies are a set of advanced rules that control the working environment of user accounts and computer accounts. The "Optimized Policies" in MK-Tools are a curated set designed for standalone PCs to enhance privacy and performance. They do things like disable invasive telemetry (data collection), prevent Windows from installing unwanted promotional apps, and turn off cloud-based search to keep your activity local. It's a powerful way to harden your system with one click.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Can I use this on a work or school computer?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>We strongly advise against using MK-Tools on a computer managed by an IT department (like a work or school PC) without their explicit permission. These systems often have their own security policies and configurations, and running an optimization tool could conflict with them. MK-Tools is designed and intended for use on personal computers.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>How often should I use the "Fix Windows" and "Clean Cache" features?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>A good rule of thumb is:<br><br>• <strong>Clean Cache:</strong> Once every month or two, or whenever you notice your disk space is getting low. It's safe to run as often as you like.<br><br>• <strong>Fix Windows (SFC):</strong> Run it if you notice any strange behavior, crashes, or errors. Running it once every few months as preventative maintenance is also a good practice.<br><br>• <strong>Fix Windows (DISM):</strong> Only run this if SFC reports errors it cannot fix, or if you are having persistent issues with Windows Update.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Will these tweaks improve my gaming performance (FPS)?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>Some tweaks may lead to a smoother gaming experience, but they are unlikely to cause a massive increase in raw FPS (Frames Per Second). For example, disabling compressed memory or prioritizing foreground applications can reduce stutters and input lag, making games feel more responsive. Cleaning the cache can help with loading times if your drive was nearly full. These are optimizations, not magical FPS boosters.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>What does "Enable Win10 Right-Click Menu" do?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>On Windows 11, the default right-click menu is simplified and hides many options behind an extra "Show more options" click. This tweak restores the classic, full-featured menu from Windows 10, giving you immediate access to all options like "Extract," "Scan with..." etc., without the extra click. It's a huge time-saver for power users.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>How do I update MK-Tools?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>To update MK-Tools, simply visit the <a href="download.html">Download</a> page on this website and get the latest version. You can then replace your old executable file with the new one. Future versions may include an in-app update checker.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Does MK-Tools collect any of my personal data?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>Absolutely not.</strong> MK-Tools is designed with privacy as a core principle. The application runs entirely on your local machine, does not require an internet connection for its core features (except DISM repair), and does not send any of your personal data or system information to any server. In fact, many of the Group Policy tweaks are specifically designed to *reduce* the amount of data Windows itself sends to Microsoft.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>A tweak seems to have caused an issue. What should I do?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>The first step is to simply reverse the tweak. Open MK-Tools and click the button for that tweak again to revert it to the default setting. If you applied multiple tweaks, you can use the "Reset to Default" button available for each one. If the issue persists, running the "Fix Windows" scans (SFC, then DISM if needed) can often resolve underlying system problems that may have been present before.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Where can I report a bug or suggest a new feature?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>We'd love to hear from you! The best place to report bugs or suggest new features is by using the contact form at the bottom of this page or by visiting the project's official GitHub page (linked in the "About" section) and creating a new "Issue".</p></div></div></div>
+
+        </section>
+
+        <!-- CONTACT FORM SECTION: A dedicated section for users to ask further questions. -->
+        <section class="contact-section container">
+            <div class="contact-form-container">
+                <div class="page-header" style="padding-top: 0; padding-bottom: 2rem;">
+                     <h1>Still Have <span class="highlight">Questions?</span></h1>
+                     <p>If your question wasn't answered above, feel free to reach out directly. I'll get back to you as soon as possible.</p>
+                </div>
+                
+                <!-- ========================================================================================================== -->
+                <!-- ARCHITECTURAL NOTE FOR DEPLOYMENT:                                                                         -->
+                <!-- This form is designed for a static hosting environment like GitHub Pages. To make it functional,           -->
+                <!-- you must use a third-party form handling service like Formspree (https://formspree.io/).                   -->
+                <!-- 1. Create a free account on Formspree.                                                                     -->
+                <!-- 2. Create a new form and get your unique endpoint URL.                                                     -->
+                <!-- 3. Replace the placeholder "YOUR_UNIQUE_FORM_ID" in the `action` attribute below with your actual ID.      -->
+                <!-- ========================================================================================================== -->
+                <form id="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_FORM_ID" method="POST">
+                    <div id="form-content">
+                        <div class="form-group">
+                            <label for="email">Your Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="youremail@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="query">Your Question or Message</label>
+                            <textarea id="query" name="message" class="form-textarea" placeholder="Please describe your question in detail..." required></textarea>
+                        </div>
+                        <button type="submit" class="form-submit-btn">Send Message</button>
+                    </div>
+                    <!-- This container will display the success message after submission. -->
+                    <div id="form-success-message">
+                        <p>✅ Thank you for your message! I'll get back to you shortly.</p>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- [FOOTER] The main footer for the website. -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 MK-Tools by Muhammad Kashan Tariq. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT: Embedded JavaScript block. Contains all logic for this page. -->
+    <script>
+        /* ==========================================================================
+           Global Scripts (main.js)
+           ========================================================================== */
+
+        // --- SCRIPT 1: Header Scroll Effect ---
+        const header = document.querySelector('.main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // --- SCRIPT 2: Interactive Canvas Background ---
+        const canvas = document.getElementById('interactive-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particlesArray;
+        class Particle { constructor(x, y, dX, dY, s, c) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=s; this.color=c; } draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2,false); ctx.fillStyle=this.color; ctx.fill(); } update() { if(this.x>canvas.width||this.x<0){this.directionX=-this.directionX;} if(this.y>canvas.height||this.y<0){this.directionY=-this.directionY;} this.x+=this.directionX; this.y+=this.directionY; this.draw(); } }
+        function init() { particlesArray=[]; let nP=(canvas.height*canvas.width)/9000; for(let i=0;i<nP;i++){ let s=(Math.random()*2)+1; let x=(Math.random()*((innerWidth-s*2)-(s*2))+s*2); let y=(Math.random()*((innerHeight-s*2)-(s*2))+s*2); let dX=(Math.random()*.4)-.2; let dY=(Math.random()*.4)-.2; let c='rgba(154,75,255,0.15)'; particlesArray.push(new Particle(x,y,dX,dY,s,c)); } }
+        function connect() { let oV=1; for(let a=0;a<particlesArray.length;a++){ for(let b=a;b<particlesArray.length;b++){ let d=((particlesArray[a].x-particlesArray[b].x)*(particlesArray[a].x-particlesArray[b].x))+((particlesArray[a].y-particlesArray[b].y)*(particlesArray[a].y-particlesArray[b].y)); if(d<(canvas.width/7)*(canvas.height/7)){ oV=1-(d/20000); ctx.strokeStyle='rgba(154,75,255,'+oV*0.05+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x,particlesArray[a].y); ctx.lineTo(particlesArray[b].x,particlesArray[b].y); ctx.stroke(); } } } }
+        function animate() { requestAnimationFrame(animate); ctx.clearRect(0,0,innerWidth,innerHeight); for(let i=0;i<particlesArray.length;i++){particlesArray[i].update();} connect(); }
+        window.addEventListener('resize', ()=>{canvas.width=innerWidth;canvas.height=innerHeight;init();});
+        init();
+        animate();
+
+        /* ==========================================================================
+           FAQ Page Specific Scripts
+           ========================================================================== */
+        
+        // --- SCRIPT 3: FAQ Accordion Logic ---
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            // [ENHANCED v2.0] Add hover effect for the border highlight.
+            item.addEventListener('mouseenter', () => {
+                item.classList.add('hovered');
+            });
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('hovered');
+            });
+
+            // Handles the click to open/close the accordion item.
+            question.addEventListener('click', () => {
+                const wasActive = item.classList.contains('active');
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // --- SCRIPT 4: Contact Form Submission Logic (for Formspree) ---
+        const contactForm = document.getElementById('contact-form');
+        const formContent = document.getElementById('form-content');
+        const successMessage = document.getElementById('form-success-message');
+
+        contactForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(contactForm);
+            
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    formContent.style.display = 'none';
+                    successMessage.style.display = 'block';
+                } else {
+                    // This block handles server errors from Formspree.
+                    const responseData = await response.json();
+                    if (responseData.errors) {
+                        alert(responseData.errors.map(error => error.message).join(", "));
+                    } else {
+                        alert("Submission failed. Please try again later.");
+                    }
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert("Could not send message. Please check your internet connection.");
+            }
+        });
+    </script>
+</body>
+</html>

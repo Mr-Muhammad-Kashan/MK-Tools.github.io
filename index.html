@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | MK-Tools</title>
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* ==========================================================================
+           CORE: Variables & Global Styles (main.css)
+           Derived directly from the MK-Tools application's Theme class.
+           This section establishes the foundational design system for the entire page.
+           ========================================================================== */
+        :root {
+            /* COLOR PALETTE: Defines the entire color scheme using CSS variables for easy maintenance. */
+            --background-dark: #1A1920; /* Primary background color. */
+            --nav-rail-dark: #23212E; /* Background for static elements like the footer. */
+            --card-dark: rgba(44, 42, 59, 0.6); /* Semi-transparent background for "glassmorphism" effect on cards. */
+            --card-dark-solid: #2C2A3B; /* Opaque card background for elements needing solid color. */
+            --card-hover-dark: rgba(53, 51, 69, 0.8); /* Darker semi-transparent background for card hover states. */
+            --text-dark: #F5F5FF; /* Primary text color for high contrast. */
+            --text-secondary-dark: #A8A5C5; /* Secondary text color for descriptions and less important text. */
+            --accent-dark: #9A4BFF; /* Primary accent color for buttons, highlights, and links. */
+            --accent-hover-dark: #8A3EE8; /* Darker accent color for hover states on interactive elements. */
+            --border-dark: rgba(76, 74, 91, 0.5); /* Border color for cards and structural elements. */
+            --glass-border-hover: #9A4BFF; /* Bright accent color for card borders on hover. */
+            --success-dark: #4CAF50; /* Color for success states or positive feedback. */
+
+            /* TYPOGRAPHY & TRANSITIONS: Defines fonts and animation timings. */
+            --font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif; /* Defines the font stack, starting with the preferred OS font. */
+            --transition-speed: 0.3s; /* Standard transition duration for most animations. */
+        }
+
+        /* Global Reset & Font Setup */
+        * {
+            margin: 0; /* Removes default browser margins. */
+            padding: 0; /* Removes default browser padding. */
+            box-sizing: border-box; /* Ensures padding and borders are included in the element's total width and height. */
+        }
+
+        /* Smooth Scrolling Behavior */
+        html {
+            scroll-behavior: smooth; /* Enables smooth scrolling for anchor links. */
+        }
+
+        /* Body Styling */
+        body {
+            background-color: var(--background-dark); /* Applies the primary background color. */
+            color: var(--text-dark); /* Sets the default text color. */
+            font-family: var(--font-family); /* Sets the default font family. */
+            overflow-x: hidden; /* Prevents horizontal scrolling. */
+            line-height: 1.6; /* Sets a comfortable line spacing for readability. */
+        }
+
+        /* Adds a class to prevent body scroll when mobile nav is open. This is critical to prevent the background from moving. */
+        body.nav-open {
+            overflow: hidden; /* Disables scrolling on the body element. */
+        }
+        
+        /* Accessibility utility to hide elements visually but keep them available for screen readers. */
+        .sr-only {
+            position: absolute; /* Takes the element out of the normal document flow. */
+            width: 1px; /* Reduces the element's width to be virtually non-existent. */
+            height: 1px; /* Reduces the element's height to be virtually non-existent. */
+            padding: 0; /* Removes any internal spacing. */
+            margin: -1px; /* Moves the element outside the visible screen area. */
+            overflow: hidden; /* Hides any content that might overflow the 1x1 pixel box. */
+            clip: rect(0, 0, 0, 0); /* Deprecated but necessary for legacy browser support to make the element non-renderable. */
+            white-space: nowrap; /* Prevents the text from wrapping, which could affect layout. */
+            border-width: 0; /* Removes any border. */
+        }
+
+        /* Interactive Canvas Background */
+        #interactive-canvas {
+            position: fixed; /* Positions the canvas relative to the viewport. */
+            top: 0; /* Aligns canvas to the top edge. */
+            left: 0; /* Aligns canvas to the left edge. */
+            width: 100%; /* Stretches canvas to full viewport width. */
+            height: 100%; /* Stretches canvas to full viewport height. */
+            z-index: -1; /* Places the canvas behind all other content. */
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%; /* Sets the container width to 90% of its parent. */
+            max-width: 1200px; /* Sets a maximum width to prevent content from becoming too wide on large screens. */
+            margin: 0 auto; /* Centers the container horizontally. */
+            padding: 0 15px; /* Adds horizontal padding inside the container. */
+        }
+
+        /* ==========================================================================
+           COMPONENT: Header & Navigation
+           ========================================================================== */
+        .main-header {
+            position: fixed; /* Fixes the header to the top of the viewport. */
+            top: 0; /* Aligns header to the top. */
+            left: 0; /* Aligns header to the left. */
+            width: 100%; /* Stretches header across the full width. */
+            z-index: 1000; /* Ensures the header stays above other content. */
+            padding: 1rem 0; /* Adds vertical padding. */
+            transition: background-color var(--transition-speed) ease; /* Smoothly transitions the background color. */
+        }
+
+        /* Header state when scrolled */
+        .main-header.scrolled {
+            background-color: rgba(35, 33, 46, 0.8); /* Adds a semi-transparent background on scroll. */
+            backdrop-filter: blur(10px); /* Applies a blur effect to the background (for modern browsers). */
+            -webkit-backdrop-filter: blur(10px); /* Vendor prefix for Safari compatibility. */
+            border-bottom: 1px solid var(--border-dark); /* Adds a subtle bottom border on scroll. */
+        }
+
+        .main-nav {
+            display: flex; /* Enables flexbox layout. */
+            justify-content: space-between; /* Pushes the logo and nav links to opposite ends. */
+            align-items: center; /* Vertically aligns items in the center. */
+        }
+
+        .logo {
+            font-size: 1.8rem; /* Sets the font size for the logo. */
+            font-weight: bold; /* Makes the logo text bold. */
+            color: var(--text-dark); /* Sets the logo text color. */
+            text-decoration: none; /* Removes the default underline from the link. */
+            z-index: 1001; /* Ensures logo stays above mobile nav background. */
+        }
+
+        .logo span {
+            color: var(--accent-dark); /* Applies the accent color to the "-Tools" part of the logo. */
+        }
+
+        .nav-links {
+            list-style: none; /* Removes default list bullets. */
+            display: flex; /* Enables flexbox layout for nav items. */
+        }
+
+        .nav-links li {
+            margin-left: 2rem; /* Adds space between navigation items. */
+        }
+
+        .nav-links a {
+            color: var(--text-secondary-dark); /* Sets the default color for nav links. */
+            text-decoration: none; /* Removes the underline. */
+            font-weight: 500; /* Sets a medium font weight. */
+            transition: color var(--transition-speed) ease; /* Smoothly transitions the color on hover. */
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-dark); /* Changes color on hover or if the link is active. */
+        }
+        
+        /* Universal Link Style Override: Ensures anchor tags used as wrappers don't have default styling. */
+        .unstyled-link {
+            text-decoration: none; /* Removes underline. */
+            color: inherit; /* Inherits the text color from its parent. */
+            display: block; /* Ensures the link takes up the full space of its container. */
+        }
+
+
+        /* ==========================================================================
+           COMPONENT: Hero Section
+           ========================================================================== */
+        .hero {
+            min-height: 100vh; /* Sets the minimum height of the hero section to the full viewport height. */
+            display: flex; /* Enables flexbox layout. */
+            align-items: center; /* Vertically centers the content. */
+            text-align: center; /* Horizontally centers the text. */
+            padding-top: 80px; /* Adds padding to the top to offset the fixed header. */
+        }
+
+        .hero-content {
+            animation: fadeIn 1s ease-out; /* Applies a fade-in animation on load. */
+        }
+
+        .hero h1 {
+            font-size: 4rem; /* Sets a large font size for the main headline. */
+            margin-bottom: 1rem; /* Adds space below the headline. */
+            line-height: 1.2; /* Sets the line height for readability. */
+        }
+
+        .hero h1 .highlight {
+            color: var(--accent-dark); /* Applies the accent color to highlighted text. */
+            text-shadow: 0 0 15px var(--accent-dark); /* Adds a glow effect to the highlighted text. */
+        }
+
+        .hero p {
+            font-size: 1.25rem; /* Sets the font size for the subheading. */
+            color: var(--text-secondary-dark); /* Uses the secondary text color. */
+            max-width: 700px; /* Constrains the width for better readability. */
+            margin: 0 auto 2rem auto; /* Centers the paragraph and adds bottom margin. */
+        }
+
+        .cta-button {
+            display: inline-block; /* Allows setting padding and margins. */
+            background: var(--accent-dark); /* Sets the background color. */
+            color: var(--text-dark); /* Sets the text color. */
+            padding: 1rem 2.5rem; /* Adds padding inside the button. */
+            border-radius: 50px; /* Creates a pill shape. */
+            text-decoration: none; /* Removes the underline. */
+            font-weight: bold; /* Makes the text bold. */
+            font-size: 1.1rem; /* Sets the font size. */
+            transition: all var(--transition-speed) ease; /* Smoothly transitions all properties. */
+            box-shadow: 0 0 20px rgba(154, 75, 255, 0.5); /* Adds a glow effect. */
+            border: 2px solid transparent; /* Adds a transparent border to prevent size shifts on hover. */
+        }
+
+        .cta-button:hover {
+            background: var(--accent-hover-dark); /* Changes background color on hover. */
+            transform: translateY(-5px); /* Moves the button up slightly on hover. */
+            box-shadow: 0 10px 30px rgba(154, 75, 255, 0.7); /* Enhances the glow on hover. */
+        }
+        
+        /* [ADDED v1.8] Adds an active state for instant feedback when the button is pressed. */
+        .cta-button:active {
+            transform: translateY(-2px) scale(0.98); /* Slightly moves and scales down the button. */
+            box-shadow: 0 5px 20px rgba(154, 75, 255, 0.6); /* Reduces the glow for a "pressed" effect. */
+        }
+
+        /* ==========================================================================
+           COMPONENT: Feature Section & Cards
+           ========================================================================== */
+        .section {
+            padding: 6rem 0; /* Adds significant vertical padding to create space between sections. */
+        }
+        
+        .section-title {
+            text-align: center; /* Centers the section title. */
+            font-size: 2.5rem; /* Sets the font size for section titles. */
+            margin-bottom: 3rem; /* Adds space below the title. */
+            color: var(--text-dark); /* Sets the text color. */
+        }
+
+        /* App Screenshot Styling */
+        .app-screenshot {
+            display: block; /* Ensures the image is a block-level element. */
+            max-width: 100%; /* Ensures the image is responsive and doesn't overflow its container. */
+            height: auto; /* Maintains the aspect ratio of the image. */
+            margin: -1rem auto 4rem auto; /* Centers the image and adds vertical margins for spacing. Negative top margin pulls it closer to the title. */
+            border-radius: 20px; /* Applies rounded corners to match the card aesthetic. */
+            border: 2px solid var(--border-dark); /* Adds a subtle border. */
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4); /* Adds a strong drop shadow for a floating effect. */
+        }
+
+
+        .features-grid {
+            display: grid; /* Enables CSS Grid layout. */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates a responsive grid that adjusts the number of columns based on available space. */
+            gap: 2rem; /* Sets the space between grid items. */
+        }
+
+        .feature-card {
+            background: var(--card-dark); /* Sets the semi-transparent card background. */
+            border: 1px solid var(--border-dark); /* Adds a border. */
+            border-radius: 20px; /* Applies rounded corners. */
+            padding: 2rem; /* Adds padding inside the card. */
+            backdrop-filter: blur(15px); /* Applies a blur effect. */
+            -webkit-backdrop-filter: blur(15px); /* Safari compatibility. */
+            transition: all var(--transition-speed) ease; /* Smoothly transitions all properties. */
+            transform-style: preserve-3d; /* Enables 3D transformations for a subtle perspective effect. */
+            will-change: transform, box-shadow, border-color; /* [ADDED v1.8] Performance optimization: informs the browser that these properties will be animated. */
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(-5deg); /* Lifts and rotates the card on hover for a 3D effect. */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* Enhances the shadow on hover. */
+            border-color: var(--glass-border-hover); /* Changes the border color to the accent color on hover. */
+        }
+
+        .feature-card .icon {
+            font-size: 3rem; /* Sets the size for the emoji icon. */
+            color: var(--accent-dark); /* Sets the icon color. */
+            margin-bottom: 1rem; /* Adds space below the icon. */
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem; /* Sets the font size for the card title. */
+            margin-bottom: 0.5rem; /* Adds space below the title. */
+        }
+
+        .feature-card p {
+            color: var(--text-secondary-dark); /* Uses the secondary text color for the description. */
+        }
+
+        /* Styling for the disabled "Coming Soon" card. */
+        .feature-card-disabled {
+            opacity: 0.6; /* Reduces the opacity to make it look "dull". */
+            cursor: not-allowed; /* Changes the cursor to indicate it's not clickable. */
+            color: var(--text-secondary-dark); /* The text color for the paragraph inside the disabled card. */
+        }
+
+        /* Override hover effects for the disabled card. */
+        .feature-card-disabled:hover {
+            transform: none; /* Prevents the 3D transform effect. */
+            box-shadow: none; /* Removes the enhanced box shadow on hover. */
+            border-color: var(--border-dark); /* Prevents the border from changing color on hover. */
+        }
+
+        /* ==========================================================================
+           COMPONENT: FAQ Call to Action Section
+           ========================================================================== */
+        .faq-cta-section {
+            padding-top: 2rem; /* Reduced top padding to bring it closer to the features grid. */
+            padding-bottom: 6rem; /* Standard bottom padding. */
+        }
+        
+        .faq-cta-content {
+            background: var(--card-dark); /* Reuses the glassy card background. */
+            border: 1px solid var(--border-dark); /* Standard border. */
+            border-radius: 25px; /* Slightly larger radius for a more prominent look. */
+            padding: 3rem 2rem; /* Generous padding for content spacing. */
+            text-align: center; /* Centers all content within the card. */
+            backdrop-filter: blur(15px); /* Glassmorphism effect. */
+            -webkit-backdrop-filter: blur(15px); /* Safari compatibility. */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); /* Subtle drop shadow. */
+        }
+
+        .faq-cta-content h2 {
+            font-size: 2.2rem; /* Large font size for the main question. */
+            color: var(--text-dark); /* Primary text color. */
+            margin-bottom: 0.75rem; /* Space below the heading. */
+        }
+
+        .faq-cta-content p {
+            font-size: 1.1rem; /* Font size for the descriptive text. */
+            color: var(--text-secondary-dark); /* Secondary text color for lower emphasis. */
+            max-width: 600px; /* Constrains line length for readability. */
+            margin: 0 auto 2rem auto; /* Centers the paragraph and adds bottom margin. */
+        }
+
+        .faq-cta-button {
+            display: inline-flex; /* Use flexbox to align icon and text. */
+            align-items: center; /* Vertically center icon and text. */
+            justify-content: center; /* Horizontally center content within the button. */
+            background: var(--accent-dark); /* Standard accent background color. */
+            color: var(--text-dark); /* Text color. */
+            padding: 0.9rem 2.2rem; /* Padding inside the button. */
+            border-radius: 50px; /* Pill shape. */
+            text-decoration: none; /* Remove underline. */
+            font-weight: bold; /* Bold text. */
+            font-size: 1.1rem; /* Font size. */
+            transition: all var(--transition-speed) ease; /* Smooth transition for all properties. */
+            box-shadow: 0 0 20px rgba(154, 75, 255, 0.5); /* Glow effect. */
+            border: 2px solid var(--accent-dark); /* Border matching the background color. */
+        }
+
+        .faq-cta-button:hover {
+            background: var(--accent-hover-dark); /* Darker background on hover. */
+            border-color: var(--glass-border-hover); /* Brighter border on hover for a highlight effect. */
+            transform: translateY(-5px); /* Lifts the button slightly. */
+            box-shadow: 0 10px 30px rgba(154, 75, 255, 0.7); /* Stronger glow on hover. */
+        }
+
+        /* [ADDED v1.8] Adds an active state for the FAQ button for instant feedback. */
+        .faq-cta-button:active {
+            transform: translateY(-2px) scale(0.98); /* Slightly moves and scales down the button. */
+            box-shadow: 0 5px 20px rgba(154, 75, 255, 0.6); /* Reduces the glow for a "pressed" effect. */
+        }
+
+        .faq-cta-button svg {
+            width: 24px; /* Sets the width of the SVG icon. */
+            height: 24px; /* Sets the height of the SVG icon. */
+            margin-right: 0.75rem; /* Adds space between the icon and the text. */
+            fill: currentColor; /* The icon color will match the button's text color. */
+        }
+
+        /* ==========================================================================
+           COMPONENT: Footer
+           ========================================================================== */
+        .main-footer {
+            background-color: var(--nav-rail-dark); /* Sets the footer background color. */
+            padding: 2rem 0; /* Adds vertical padding. */
+            text-align: center; /* Centers the text. */
+            margin-top: 4rem; /* Adds space above the footer. */
+            border-top: 1px solid var(--border-dark); /* Adds a subtle top border. */
+        }
+
+        .main-footer p {
+            color: var(--text-secondary-dark); /* Uses the secondary text color for the copyright notice. */
+        }
+
+        /* ==========================================================================
+           UTILITIES & ANIMATIONS (animations.css)
+           ========================================================================== */
+        /* Defines a keyframe animation for fading in elements. */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Initial state for elements that will fade in on scroll. */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* Final state for elements that have faded in. */
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN & MOBILE OPTIMIZATION
+           ========================================================================== */
+        /*
+           ARCHITECTURAL BLUEPRINT: FLUID RESPONSIVENESS
+
+           This design employs a fluid architecture, superior to rigid, multi-breakpoint systems.
+           The layout continuously adapts to all screen widths by default. Media queries are used
+           surgically for two purposes:
+           1. Major Architectural Shift (@768px): Transitioning from a horizontal desktop navigation
+              to a vertical, full-height mobile navigation overlay.
+           2. Micro-Adjustments (@480px): Fine-tuning typography and spacing for the smallest
+              class of mobile devices to ensure optimal readability and touch-target size.
+           This ensures a perfect, unbroken user experience across the infinite spectrum of devices.
+        */
+
+        /* The mobile navigation toggle (hamburger icon) is hidden by default on desktop. */
+        .mobile-nav-toggle {
+            display: none; /* Hidden on screens wider than the media query breakpoint. */
+        }
+
+        /* Media query defines the breakpoint for the primary mobile layout shift. */
+        @media (max-width: 768px) {
+
+            /* --- Typography & Layout Adjustments --- */
+            .hero h1 {
+                font-size: 2.8rem; /* Reduces hero headline font size for better fit on mobile. */
+            }
+
+            .section-title {
+                font-size: 2rem; /* Reduces section title font size. */
+            }
+
+            .section {
+                padding: 4rem 0; /* Reduces vertical padding on sections for a more compact layout. */
+            }
+
+            /* --- Mobile Navigation Structure --- */
+            .nav-links {
+                position: fixed; /* Takes the nav out of the document flow to act as an overlay. */
+                top: 0; /* Aligns the top of the menu with the top of the viewport. */
+                right: 0; /* Aligns the right of the menu with the right of the viewport. */
+                width: 70%; /* Sets the menu to occupy 70% of the screen width. */
+                height: 100vh; /* CRITICAL: Uses viewport height (vh) unit to ensure the menu is always 100% of the VISIBLE screen height, fixing the scroll bug permanently. */
+                
+                flex-direction: column; /* Stacks the navigation links vertically. */
+                padding: min(20vh, 10rem) 2rem; /* Adds padding at the top, responsive to viewport height. */
+                margin: 0; /* Resets any margin from the desktop view. */
+                gap: 2rem; /* Creates space between the vertical navigation items. */
+                
+                background: rgba(26, 25, 32, 0.9); /* Semi-transparent background for the mobile menu. */
+                backdrop-filter: blur(1rem); /* Applies a blur effect to content behind the menu. */
+                -webkit-backdrop-filter: blur(1rem); /* Safari compatibility. */
+
+                transform: translateX(100%); /* Moves the menu off-screen to the right by default. */
+                transition: transform 350ms ease-out; /* Defines the slide-in/out animation. */
+            }
+
+            /* Applies to an individual link container in the mobile view. */
+            .nav-links li {
+                margin-left: 0; /* Resets the horizontal margin from desktop view. */
+                width: 100%; /* Makes each link container take full width. */
+                text-align: center; /* Centers the link text. */
+            }
+            
+            /* Adjusts styles for mobile nav links. */
+            .nav-links a {
+                font-size: 1.2rem; /* Increases font size for better tap targets on mobile. */
+                color: var(--text-dark); /* Explicitly uses the primary light text color for high contrast. */
+            }
+
+            /* Controls the visibility of the mobile navigation menu. */
+            .nav-links[data-visible="true"] {
+                transform: translateX(0%); /* Moves the menu on-screen when its `data-visible` attribute is true. */
+            }
+
+            /* --- Mobile Navigation Toggle (Hamburger Button) --- */
+            .mobile-nav-toggle {
+                display: block; /* Makes the hamburger button visible on mobile. */
+                position: absolute; /* Positions the button relative to the header. */
+                top: 1.5rem; /* Aligns button vertically. */
+                right: 2rem; /* Aligns button horizontally. */
+                z-index: 2000; /* Ensures the button is above all other content. */
+                cursor: pointer; /* Changes the cursor to indicate it's clickable. */
+                background: transparent; /* Removes default button background. */
+                border: 0; /* Removes default button border. */
+                width: 1.5rem; /* Sets the width of the button's clickable area. */
+                height: 1.5rem; /* Sets the height of the button's clickable area. */
+                color: var(--text-dark); /* Sets the default text color for any content inside to white. */
+            }
+
+            /* The icon itself, which is a container for the hamburger lines. */
+            .mobile-nav-toggle .icon {
+                display: block; /* Ensures the icon container is a block element. */
+                position: relative; /* Establishes a positioning context for the lines. */
+                width: 1.5rem; /* Sets the width of the icon. */
+                height: 1.5rem; /* Sets the height of the icon. */
+            }
+
+            /* Styling for the individual lines of the hamburger icon. */
+            .mobile-nav-toggle .line {
+                display: block; /* Ensures lines are block elements. */
+                position: absolute; /* Positions lines within the icon container. */
+                height: 2px; /* Sets the thickness of each line. */
+                width: 100%; /* Makes each line span the full width of the icon. */
+                background: var(--text-dark); /* Sets the color of the lines. */
+                border-radius: 2px; /* Rounds the ends of the lines. */
+                transition: transform 350ms ease-in-out, opacity 350ms ease-in-out; /* Animates the transformation. */
+            }
+
+            /* Positions the top line of the hamburger icon. */
+            .mobile-nav-toggle .line-top {
+                top: 2px; /* Positions the line near the top. */
+            }
+
+            /* Positions the middle line of the hamburger icon. */
+            .mobile-nav-toggle .line-middle {
+                top: 50%; /* Centers the line vertically. */
+                transform: translateY(-50%); /* Fine-tunes the vertical centering. */
+            }
+
+            /* Positions the bottom line of the hamburger icon. */
+            .mobile-nav-toggle .line-bottom {
+                bottom: 2px; /* Positions the line near the bottom. */
+            }
+
+            /* --- Hamburger to "X" Animation States --- */
+            /* Hides the middle line when the menu is open. */
+            .mobile-nav-toggle[aria-expanded="true"] .line-middle {
+                opacity: 0; /* Fades out the middle line. */
+            }
+
+            /* Rotates the top line into the first part of the 'X'. */
+            .mobile-nav-toggle[aria-expanded="true"] .line-top {
+                transform: rotate(45deg) translate(5px, 5px); /* Rotates and repositions the top line. */
+            }
+
+            /* Rotates the bottom line into the second part of the 'X'. */
+            .mobile-nav-toggle[aria-expanded="true"] .line-bottom {
+                transform: rotate(-45deg) translate(5px, -5px); /* Rotates and repositions the bottom line. */
+            }
+        }
+
+        /* Media query for extra-small devices to fine-tune the layout. */
+        @media (max-width: 480px) {
+            /* Adjusts hero section typography for very narrow screens. */
+            .hero h1 {
+                font-size: 2.2rem; /* Further reduces the main headline font size. */
+            }
+            .hero p {
+                font-size: 1rem; /* Reduces the hero paragraph font size for better readability. */
+            }
+            /* Adjusts CTA button padding to prevent it from feeling too large. */
+            .cta-button {
+                padding: 0.8rem 1.8rem; /* Reduces the padding inside the main call-to-action button. */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="interactive-canvas"></canvas>
+
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="index.html" class="logo">MK<span>-Tools</span></a>
+                
+                <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                    <span class="sr-only">Menu</span>
+                    <div class="icon">
+                        <span class="line line-top"></span>
+                        <span class="line line-middle"></span>
+                        <span class="line line-bottom"></span>
+                    </div>
+                </button>
+
+                <ul id="primary-navigation" class="nav-links" data-visible="false">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="download.html">Download</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Military-Grade Optimization for <span class="highlight">Peak Performance</span></h1>
+                    <p>Unlock the true potential of your Windows PC. MK-Tools provides a suite of powerful, safe, and easy-to-use utilities designed to enhance performance, privacy, and responsiveness.</p>
+                    <a href="download.html" class="cta-button">Download Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section container">
+            <h2 class="section-title fade-in-section">Core Features</h2>
+            
+            <img src="assets/images/App-Home-Page.png" alt="MK-Tools Application Screenshot" class="app-screenshot fade-in-section">
+
+            <div class="features-grid">
+                
+                <a href="features.html#performance" class="unstyled-link">
+                    <div class="feature-card fade-in-section">
+                        <div class="icon">🚀</div>
+                        <h3>Performance Tweaks</h3>
+                        <p>Optimize CPU scheduling, manage memory compression, and enable GPU acceleration for a snappier, more responsive system.</p>
+                    </div>
+                </a>
+
+                <a href="features.html#ui_tweaks" class="unstyled-link">
+                    <div class="feature-card fade-in-section">
+                        <div class="icon">🎨</div>
+                        <h3>UI & Responsiveness</h3>
+                        <p>Restore the classic context menu, eliminate menu delays, and ensure maximum wallpaper quality for a fluid user experience.</p>
+                    </div>
+                </a>
+
+                <a href="features.html#fix_windows" class="unstyled-link">
+                    <div class="feature-card fade-in-section">
+                        <div class="icon">🛠️</div>
+                        <h3>Fix Windows</h3>
+                        <p>Run deep system scans with SFC and DISM to find and repair corrupted system files, ensuring maximum stability.</p>
+                    </div>
+                </a>
+
+                <a href="features.html#clean_cache" class="unstyled-link">
+                    <div class="feature-card fade-in-section">
+                        <div class="icon">🧹</div>
+                        <h3>Clean Cache</h3>
+                        <p>Free up gigabytes of disk space by safely cleaning temporary files, update caches, and other system junk.</p>
+                    </div>
+                </a>
+                
+                <a href="features.html#policy" class="unstyled-link">
+                    <div class="feature-card fade-in-section">
+                        <div class="icon">🛡️</div>
+                        <h3>Group Policy</h3>
+                        <p>Apply a curated set of security and privacy policies to harden your system against telemetry and unwanted features.</p>
+                    </div>
+                </a>
+
+                <div class="feature-card feature-card-disabled fade-in-section">
+                    <div class="icon">✨</div>
+                    <h3>More Coming Soon....!</h3>
+                    <p>New modules are under development to give you even more Performance.</p>
+                </div>
+                
+            </div>
+        </section>
+
+        <section class="faq-cta-section container fade-in-section">
+            <div class="faq-cta-content">
+                <h2>Have Any Questions?</h2>
+                <p>Find answers to common questions about features, installation, troubleshooting, and the security of MK-Tools in our comprehensive FAQ.</p>
+                <a href="faq.html" class="faq-cta-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    <span>Visit the FAQ Page</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 MK-Tools by Muhammad Kashan Tariq. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ==========================================================================
+           Global Scripts (main.js)
+           This section contains all the client-side logic for animations and
+           interactive effects on the page.
+           ========================================================================== */
+
+        // --- SCRIPT 1: Header Scroll Effect ---
+        // Selects the main header element from the DOM.
+        const header = document.querySelector('.main-header');
+        // Adds a scroll event listener to the window.
+        window.addEventListener('scroll', () => {
+            // Checks if the user has scrolled more than 50 pixels down the page.
+            if (window.scrollY > 50) {
+                // If scrolled past 50px, adds the 'scrolled' class to the header.
+                header.classList.add('scrolled');
+            } else {
+                // Otherwise, removes the 'scrolled' class.
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // --- SCRIPT 2: Fade-in on Scroll Animation ---
+        // Selects all elements with the 'fade-in-section' class.
+        const sections = document.querySelectorAll('.fade-in-section');
+        // Creates a new Intersection Observer to watch when these sections enter the viewport.
+        const observer = new IntersectionObserver((entries) => {
+            // Loops through each entry (each observed section).
+            entries.forEach(entry => {
+                // Checks if the section is currently intersecting with the viewport.
+                if (entry.isIntersecting) {
+                    // If it is, adds the 'is-visible' class to trigger the fade-in animation.
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 }); // The animation triggers when 10% of the section is visible.
+        // Attaches the observer to each of the selected sections.
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- SCRIPT 3: Interactive Canvas Background ---
+        // Selects the canvas element by its ID.
+        const canvas = document.getElementById('interactive-canvas');
+        // Gets the 2D rendering context for the canvas.
+        const ctx = canvas.getContext('2d');
+        // Sets the canvas width to the full window width.
+        canvas.width = window.innerWidth;
+        // Sets the canvas height to the full window height.
+        canvas.height = window.innerHeight;
+        // Declares a variable to hold the array of particles.
+        let particlesArray;
+        // Defines the Particle class blueprint.
+        class Particle {
+            // The constructor initializes a new particle with its properties.
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY; this.size = size; this.color = color;
+            }
+            // The draw method draws the particle on the canvas.
+            draw() {
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fillStyle = this.color; ctx.fill();
+            }
+            // The update method handles the particle's movement and re-draws it.
+            update() {
+                if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; } // Reverses horizontal direction at edges.
+                if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; } // Reverses vertical direction at edges.
+                this.x += this.directionX; this.y += this.directionY; // Updates position based on direction.
+                this.draw(); // Calls the draw method to show the particle in its new position.
+            }
+        }
+        // The init function creates the particle array.
+        function init() {
+            particlesArray = []; // Resets the array.
+            let baseNumberOfParticles = (canvas.height * canvas.width) / 9000; // Calculates particle density.
+            let numberOfParticles = Math.min(baseNumberOfParticles, 150); // [ADDED v1.8] Caps the max number of particles at 150 for performance on large screens.
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1; // Random size.
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2); // Random X position.
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2); // Random Y position.
+                let directionX = (Math.random() * .4) - .2; // Random X direction.
+                let directionY = (Math.random() * .4) - .2; // Random Y direction.
+                let color = 'rgba(154, 75, 255, 0.15)'; // Particle color.
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color)); // Adds the new particle to the array.
+            }
+        }
+        // The connect function draws lines between nearby particles.
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y)); // Calculates distance squared.
+                    if (distance < (canvas.width/7) * (canvas.height/7)) { // Checks if particles are close enough.
+                        opacityValue = 1 - (distance/20000); // Calculates opacity based on distance.
+                        ctx.strokeStyle = 'rgba(154, 75, 255, ' + opacityValue * 0.05 + ')'; // Sets the line style with dynamic opacity.
+                        ctx.lineWidth = 1; // Sets line width.
+                        ctx.beginPath(); // Begins drawing the line.
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y); // Starts the line at particle A.
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y); // Ends the line at particle B.
+                        ctx.stroke(); // Renders the line.
+                    }
+                }
+            }
+        }
+        // The animate function is the main animation loop.
+        function animate() {
+            requestAnimationFrame(animate); // Schedules the next frame.
+            ctx.clearRect(0, 0, innerWidth, innerHeight); // Clears the canvas.
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update(); // Updates each particle.
+            }
+            connect(); // Connects the particles.
+        }
+        
+        // [ADDED v1.8] Debounce utility to prevent a function from firing too rapidly.
+        function debounce(func, delay = 250) {
+            let timeoutId; // Variable to hold the timer ID.
+            return (...args) => { // Returns a new function that will be the event handler.
+                clearTimeout(timeoutId); // Clears any existing timer.
+                timeoutId = setTimeout(() => { // Sets a new timer.
+                    func.apply(this, args); // Calls the original function after the delay has passed.
+                }, delay);
+            };
+        }
+
+        // The function to be called on resize.
+        const handleResize = () => {
+            canvas.width = innerWidth; // Resets width.
+            canvas.height = innerHeight; // Resets height.
+            init(); // Re-initializes particles.
+        };
+
+        // Adds a resize event listener to the window, with the debounced handler.
+        window.addEventListener('resize', debounce(handleResize));
+
+        // Initial function calls to start the animation.
+        init();
+        animate();
+
+        // --- SCRIPT 4: Mobile Navigation Toggle Logic ---
+        // Selects the primary navigation list element by its ID.
+        const primaryNav = document.querySelector('#primary-navigation');
+        // Selects the mobile navigation toggle button by its class.
+        const navToggle = document.querySelector('.mobile-nav-toggle');
+        // Selects the body element.
+        const bodyElement = document.querySelector('body');
+
+        // Adds a 'click' event listener to the navigation toggle button.
+        navToggle.addEventListener('click', () => {
+            // Gets the current visibility state from the `data-visible` attribute of the nav list.
+            const isVisible = primaryNav.getAttribute('data-visible') === 'true';
+            
+            // If the navigation is visible (`isVisible` is true), the new state should be 'false'.
+            // If it is not visible, the new state should be 'true'.
+            const newVisibilityState = !isVisible;
+
+            // Updates the `data-visible` attribute on the navigation list to the new state.
+            primaryNav.setAttribute('data-visible', newVisibilityState);
+            // Updates the `aria-expanded` attribute on the button for accessibility, reflecting the new state.
+            navToggle.setAttribute('aria-expanded', newVisibilityState);
+
+            // Toggles the 'nav-open' class on the body to control background scrolling.
+            bodyElement.classList.toggle('nav-open');
+        });
+
+    </script>
+</body>
+</html>

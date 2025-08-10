@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download | MK-Tools</title>
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        /* ==========================================================================
+           CORE: Variables & Global Styles (main.css)
+           This section is identical to other pages to ensure absolute visual consistency.
+           ========================================================================== */
+        :root {
+            /* COLOR PALETTE: Defines the entire color scheme using CSS variables for easy maintenance and theming. */
+            --background-dark: #1A1920; /* The primary, deep purple background of the entire website. */
+            --nav-rail-dark: #23212E; /* A slightly lighter purple for static elements like the footer and header background on scroll. */
+            --card-dark: rgba(44, 42, 59, 0.6); /* A semi-transparent, glassy purple for the main body of cards. */
+            --card-dark-solid: #2C2A3B; /* An opaque version of the card color, used for solid backgrounds. */
+            --card-hover-dark: rgba(53, 51, 69, 0.8); /* A slightly darker and more opaque glassy color for hover states. */
+            --text-dark: #F5F5FF; /* The primary text color, a soft off-white for high readability. */
+            --text-secondary-dark: #A8A5C5; /* A lighter, less prominent purple-gray for descriptions and subtitles. */
+            --accent-dark: #9A4BFF; /* The main vibrant purple accent color for highlights, buttons, and icons. */
+            --accent-hover-dark: #8A3EE8; /* A slightly darker shade of the accent for hover effects. */
+            --border-dark: rgba(76, 74, 91, 0.5); /* A semi-transparent border color for cards and dividers. */
+            --glass-border-hover: #9A4BFF; /* The bright accent color used for borders on hover to create a glowing effect. */
+            --success-dark: #4CAF50; /* A standard green for success states or positive feedback. */
+            --warning-dark: #FFCA28; /* A standard yellow/amber for warnings or cautionary text. */
+            --white-glass: rgba(255, 255, 255, 0.1); /* A semi-transparent white for secondary buttons. */
+            --white-glass-hover: rgba(255, 255, 255, 0.2); /* A more opaque white for secondary button hover states. */
+            /* [NEW v2.1] Custom blue color variables for the System Requirements button. */
+            --reqs-btn-bg: rgba(0, 123, 255, 0.15); /* A subtle, glassy blue background. */
+            --reqs-btn-bg-hover: rgba(0, 123, 255, 0.3); /* A more prominent blue for the hover state. */
+            --reqs-btn-border: rgba(0, 123, 255, 0.4); /* A soft blue border color. */
+
+            /* TYPOGRAPHY & TRANSITIONS: Defines fonts and animation timings for a consistent feel. */
+            --font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif; /* The font stack, prioritizing modern system fonts. */
+            --transition-speed: 0.3s; /* The standard duration for most animations. */
+            --transition-speed-fast: 0.2s; /* A faster duration for quick feedback. */
+            --transition-speed-slow: 0.5s; /* A slower duration for major transitions. */
+        }
+
+        /* Global Reset & Font Setup */
+        * {
+            margin: 0; /* Removes all default browser margins for precise layout control. */
+            padding: 0; /* Removes all default browser padding. */
+            box-sizing: border-box; /* Ensures padding and borders are included in the element's total width and height. */
+        }
+
+        /* Smooth Scrolling Behavior */
+        html {
+            scroll-behavior: smooth; /* Enables smooth scrolling for any on-page anchor links. */
+        }
+
+        /* Body Styling */
+        body {
+            background-color: var(--background-dark); /* Applies the primary background color. */
+            color: var(--text-dark); /* Sets the default text color for the entire page. */
+            font-family: var(--font-family); /* Sets the default font family. */
+            overflow-x: hidden; /* Prevents any horizontal scrolling, ensuring a clean responsive experience. */
+            line-height: 1.6; /* Sets a comfortable line spacing for all text. */
+        }
+        
+        /* Modal Open State */
+        body.modal-open {
+            overflow: hidden; /* Prevents the main page from scrolling when a modal is open. */
+        }
+
+        /* Interactive Canvas Background */
+        #interactive-canvas {
+            position: fixed; /* Positions the canvas relative to the viewport, so it stays in place on scroll. */
+            top: 0; /* Aligns the canvas to the top edge of the viewport. */
+            left: 0; /* Aligns the canvas to the left edge of the viewport. */
+            width: 100%; /* Stretches the canvas to the full width of the viewport. */
+            height: 100%; /* Stretches the canvas to the full height of the viewport. */
+            z-index: -1; /* Places the canvas behind all other page content. */
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%; /* Sets the container to be 90% of its parent's width. */
+            max-width: 1200px; /* Sets a maximum width to prevent content from becoming too wide on large screens. */
+            margin: 0 auto; /* Centers the container horizontally within its parent. */
+            padding: 0 15px; /* Adds horizontal padding to prevent content from touching the edges. */
+        }
+
+        /* ==========================================================================
+           COMPONENT: Header & Navigation (Consistent with Homepage)
+           ========================================================================== */
+        .main-header {
+            position: fixed; /* Fixes the header to the top of the viewport. */
+            top: 0; /* Aligns the header to the top. */
+            left: 0; /* Aligns the header to the left. */
+            width: 100%; /* Stretches the header across the full width of the viewport. */
+            z-index: 1000; /* Ensures the header stays above all other content on the page. */
+            padding: 1rem 0; /* Adds vertical padding inside the header. */
+            transition: background-color var(--transition-speed) ease; /* Smoothly transitions the background color on scroll. */
+        }
+
+        .main-header.scrolled {
+            background-color: rgba(35, 33, 46, 0.8); /* Adds a semi-transparent background when the user scrolls. */
+            backdrop-filter: blur(10px); /* Applies a blur effect to the background for a modern "frosted glass" look. */
+            -webkit-backdrop-filter: blur(10px); /* Vendor prefix for Safari compatibility. */
+            border-bottom: 1px solid var(--border-dark); /* Adds a subtle bottom border to the header on scroll. */
+        }
+
+        .main-nav {
+            display: flex; /* Enables flexbox layout for the navigation container. */
+            justify-content: space-between; /* Pushes the logo and nav links to opposite ends of the container. */
+            align-items: center; /* Vertically aligns the logo and nav links in the center. */
+        }
+
+        .logo {
+            font-size: 1.8rem; /* Sets the font size for the logo text. */
+            font-weight: bold; /* Makes the logo text bold for emphasis. */
+            color: var(--text-dark); /* Sets the logo text color. */
+            text-decoration: none; /* Removes the default underline from the anchor tag. */
+        }
+
+        .logo span {
+            color: var(--accent-dark); /* Applies the accent color to the "-Tools" part of the logo. */
+        }
+
+        .nav-links {
+            list-style: none; /* Removes the default bullet points from the unordered list. */
+            display: flex; /* Arranges the list items horizontally. */
+        }
+
+        .nav-links li {
+            margin-left: 2rem; /* Adds space between each of the navigation links. */
+        }
+
+        .nav-links a {
+            color: var(--text-secondary-dark); /* Sets the default color for navigation links. */
+            text-decoration: none; /* Removes the underline. */
+            font-weight: 500; /* Sets a medium font weight for readability. */
+            transition: color var(--transition-speed) ease; /* Smoothly transitions the text color on hover. */
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-dark); /* Changes the link color on hover or if it's the currently active page. */
+        }
+        
+        /* ==========================================================================
+           PAGE: Download (download.css) - LUXURY REVISION
+           ========================================================================== */
+        .page-header {
+            padding-top: 120px; /* Adds padding to the top to push content below the fixed header. */
+            padding-bottom: 60px; /* Adds space between the header and the main content. */
+            text-align: center; /* Center-aligns the header text. */
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem; /* Large font size for the main page title. */
+            margin-bottom: 1rem; /* Space below the title. */
+        }
+        
+        .page-header h1 .highlight {
+            color: var(--accent-dark); /* Applies accent color to highlighted text. */
+            text-shadow: 0 0 15px var(--accent-dark); /* Adds a glow effect. */
+        }
+
+        .page-header p {
+            font-size: 1.2rem; /* Font size for the introductory paragraph. */
+            color: var(--text-secondary-dark); /* Secondary text color for lower emphasis. */
+            max-width: 800px; /* Constrains line length for readability. */
+            margin: 0 auto; /* Centers the paragraph. */
+        }
+
+        .download-section {
+            padding-bottom: 6rem; /* Adds space at the bottom of the section. */
+        }
+        
+        .version-card {
+            background: var(--card-dark); /* Sets the semi-transparent glassy background. */
+            border: 1px solid var(--border-dark); /* Adds a subtle border. */
+            border-radius: 20px; /* Applies rounded corners. */
+            padding: 2.5rem; /* Adds padding inside the card. */
+            backdrop-filter: blur(15px); /* Applies the blur effect for the glassmorphism look. */
+            -webkit-backdrop-filter: blur(15px); /* Safari compatibility. */
+            max-width: 800px; /* Constrains the width of the main download card. */
+            margin: 0 auto; /* Centers the card horizontally. */
+            transition: all var(--transition-speed) ease; /* Smoothly transitions all properties on hover. */
+            position: relative; /* [NEW v2.1] Required for positioning the new hover pseudo-elements. */
+            overflow: hidden; /* [NEW v2.1] Hides the pseudo-elements when they are off-screen. */
+        }
+        
+        /* [NEW v2.1] Steam-inspired Glassy Sheen Effect (Pseudo-element) for the download card. */
+        .version-card::before {
+            content: ''; /* Required for pseudo-elements to render. */
+            position: absolute; /* Positioned relative to the .version-card. */
+            top: 0; /* Aligns to the top. */
+            left: -150%; /* Starts off-screen to the left. */
+            width: 75%; /* The width of the sheen. */
+            height: 100%; /* Full height of the card. */
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent); /* The glassy gradient. */
+            transform: skewX(-25deg); /* Skews the sheen for a dynamic angle. */
+            transition: left 0.7s ease; /* Controls the speed of the sweep animation. */
+            z-index: 1; /* Places it above the background but below the content. */
+        }
+
+        /* [NEW v2.1] Trigger the sheen and pop-up animation on hover. */
+        .version-card:hover::before {
+            left: 150%; /* Sweeps the sheen across the element to the right. */
+        }
+
+        .version-card:hover {
+            transform: translateY(-10px); /* Lifts the card up slightly on hover. */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* Enhances the shadow for a floating effect. */
+            border-color: var(--glass-border-hover); /* Changes the border to the accent color on hover. */
+        }
+        
+        /* [NEW v2.1] Ensures all content within the card is rendered above the sheen effect. */
+        .version-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .version-header {
+            display: flex; /* Enables flexbox layout. */
+            justify-content: space-between; /* Pushes content to opposite ends. */
+            align-items: center; /* Vertically aligns content. */
+            margin-bottom: 1.5rem; /* Adds space below the header. */
+            padding-bottom: 1.5rem; /* Adds padding below the header. */
+            border-bottom: 1px solid var(--border-dark); /* A subtle separator line. */
+            flex-wrap: wrap; /* Allows items to wrap on smaller screens. */
+            gap: 1rem; /* Adds space between items if they wrap. */
+        }
+
+        .version-info h3 { font-size: 2rem; color: var(--text-dark); }
+        .version-info .release-details { color: var(--text-secondary-dark); font-size: 0.9rem; }
+        .version-tag { background: var(--success-dark); color: var(--text-dark); padding: 0.4rem 1rem; border-radius: 20px; font-weight: bold; }
+        .version-notes h4 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .version-notes ul { list-style: none; padding-left: 1.2rem; margin-bottom: 2rem; }
+        .version-notes li { position: relative; margin-bottom: 0.5rem; color: var(--text-secondary-dark); }
+        .version-notes li::before { content: '✓'; position: absolute; left: -1.2rem; color: var(--success-dark); }
+
+        .download-actions { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+        .download-actions-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .download-btn, .notes-btn, .reqs-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.8rem 1.5rem; border-radius: 12px; text-decoration: none;
+            font-weight: bold; font-size: 1rem;
+            transition: all var(--transition-speed-fast) ease;
+            border: 1px solid transparent; cursor: pointer;
+        }
+        
+        .download-btn { background: var(--accent-dark); color: var(--text-dark); box-shadow: 0 5px 20px rgba(154, 75, 255, 0.4); }
+        .download-btn:hover { background: var(--accent-hover-dark); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(154, 75, 255, 0.6); }
+        
+        .notes-btn { background: var(--white-glass); color: var(--text-dark); border-color: rgba(255, 255, 255, 0.3); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+        .notes-btn:hover { background: var(--white-glass-hover); border-color: var(--glass-border-hover); transform: translateY(-3px); }
+        
+        /* [NEW v2.1] Specific styling for the blue System Requirements button. */
+        .reqs-btn {
+            background: var(--reqs-btn-bg); /* Use the new blue glassy background variable. */
+            color: var(--text-dark); /* Standard white text. */
+            border-color: var(--reqs-btn-border); /* Use the new blue border variable. */
+            backdrop-filter: blur(5px); /* Maintain the glass effect. */
+            -webkit-backdrop-filter: blur(5px); /* Safari compatibility. */
+        }
+        .reqs-btn:hover {
+            background: var(--reqs-btn-bg-hover); /* Use the new blue hover background. */
+            border-color: #64B5F6; /* A brighter blue border on hover for a nice pop. */
+            transform: translateY(-3px); /* Lifts the button. */
+        }
+
+
+        /* ==========================================================================
+           COMPONENT: Modal (Shared Styles)
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 25, 32, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity var(--transition-speed-slow) ease, visibility 0s var(--transition-speed-slow);
+        }
+
+        .modal-overlay.visible { opacity: 1; visibility: visible; transition: opacity var(--transition-speed-slow) ease, visibility 0s; }
+
+        .modal {
+            background: var(--card-dark-solid); border: 1px solid var(--border-dark); border-radius: 25px;
+            width: 90%; max-width: 650px; /* Wider modal for detailed requirements. */
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            transform: scale(0.95); transition: transform var(--transition-speed-slow) ease;
+        }
+        
+        .modal-overlay.visible .modal { transform: scale(1); }
+
+        .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-dark); display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 1.8rem; }
+        .modal-close-btn { background: transparent; border: none; color: var(--text-secondary-dark); font-size: 2.5rem; cursor: pointer; line-height: 1; transition: color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+        .modal-close-btn:hover { color: var(--text-dark); transform: rotate(90deg); }
+        .modal-content { padding: 2rem; max-height: 70vh; overflow-y: auto; }
+        
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-track { background: var(--nav-rail-dark); border-radius: 10px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--accent-dark); border-radius: 10px; }
+        .modal-content::-webkit-scrollbar-thumb:hover { background: var(--accent-hover-dark); }
+        
+        .requirements-list { list-style: none; }
+        .requirements-list li { display: flex; align-items: flex-start; margin-bottom: 1.5rem; }
+        .requirements-list .icon { font-size: 1.8rem; margin-right: 1.2rem; color: var(--accent-dark); margin-top: -4px; min-width: 30px; text-align: center; }
+        .requirements-list .label { font-weight: bold; color: var(--text-dark); display: block; margin-bottom: 0.25rem; }
+        .requirements-list .value { color: var(--text-secondary-dark); }
+
+        .req-icon {
+            width: 32px; /* Defines a fixed width for the icon. */
+            height: 32px; /* Defines a fixed height for the icon. */
+            margin-right: 1.2rem; /* Maintains consistent spacing with the text. */
+            margin-top: -2px; /* Fine-tunes the vertical alignment with the label text. */
+            object-fit: contain; /* Ensures the image scales properly without distortion. */
+        }
+        
+        .scaling-warning { margin-top: 2rem; padding: 1rem; background-color: rgba(255, 202, 40, 0.1); border: 1px solid var(--warning-dark); border-radius: 10px; color: var(--warning-dark); }
+        .scaling-warning strong { color: #FFECB3; }
+
+        .release-notes-list h4 { font-size: 1.1rem; color: var(--accent-dark); margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .release-notes-list h4:first-child { margin-top: 0; }
+        .release-notes-list li { padding-left: 1.2rem; position: relative; color: var(--text-secondary-dark); margin-bottom: 0.5rem; }
+        .release-notes-list li::before { content: '•'; position: absolute; left: 0; color: var(--accent-dark); }
+
+        /* ==========================================================================
+           COMPONENT: Footer (Synchronized with Homepage)
+           ========================================================================== */
+        .main-footer {
+            background-color: var(--nav-rail-dark);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .main-footer p {
+            color: var(--text-secondary-dark);
+        }
+
+        /* ==========================================================================
+           UTILITIES & ANIMATIONS
+           ========================================================================== */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-section { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN: Media Queries
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1 { font-size: 2.5rem; }
+        }
+        
+        @media (max-width: 500px) {
+            .download-actions-row { flex-direction: column; width: 100%; }
+            .download-btn, .notes-btn, .reqs-btn { width: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="interactive-canvas"></canvas>
+
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="index.html" class="logo">MK<span>-Tools</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="download.html" class="active">Download</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header container fade-in-section">
+            <h1>Get The Latest Version of <span class="highlight">MK-Tools</span></h1>
+            <p>Download the official, secure, and latest build of MK-Tools. Always ensure you are downloading from this official website to guarantee the integrity and safety of the application.</p>
+        </section>
+
+        <section class="download-section container fade-in-section">
+            <div class="version-card">
+                <div class="version-header">
+                    <div class="version-info">
+                        <h3>Version 1.0</h3>
+                        <div class="release-details">
+                            <span>Released: August 10, 2025</span> | <span>Size: ~64 MB</span>
+                        </div>
+                    </div>
+                    <span class="version-tag">Latest</span>
+                </div>
+                <div class="version-notes">
+                    <h4>What's New in This Version:</h4>
+                    <ul>
+                        <li>Initial public release of the full MK-Tools suite.</li>
+                        <li>Includes Performance, UI, Fix Windows, Clean Cache, and Group Policy modules.</li>
+                        <li>Military-grade UI with full auditory feedback system.</li>
+                        <li>Robust, non-blocking operations for all system tweaks.</li>
+                    </ul>
+                </div>
+                <div class="download-actions">
+                    <div class="download-actions-row">
+                        <a href="https://github.com/Mr-Muhammad-Kashan/MK-Tools/releases/download/%23Mk-Tools/setup_MK-Tools.v1.0.exe" class="download-btn">Download for Windows x64</a>
+                        <button class="notes-btn reqs-btn" id="show-reqs-btn">Minimum System Requirements</button>
+                    </div>
+                    <div class="download-actions-row">
+                        <button class="notes-btn" id="show-notes-btn">View Release Notes</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="reqs-modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Minimum System Requirements</h2>
+                <button id="reqs-modal-close-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-content">
+                <ul class="requirements-list">
+                    <li> 
+                        <img src="assets/images/windows.png" alt="OS Icon" class="req-icon">
+                        <div> 
+                            <div class="label">Operating System</div> 
+                            <div class="value">Windows 10 & Windows 11 (64-bit editions only).</div> 
+                        </div> 
+                    </li>
+                    <li> 
+                        <img src="assets/images/CPU.png" alt="Processor Icon" class="req-icon">
+                        <div> 
+                            <div class="label">Processor (CPU)</div> 
+                            <div class="value"><strong>Intel:</strong> Core 2 Duo, Pentium Dual-Core, or newer.<br><strong>AMD:</strong> Athlon 64 X2 or newer.<br>(Any modern dual-core processor from the last decade will suffice.)</div> 
+                        </div> 
+                    </li>
+                    <li> 
+                        <img src="assets/images/ram-memory.png" alt="RAM Icon" class="req-icon">
+                        <div> 
+                            <div class="label">Memory (RAM)</div> 
+                            <div class="value">1 GB (Minimum).<br>2 GB or more is recommended for a smooth experience.</div> 
+                        </div> 
+                    </li>
+                    <li> 
+                        <span class="icon">💾</span> 
+                        <div> 
+                            <div class="label">Disk Space</div> 
+                            <div class="value">150 MB of free hard disk space for installation.</div> 
+                        </div> 
+                    </li>
+                    <li> 
+                        <img src="assets/images/monitor.png" alt="Display Icon" class="req-icon">
+                        <div> 
+                            <div class="label">Display Resolution & Scaling</div> 
+                            <div class="value">Supports 720p, 1080p, 1440p, 4K, and higher resolutions.</div> 
+                        </div> 
+                    </li>
+                </ul>
+                <div class="scaling-warning">
+                    <strong>Important Note on UI Scaling:</strong> For the most visually stable and luxurious experience, <strong>100% and 125%</strong> scaling settings are recommended. The application is fully functional at 150% scaling and above, but some minor visual artifacts or text alignment issues may occur.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notes-modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Release Notes - v1.0</h2>
+                <button id="notes-modal-close-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-content">
+                <ul class="release-notes-list" id="release-notes-content">
+                    </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 MK-Tools by Muhammad Kashan Tariq. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ==========================================================================
+           PAGE LOGIC: download.js
+           This script orchestrates all interactive elements on the Download page.
+           ========================================================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* ==========================================================================
+               SECTION A: GLOBAL SCRIPTS (CONSISTENT ACROSS ALL PAGES)
+               ========================================================================== */
+            
+            // --- LOGIC BLOCK 1: Header Scroll Effect ---
+            const header = document.querySelector('.main-header'); // CACHE: Selects the header element once for performance.
+            window.addEventListener('scroll', () => { // EVENT: Fires on every scroll action.
+                if (window.scrollY > 50) { header.classList.add('scrolled'); } // ACTION: Adds class if scrolled down.
+                else { header.classList.remove('scrolled'); } // ACTION: Removes class if near the top.
+            });
+
+            // --- LOGIC BLOCK 2: Canvas Background Animation ---
+            const canvas = document.getElementById('interactive-canvas'); // CACHE: Selects the canvas element.
+            const ctx = canvas.getContext('2d'); // CONTEXT: Gets the 2D rendering tool.
+            canvas.width = window.innerWidth; // DIMENSION: Sets canvas width to window width.
+            canvas.height = window.innerHeight; // DIMENSION: Sets canvas height to window height.
+            let particlesArray; // DECLARATION: Array to hold particle objects.
+            class Particle { constructor(x, y, dX, dY, s, c) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=s; this.color=c; } draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2,false); ctx.fillStyle=this.color; ctx.fill(); } update() { if(this.x>canvas.width||this.x<0){this.directionX=-this.directionX;} if(this.y>canvas.height||this.y<0){this.directionY=-this.directionY;} this.x+=this.directionX; this.y+=this.directionY; this.draw(); } }
+            function initCanvas() { particlesArray=[]; let nP=(canvas.height*canvas.width)/9000; for(let i=0;i<nP;i++){ let s=(Math.random()*2)+1; let x=(Math.random()*((innerWidth-s*2)-(s*2))+s*2); let y=(Math.random()*((innerHeight-s*2)-(s*2))+s*2); let dX=(Math.random()*.4)-.2; let dY=(Math.random()*.4)-.2; let c='rgba(154,75,255,0.15)'; particlesArray.push(new Particle(x,y,dX,dY,s,c)); } }
+            function connectCanvas() { let oV=1; for(let a=0;a<particlesArray.length;a++){ for(let b=a;b<particlesArray.length;b++){ let d=((particlesArray[a].x-particlesArray[b].x)*(particlesArray[a].x-particlesArray[b].x))+((particlesArray[a].y-particlesArray[b].y)*(particlesArray[a].y-particlesArray[b].y)); if(d<(canvas.width/7)*(canvas.height/7)){ oV=1-(d/20000); ctx.strokeStyle='rgba(154,75,255,'+oV*0.05+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x,particlesArray[a].y); ctx.lineTo(particlesArray[b].x,particlesArray[b].y); ctx.stroke(); } } } }
+            function animateCanvas() { requestAnimationFrame(animateCanvas); ctx.clearRect(0,0,innerWidth,innerHeight); for(let i=0;i<particlesArray.length;i++){particlesArray[i].update();} connectCanvas(); }
+            window.addEventListener('resize', ()=>{canvas.width=innerWidth;canvas.height=innerHeight;initCanvas();});
+            initCanvas(); // INITIALIZATION: Create the particles.
+            animateCanvas(); // START: Begin the animation loop.
+
+            // --- LOGIC BLOCK 3: Fade-in on Scroll Animation ---
+            const sections = document.querySelectorAll('.fade-in-section'); // CACHE: Selects all elements to be animated.
+            const observer = new IntersectionObserver((entries) => { // OBSERVER: Watches for elements entering the viewport.
+                entries.forEach(entry => { // LOOP: For each observed element...
+                    if (entry.isIntersecting) { // CONDITION: If it's on screen...
+                        entry.target.classList.add('is-visible'); // ACTION: Add the class to trigger the CSS animation.
+                        observer.unobserve(entry.target); // OPTIMIZATION: Stop observing the element once it has faded in.
+                    }
+                });
+            }, { threshold: 0.1 }); // TRIGGER: Animation starts when 10% of the element is visible.
+            sections.forEach(section => { observer.observe(section); }); // ATTACH: Apply the observer to all selected sections.
+
+            /* ==========================================================================
+               SECTION B: DOWNLOAD PAGE SPECIFIC LOGIC
+               ========================================================================== */
+            
+            // --- LOGIC BLOCK 4: Generic Modal Handler ---
+            // PURPOSE: A reusable function to handle the logic for any modal on the page.
+            function setupModal(btnId, overlayId, closeBtnId, onOpen) {
+                // DOM SELECTION: Get all the necessary elements for a single modal.
+                const showBtn = document.getElementById(btnId);
+                const modalOverlay = document.getElementById(overlayId);
+                const closeBtn = document.getElementById(closeBtnId);
+
+                // VALIDATION: If any element is not found, abort setup to prevent errors.
+                if (!showBtn || !modalOverlay || !closeBtn) return;
+
+                // FUNCTION: Defines the logic for opening the modal.
+                const openModal = () => {
+                    if (onOpen) onOpen(); // HOOK: If an `onOpen` function was provided, run it.
+                    document.body.classList.add('modal-open'); // ACTION: Prevent background scrolling.
+                    modalOverlay.classList.add('visible'); // ACTION: Trigger the fade-in animation.
+                };
+
+                // FUNCTION: Defines the logic for closing the modal.
+                const closeModal = () => {
+                    document.body.classList.remove('modal-open'); // ACTION: Re-enable background scrolling.
+                    modalOverlay.classList.remove('visible'); // ACTION: Trigger the fade-out animation.
+                };
+
+                // EVENT BINDING: Attach the open/close logic to the corresponding elements and events.
+                showBtn.addEventListener('click', openModal); // EVENT: Open on button click.
+                closeBtn.addEventListener('click', closeModal); // EVENT: Close on '×' button click.
+                modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); }); // EVENT: Close on background click.
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) { closeModal(); } }); // EVENT: Close on 'Escape' key press.
+            }
+            
+            // --- LOGIC BLOCK 5: System Requirements Modal Setup ---
+            // SETUP: Initialize the modal for the System Requirements. No `onOpen` hook is needed as the content is static.
+            setupModal('show-reqs-btn', 'reqs-modal-overlay', 'reqs-modal-close-btn');
+
+            // --- LOGIC BLOCK 6: Release Notes Modal Setup ---
+            // DATA: The content for the release notes modal, structured for easy generation.
+            const releaseNotesData = {
+                "New Features": [
+                    "Initial public release of the full MK-Tools suite.",
+                    "Introduced Performance Tweaks module with 5 core optimizations.",
+                    "Added UI & Responsiveness module for a snappier Windows shell.",
+                ],
+                "Improvements & Fixes": [
+                    "Implemented military-grade, non-blocking operations for all system tweaks.",
+                    "Hardened shutdown protocol to prevent orphaned processes.",
+                    "Integrated a full auditory feedback system for all user interactions.",
+                    "Ensured 100% DPI-awareness for flawless scaling on high-resolution displays."
+                ],
+                "Known Issues": [
+                    "Group Policy module is not compatible with Windows Home editions.",
+                    "Some real-time antivirus software may flag LGPO.exe as a PUP (Potentially Unwanted Program). This is a false positive."
+                ]
+            };
+
+            // HOOK FUNCTION: This function will run every time the Release Notes modal is opened.
+            const populateReleaseNotes = () => {
+                const contentEl = document.getElementById('release-notes-content'); // CACHE: Select the content area.
+                let html = ''; // INITIALIZATION: Start with an empty HTML string.
+                for (const category in releaseNotesData) { // LOOP: Iterate through each category (New Features, etc.).
+                    html += `<h4>${category}</h4>`; // TEMPLATE: Add the category title.
+                    releaseNotesData[category].forEach(note => { // LOOP: Iterate through each note in the category.
+                        html += `<li>${note}</li>`; // TEMPLATE: Add the note as a list item.
+                    });
+                }
+                contentEl.innerHTML = html; // INJECTION: Set the content area's HTML to the generated string.
+            };
+            
+            // SETUP: Initialize the modal for the Release Notes, passing the `populateReleaseNotes` function as the `onOpen` hook.
+            setupModal('show-notes-btn', 'notes-modal-overlay', 'notes-modal-close-btn', populateReleaseNotes);
+
+        }); // END OF 'DOMContentLoaded' EVENT LISTENER
+    </script>
+</body> 
+</html> 
