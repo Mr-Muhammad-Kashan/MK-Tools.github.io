@@ -663,34 +663,33 @@
                         }, // End of Dossier 4
 
                         // ========================================================================================= //
-                        // DOSSIER 5: Optimize SvcHost Splitting                                                     //
+                        // DOSSIER 5: Optimize SvcHost Combining                                                    //
                         // ========================================================================================= //
                         {
-                            name: "Optimize SvcHost Splitting",
-                            what_is_it: `The Windows Service Host (svchost.exe) groups multiple system services into a single process to save RAM. This tweak forces every service to run in its own <strong>separate, isolated process</strong>. This dramatically improves system stability, as a crash in one minor service (a common cause of random issues) will no longer affect other critical system functions. It also makes it far easier to diagnose which specific service is using high CPU or memory in Task Manager.`,
+                            name: "Optimize SvcHost Combining",
+                            what_is_it: `The Windows Service Host (svchost.exe) runs many background services. By default, Windows may split these services into separate processes, which increases the number of tasks your CPU must handle. This tweak adjusts a hidden setting so more services are grouped together in the same process. For systems with plenty of RAM but a weaker or older CPU, this reduces the total number of running processes, easing CPU workload and improving overall responsiveness.`,
                             compatibility: {
                                 os: "Windows 10 & Windows 11",
                                 versions: "All editions",
-                                note: "This tweak is most beneficial for systems with 8GB of RAM or more, providing a tangible increase in stability."
+                                note: "Best suited for systems with 8GB of RAM or more, especially if the processor has fewer cores or is not high-performance."
                             },
                             pros: [
-                                "Massively improves system stability and fault tolerance.",
-                                "Makes troubleshooting high resource usage much easier for advanced users.",
-                                "Can enhance security by isolating services from one another."
+                                "Reduces CPU stress by lowering the number of active background processes.",
+                                "Can make everyday tasks feel smoother on systems with weaker processors.",
+                                "Takes advantage of extra RAM to improve performance.",
+                                "Simple change that can benefit both casual and advanced users."
                             ],
                             cons: [
-                                "Slightly increases the total amount of RAM used by the operating system.",
-                                "Not recommended for systems with very low memory (less than 8GB).",
-                                "A system restart is mandatory for the change to take effect."
+                                "Makes it slightly harder to identify which specific service is using resources in Task Manager."
                             ],
                             should_i_enable: {
-                                recommendation: "<strong>Enable this tweak if:</strong> You are a power user or developer who values maximum system stability and easy troubleshooting. It is highly recommended for any modern PC with 8GB of RAM or more to create a more robust system architecture.",
-                                color: "warning"
+                                recommendation: "<strong>Enable this tweak if:</strong> You have a system with 8GB or more of RAM but a lower-end CPU, and you want to reduce CPU workload for smoother performance.",
+                                color: "success"
                             },
                             safety_assessment: {
-                                is_safe: "Yes. This tweak modifies a standard, though hidden, Windows registry value that controls a built-in system behavior.",
+                                is_safe: "Yes. This tweak changes a standard Windows registry value that controls how services are grouped.",
                                 is_reversible: "Yes. MK-Tools can instantly reset the value to the Windows default. A restart is required.",
-                                potential_harm: "None. There is no risk of data loss. The only potential negative impact is a minor increase in RAM usage."
+                                potential_harm: "None. No risk of data loss; the only change is how services are organized in the background."
                             },
                             screenshot: "assets/images/OSS.png" // Placeholder
                         } // End of Dossier 5
