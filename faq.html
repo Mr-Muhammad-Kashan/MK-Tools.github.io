@@ -1,97 +1,87 @@
 <!DOCTYPE html>
-<!-- =================================================================================== -->
-<!-- MK-TOOLS WEBSITE (v2.0) - FINALIZED FAQ PAGE                                      -->
-<!-- File: faq.html                                                                    -->
-<!-- Version: 2.0                                                                      -->
-<!-- Description: The definitive, finalized version of the website's FAQ page,         -->
-<!--              re-engineered to meet a "luxurious" visual and functional standard.  -->
-<!-- Change Log (v2.0):                                                                -->
-<!--   - RE-ARCHITECTED: Entire page rebuilt for superior aesthetics and UX.           -->
-<!--   - ADDED: A comprehensive list of 20+ high-quality FAQ items.                    -->
-<!--   - ENHANCED: Accordion items now have a distinct accent-colored border on hover. -->
-<!--   - ENHANCED: Accordion answers use a refined color for better readability.       -->
-<!--   - ADDED: A visually integrated, static-ready contact form section.              -->
-<!--   - SYNCHRONIZED: Footer is now a perfect 1:1 match with the homepage design.     -->
-<!-- =================================================================================== -->
 <html lang="en">
 <head>
-    <!-- META: Defines the character set for the document. UTF-8 is the universal standard. -->
     <meta charset="UTF-8">
-    <!-- META: Configures the viewport for responsive design, ensuring proper scaling on all devices. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- TITLE: The title displayed in the browser tab. Crucial for SEO and user identification. -->
     <title>FAQ | MK-Tools</title>
-    <!-- FAVICON: The icon displayed in the browser tab. -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <!-- STYLE: Embedded CSS block. Contains all styling rules for this page. -->
     <style>
         /* ==========================================================================
-           CORE: Variables & Global Styles (main.css)
-           This section is identical to index.html to ensure absolute visual consistency.
+           CORE V6.0: Variables & Global Styles (Synchronized with index.html)
            ========================================================================== */
         :root {
             /* COLOR PALETTE: Defines the entire color scheme using CSS variables. */
-            --background-dark: #1A1920;
-            --nav-rail-dark: #23212E;
-            --card-dark: rgba(44, 42, 59, 0.6);
-            --card-dark-solid: #2C2A3B;
-            --card-hover-dark: rgba(53, 51, 69, 0.8);
-            --text-dark: #F5F5FF;
-            --text-secondary-dark: #A8A5C5;
-            --accent-dark: #9A4BFF;
-            --accent-hover-dark: #8A3EE8;
-            --border-dark: rgba(76, 74, 91, 0.5);
-            --glass-border-hover: #9A4BFF;
-            --success-dark: #4CAF50;
-            /* [NEW v2.0] A darker, more luxurious color for the answer panel background. */
-            --answer-panel-dark: #201E2A;
+            --background-dark: #1A1920; /* The primary, deep purple background of the entire website. */
+            --nav-rail-dark: #23212E; /* A slightly lighter purple for static elements like the footer. */
+            --card-dark: rgba(44, 42, 59, 0.6); /* A semi-transparent, glassy purple for card backgrounds. */
+            --card-dark-solid: #2C2A3B; /* An opaque version of the card color, used for solid backgrounds like the FAQ items. */
+            --card-hover-dark: rgba(53, 51, 69, 0.8); /* A slightly darker glassy color for hover states. */
+            --text-dark: #F5F5FF; /* The primary text color, a soft off-white for high readability. */
+            --text-secondary-dark: #A8A5C5; /* A lighter, less prominent purple-gray for descriptions. */
+            --accent-dark: #9A4BFF; /* The main vibrant purple accent color for highlights and buttons. */
+            --accent-hover-dark: #8A3EE8; /* A slightly darker shade of the accent for hover effects. */
+            --border-dark: rgba(76, 74, 91, 0.5); /* A semi-transparent border color for cards and dividers. */
+            --glass-border-hover: #9A4BFF; /* The bright accent color used for borders on hover. */
+            --success-dark: #4CAF50; /* A standard green for success states. */
+            --answer-panel-dark: #201E2A; /* A darker, more luxurious color for the answer panel background. */
 
-            /* TYPOGRAPHY & TRANSITIONS: Defines fonts and animation timings. */
-            --font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
-            --transition-speed: 0.3s;
-            --transition-speed-fast: 0.2s;
+            /* TYPOGRAPHY & TRANSITIONS: Defines fonts and animation timings for a consistent, luxurious feel. */
+            --font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif; /* The font stack, prioritizing modern system fonts. */
+            --transition-speed: 0.4s; /* A slightly more deliberate transition speed for a premium feel. */
+            --transition-speed-fast: 0.2s; /* A faster duration for quick feedback. */
         }
 
         /* Global Reset & Font Setup */
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; /* Removes all default browser margins for precise layout control. */
+            padding: 0; /* Removes all default browser padding. */
+            box-sizing: border-box; /* Ensures padding and borders are included in the element's total width and height. */
         }
 
         /* Smooth Scrolling Behavior */
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Enables smooth scrolling for any on-page anchor links. */
         }
 
         /* Body Styling */
         body {
-            background-color: var(--background-dark);
-            color: var(--text-dark);
-            font-family: var(--font-family);
-            overflow-x: hidden;
-            line-height: 1.6;
+            background-color: var(--background-dark); /* Applies the primary background color. */
+            color: var(--text-dark); /* Sets the default text color for the entire page. */
+            font-family: var(--font-family); /* Sets the default font family. */
+            overflow-x: hidden; /* Prevents any horizontal scrolling. */
+            line-height: 1.6; /* Sets a comfortable line spacing for all text. */
+        }
+        
+        /* State for when the mobile navigation is open, to prevent background scrolling. */
+        body.nav-open {
+            overflow: hidden; /* Disables scrolling on the body. */
+        }
+
+        /* Accessibility Class: Hides content visually but keeps it accessible to screen readers. */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
         }
 
         /* Interactive Canvas Background */
         #interactive-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            position: fixed; /* Positions the canvas relative to the viewport. */
+            top: 0; /* Aligns the canvas to the top edge of the viewport. */
+            left: 0; /* Aligns the canvas to the left edge of the viewport. */
+            width: 100%; /* Stretches the canvas to the full width of the viewport. */
+            height: 100%; /* Stretches the canvas to the full height of the viewport. */
+            z-index: -1; /* Places the canvas behind all other page content. */
         }
 
-        /* Main Container */
+        /* Main Content Container: Constrained width for better readability on FAQ page. */
         .container {
-            width: 90%;
-            max-width: 1000px; /* Constrained width for better readability on FAQ page. */
-            margin: 0 auto;
-            padding: 0 15px;
+            width: 90%; /* Sets the container to be 90% of its parent's width. */
+            max-width: 1000px; /* A narrower max-width is used on this page for optimal text readability. */
+            margin: 0 auto; /* Centers the container horizontally. */
+            padding: 0 15px; /* Adds horizontal padding to prevent content from touching the edges. */
         }
 
-        /* [NEW v2.1 FIX] Decoupled Header Container: Guarantees consistent navigation bar width across all pages. */
+        /* [RETAINED] Decoupled Header Container: Guarantees consistent navigation bar width across all pages. */
         .header-container {
             width: 90%; /* Sets the container to be 90% of the header's width. */
             max-width: 1200px; /* Enforces a 1200px max-width, matching the widest pages like Home. */
@@ -100,60 +90,82 @@
         }
 
         /* ==========================================================================
-           COMPONENT: Header & Navigation (Consistent with Homepage)
+           COMPONENT V6.0: Header & Navigation (Synchronized with index.html)
            ========================================================================== */
         .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: background-color var(--transition-speed) ease;
+            position: fixed; /* Fixes the header to the top of the viewport. */
+            top: 0; /* Aligns the header to the top. */
+            left: 0; /* Aligns the header to the left. */
+            width: 100%; /* Stretches the header across the full width of the viewport. */
+            z-index: 1000; /* Ensures the header stays above all other page content. */
+            padding: 1.5rem 0; /* [SYNCHRONIZED] Sets the definitive vertical padding. */
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease; /* Smoothly transitions background and border. */
         }
 
         .main-header.scrolled {
-            background-color: rgba(35, 33, 46, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-dark);
+            background-color: rgba(26, 25, 32, 0.8); /* [SYNCHRONIZED] Adds a semi-transparent background on scroll. */
+            backdrop-filter: blur(12px); /* [SYNCHRONIZED] Applies a deeper blur effect for a modern look. */
+            -webkit-backdrop-filter: blur(12px); /* Vendor prefix for Safari compatibility. */
+            border-bottom: 1px solid var(--border-dark); /* Adds a subtle bottom border to the header on scroll. */
         }
 
         .main-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; /* Enables flexbox layout for the navigation container. */
+            justify-content: space-between; /* Pushes the logo and nav links to opposite ends. */
+            align-items: center; /* Vertically aligns the logo and nav links. */
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--text-dark);
-            text-decoration: none;
+            font-size: 2rem; /* [SYNCHRONIZED] Sets the definitive, larger font size for the logo. */
+            font-weight: 700; /* Makes the logo text bold for emphasis. */
+            color: var(--text-dark); /* Sets the logo text color. */
+            text-decoration: none; /* Removes the default underline from the anchor tag. */
+            z-index: 1001; /* Ensures the logo is clickable, even when the mobile menu is open. */
         }
 
         .logo span {
-            color: var(--accent-dark);
+            color: var(--accent-dark); /* Applies the accent color to the "-Tools" part of the logo. */
         }
 
         .nav-links {
-            list-style: none;
-            display: flex;
+            list-style: none; /* Removes the default bullet points from the unordered list. */
+            display: flex; /* Arranges the list items horizontally on desktop. */
         }
 
         .nav-links li {
-            margin-left: 2rem;
+            margin-left: 2.5rem; /* [SYNCHRONIZED] Sets the definitive, wider margin between navigation items. */
         }
 
         .nav-links a {
-            color: var(--text-secondary-dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color var(--transition-speed) ease;
+            color: var(--text-secondary-dark); /* Sets the default color for navigation links. */
+            text-decoration: none; /* Removes the underline. */
+            font-weight: 500; /* Sets a medium font weight for readability. */
+            transition: color var(--transition-speed) ease; /* Smoothly transitions the text color on hover. */
+            position: relative; /* [ADDED] Establishes a positioning context for the animated underline. */
+            padding-bottom: 8px; /* [ADDED] Adds space for the underline to appear. */
+        }
+        
+        /* [ADDED] Animated underline effect for navigation links. */
+        .nav-links a::after {
+            content: ''; /* Required for pseudo-elements to render. */
+            position: absolute; /* Positions the underline relative to the link. */
+            bottom: 0; /* Aligns the underline to the bottom of the link's padding box. */
+            left: 0; /* Starts the underline at the left edge. */
+            width: 100%; /* Makes the underline the full width of the link. */
+            height: 2px; /* Sets the thickness of the underline. */
+            background-color: var(--accent-dark); /* Uses the accent color for the underline. */
+            transform: scaleX(0); /* [INITIAL STATE] The underline is scaled to zero (invisible). */
+            transform-origin: right; /* Sets the animation origin to the right side for the initial state. */
+            transition: transform var(--transition-speed) cubic-bezier(0.19, 1, 0.22, 1); /* Defines the smooth animation. */
         }
 
+        /* [ADDED] Defines the hover and active states for navigation links. */
         .nav-links a:hover, .nav-links a.active {
-            color: var(--accent-dark);
+            color: var(--text-dark); /* Changes the text color to primary on hover/active. */
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            transform: scaleX(1); /* [FINAL STATE] The underline scales to its full width. */
+            transform-origin: left; /* The animation originates from the left, creating a "wipe" effect. */
         }
         
         /* ==========================================================================
@@ -194,15 +206,15 @@
             border-radius: 15px; /* Rounded corners. */
             margin-bottom: 1rem; /* Space between FAQ items. */
             overflow: hidden; /* Prevents content from spilling out during animations. */
-            position: relative; /* [NEW v2.0] Required for positioning pseudo-elements. */
+            position: relative; /* Required for positioning pseudo-elements. */
             transition: all var(--transition-speed-fast) ease; /* Smooth transition for all properties. */
         }
 
-        /* [NEW v2.0] Steam-inspired Glassy Sheen Effect (Pseudo-element) */
+        /* Steam-inspired Glassy Sheen Effect (Pseudo-element) */
         .faq-item::before {
             content: ''; /* Required for pseudo-elements to render. */
             position: absolute; /* Positioned relative to the .faq-item. */
-            top: 0;
+            top: 0; /* Aligns to the top. */
             left: -150%; /* Starts off-screen to the left. */
             width: 75%; /* The width of the sheen. */
             height: 100%; /* Full height of the item. */
@@ -212,7 +224,7 @@
             z-index: 1; /* Places it above the background but below the content. */
         }
 
-        /* [NEW v2.0] Trigger the sheen animation on hover. */
+        /* Trigger the sheen animation on hover. */
         .faq-item:hover::before {
             left: 150%; /* Sweeps the sheen across the element to the right. */
         }
@@ -229,9 +241,9 @@
             background-color: transparent; /* Makes the question header transparent to see the item's background. */
         }
         
-        /* [ENHANCED v2.0] The hover effect is now a border highlight, managed by JS. */
+        /* The hover effect is now a border highlight, managed by JS. */
         .faq-item.hovered {
-            border-color: var(--glass-border-hover);
+            border-color: var(--glass-border-hover); /* Changes border color on hover. */
             transform: scale(1.02); /* Subtle pop effect. */
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Enhanced shadow for depth. */
         }
@@ -257,31 +269,30 @@
             transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease; /* Smooth transition for expanding/collapsing. */
             color: #C0BBE2; /* A slightly lighter, more luxurious color for the answer text. */
             line-height: 1.7; /* Increased line height for readability. */
-            /* [NEW v2.0] Darker background for the answer panel to create visual separation. */
-            background-color: var(--answer-panel-dark);
+            background-color: var(--answer-panel-dark); /* Darker background for the answer panel. */
             position: relative; /* Required for z-index. */
             z-index: 2; /* Ensures content is above the pseudo-element sheen. */
         }
         
         .faq-answer-content {
             padding: 0 2rem 1.5rem 2rem; /* Padding is applied to an inner div to prevent content jump during animation. */
-            border-top: 1px solid var(--border-dark); /* [NEW v2.0] A subtle line separating question from answer. */
+            border-top: 1px solid var(--border-dark); /* A subtle line separating question from answer. */
         }
 
         /* Styling for links within an answer. */
         .faq-answer a {
-            color: var(--accent-dark);
-            text-decoration: none;
-            font-weight: 500;
+            color: var(--accent-dark); /* Accent color for links. */
+            text-decoration: none; /* Removes underline. */
+            font-weight: 500; /* Medium font weight. */
         }
         .faq-answer a:hover {
-            text-decoration: underline;
+            text-decoration: underline; /* Adds underline on hover for clarity. */
         }
         
         /* Styling for bold text within an answer. */
         .faq-answer strong {
-            color: var(--text-dark);
-            font-weight: 600;
+            color: var(--text-dark); /* Primary text color for emphasis. */
+            font-weight: 600; /* Semi-bold weight. */
         }
 
         /* Styles for an active/open FAQ item */
@@ -371,51 +382,150 @@
         
         /* Success message styling for the form. */
         #form-success-message {
-            color: var(--success-dark);
-            text-align: center;
-            font-weight: 500;
-            padding: 1rem;
-            border: 1px solid var(--success-dark);
-            border-radius: 10px;
-            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-dark); /* Green text for success. */
+            text-align: center; /* Centered text. */
+            font-weight: 500; /* Medium font weight. */
+            padding: 1rem; /* Padding. */
+            border: 1px solid var(--success-dark); /* Green border. */
+            border-radius: 10px; /* Rounded corners. */
+            background-color: rgba(76, 175, 80, 0.1); /* Light green background. */
             display: none; /* Hidden by default. */
         }
 
         /* ==========================================================================
-           COMPONENT: Footer
+           COMPONENT: Footer (Synchronized with Homepage)
            ========================================================================== */
         .main-footer {
-            background-color: var(--nav-rail-dark);
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border-dark);
+            background-color: var(--nav-rail-dark); /* Sets the footer background color. */
+            padding: 2.5rem 0; /* [SYNCHRONIZED] Sets definitive vertical padding. */
+            text-align: center; /* Center-aligns the footer content. */
+            margin-top: 4rem; /* Adds space above the footer. */
+            border-top: 1px solid var(--border-dark); /* A subtle separator line. */
         }
 
         .main-footer p {
-            color: var(--text-secondary-dark);
+            color: var(--text-secondary-dark); /* Sets the copyright text color. */
         }
 
         /* ==========================================================================
-           UTILITIES & ANIMATIONS (animations.css)
+           UTILITIES & ANIMATIONS
            ========================================================================== */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); } /* Initial state of the animation. */
+            to { opacity: 1; transform: translateY(0); } /* Final state of the animation. */
+        }
+        
+        /* ==========================================================================
+           RESPONSIVE DESIGN: Media Queries (Synchronized with index.html)
+           ========================================================================== */
+        /* [ADDED] Hides the mobile navigation toggle on larger screens by default. */
+        .mobile-nav-toggle {
+            display: none;
+        }
+
+        /* MEDIA QUERY: These styles apply only on screens 768px wide or smaller. */
+        @media (max-width: 768px) {
+            /* Defines the mobile navigation menu container. */
+            .nav-links {
+                position: fixed; /* Positions the menu relative to the viewport. */
+                top: 0; /* Aligns the menu to the top of the viewport. */
+                right: 0; /* Aligns the menu to the right of the viewport. */
+                width: 75%; /* Sets the menu width to 75% of the screen. */
+                height: 100vh; /* Makes the menu full-height. */
+                flex-direction: column; /* Stacks navigation items vertically. */
+                padding: min(20vh, 10rem) 2rem; /* Adds padding inside the menu. */
+                margin: 0; /* Resets default margin. */
+                gap: 2rem; /* Adds space between the vertical menu items. */
+                background: rgba(26, 25, 32, 0.9); /* Applies a blurred, semi-transparent background. */
+                backdrop-filter: blur(1rem); /* The blur effect. */
+                -webkit-backdrop-filter: blur(1rem); /* Safari compatibility. */
+                transform: translateX(100%); /* [INITIAL STATE] The menu is positioned off-screen to the right. */
+                transition: transform 350ms ease-out; /* Defines the slide-in/out animation. */
+            }
+
+            .nav-links li {
+                margin-left: 0; /* Resets the horizontal margin for vertical layout. */
+                width: 100%; /* Makes each link container full-width. */
+                text-align: center; /* Centers the link text. */
+            }
+
+            .nav-links a {
+                font-size: 1.2rem; /* Increases font size for better touch interaction. */
+                color: var(--text-dark); /* Uses the primary text color for visibility against the dark background. */
+            }
+
+            /* [VISIBLE STATE] When data-visible is "true", the menu slides into view. */
+            .nav-links[data-visible="true"] {
+                transform: translateX(0%);
+            }
+
+            /* HAMBURGER ICON: Becomes visible on mobile. */
+            .mobile-nav-toggle {
+                display: block; /* Makes the button visible on mobile screens. */
+                position: fixed; /* Fixed relative to viewport for consistent placement. */
+                top: 1.7rem; /* Positions the button from the top edge of the viewport. */
+                right: 2rem; /* Positions the button from the right edge of the viewport. */
+                z-index: 2000; /* Ensures the button is above all other content. */
+                cursor: pointer; /* Indicates it's a clickable element. */
+                background: transparent; /* Removes any background color. */
+                border: 0; /* Removes any border. */
+                width: 1.8rem; /* Sets the width of the icon. */
+                height: 1.8rem; /* Sets the height of the icon. */
+            }
+            
+            .mobile-nav-toggle .icon {
+                display: block; /* Makes the inner container a block element. */
+                position: relative; /* Establishes a positioning context for the lines. */
+                width: 100%; /* Makes the icon container the full width of the parent button. */
+                height: 100%; /* Makes the icon container the full height of the parent button. */
+            }
+
+            /* HAMBURGER LINES: The three lines that form the icon. */
+            .mobile-nav-toggle .line {
+                display: block; /* Renders the line. */
+                position: absolute; /* Allows precise positioning within the icon container. */
+                height: 2px; /* Defines the thickness of the line. */
+                width: 100%; /* Makes the line full-width. */
+                background: var(--text-dark); /* Sets the color of the line. */
+                border-radius: 2px; /* Applies rounded ends to the lines. */
+                transition: transform 350ms ease-in-out, opacity 350ms ease-in-out; /* Defines the animation for transforming into an 'X'. */
+            }
+
+            /* Defines the position for each of the three lines. */
+            .mobile-nav-toggle .line-top { top: 3px; }
+            .mobile-nav-toggle .line-middle { top: 50%; transform: translateY(-50%); }
+            .mobile-nav-toggle .line-bottom { bottom: 3px; }
+
+            /* ANIMATION TO 'X': Transforms the lines when the menu is open (aria-expanded="true"). */
+            .mobile-nav-toggle[aria-expanded="true"] .line-middle { opacity: 0; } /* The middle line fades out completely. */
+            .mobile-nav-toggle[aria-expanded="true"] .line-top { transform: rotate(45deg) translate(5px, 5px); } /* The top line rotates to form one part of the 'X'. */
+            .mobile-nav-toggle[aria-expanded="true"] .line-bottom { transform: rotate(-45deg) translate(6px, -6px); } /* The bottom line rotates to form the other part of the 'X'. */
+            
+            /* Reduces heading font sizes on mobile for better layout. */
+            .page-header h1 { font-size: 2.5rem; }
         }
 
     </style>
 </head>
 <body>
 
-    <!-- [BACKGROUND] This canvas is used by JavaScript to render the animated particle background. -->
     <canvas id="interactive-canvas"></canvas>
 
     <header class="main-header">
         <div class="header-container">
             <nav class="main-nav">
                 <a href="index.html" class="logo">MK<span>-Tools</span></a>
-                <ul class="nav-links">
+                
+                <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                    <span class="sr-only">Menu</span>
+                    <div class="icon">
+                        <span class="line line-top"></span>
+                        <span class="line line-middle"></span>
+                        <span class="line line-bottom"></span>
+                    </div>
+                </button>
+                
+                <ul id="primary-navigation" class="nav-links" data-visible="false">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="features.html">Features</a></li>
                     <li><a href="download.html">Download</a></li>
@@ -426,21 +536,16 @@
         </div>
     </header>
 
-    <!-- [MAIN CONTENT] The primary content area of the page. -->
     <main>
-        <!-- PAGE HEADER: The main introductory section for the FAQ page. -->
         <section class="page-header container">
             <h1>Frequently Asked <span class="highlight">Questions</span></h1>
             <p>Find answers to common questions about MK-Tools. If you can't find what you're looking for, feel free to reach out using the contact form below.</p>
         </section>
 
-        <!-- FAQ ACCORDION: The main list of questions and answers. -->
         <section class="faq-accordion container">
-
-            <!-- [NEW v2.0] Comprehensive list of 20+ questions. -->
             <div class="faq-item"><div class="faq-question"><h3>What is MK-Tools?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>MK-Tools is a powerful and safe utility designed for Windows 10 and 11. It provides a suite of carefully selected tweaks and tools to help you optimize your PC's performance, enhance privacy, and improve the overall user experience. It's built for both novice users who want simple one-click solutions and power users who want more control.</p></div></div></div>
             <div class="faq-item"><div class="faq-question"><h3>Is MK-Tools safe to use? Can it damage my PC?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>Yes, it is extremely safe.</strong> Every tweak included in MK-Tools is based on well-documented Windows settings, registry keys, or official Microsoft tools (like SFC and DISM). There are no experimental or dangerous modifications. The application is designed with a "do no harm" philosophy. Furthermore, almost every single tweak is reversible with a single click inside the app.</p></div></div></div>
-            <div class="faq-item"><div class="faq-question"><h3>Are the tweaks reversible?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>Absolutely.</strong> Nearly every tweak in the Performance and UI sections can be instantly reverted by clicking the button again or using the "Reset to Default" option. The Group Policy module also includes a definitive "Reset" function that restores all policies to the standard Windows defaults. Your system can always be returned to its original state.</p></div></div></div>
+            <div class="faq-item"><div class="faq-question"><h3>Are the tweaks reversible?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>Absolutely!</strong> every tweak in the Performance and UI sections can be instantly reverted by clicking the button again or using the "Reset to Default" option. The Group Policy module also includes a definitive "Reset" function that restores all policies to the standard Windows defaults. Your system can always be returned to its original state.</p></div></div></div>
             <div class="faq-item"><div class="faq-question"><h3>Is MK-Tools free?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>Yes, MK-Tools is 100% free to download and use. It is a passion project created to help users get the most out of their computers. If you find the tool useful, you can consider supporting its development via the "Buy Me a Coffee" link in the "About" section of the app and website.</p></div></div></div>
             <div class="faq-item"><div class="faq-question"><h3>Why does the application require administrator rights?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>MK-Tools requires administrator privileges because it modifies system-level settings in the Windows Registry and runs official diagnostic tools like SFC and DISM. These operations are protected by Windows User Account Control (UAC) to prevent unauthorized changes. Running as an administrator is necessary to ensure the tweaks and fixes can be applied correctly and safely.</p></div></div></div>
             <div class="faq-item"><div class="faq-question"><h3>My antivirus flagged MK-Tools. Is it a virus?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>No, it is not a virus.</strong> Because MK-Tools is a system utility that modifies registry settings and uses advanced system tools, some antivirus programs may flag it as a "Potentially Unwanted Program" (PUP) or a "riskware" tool. This is a false positive. The application is completely safe and does not contain any malicious code. You can safely add it as an exception in your antivirus software.</p></div></div></div>
@@ -458,10 +563,8 @@
             <div class="faq-item"><div class="faq-question"><h3>Does MK-Tools collect any of my personal data?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p><strong>Absolutely not.</strong> MK-Tools is designed with privacy as a core principle. The application runs entirely on your local machine, does not require an internet connection for its core features (except DISM repair), and does not send any of your personal data or system information to any server. In fact, many of the Group Policy tweaks are specifically designed to *reduce* the amount of data Windows itself sends to Microsoft.</p></div></div></div>
             <div class="faq-item"><div class="faq-question"><h3>A tweak seems to have caused an issue. What should I do?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>The first step is to simply reverse the tweak. Open MK-Tools and click the button for that tweak again to revert it to the default setting. If you applied multiple tweaks, you can use the "Reset to Default" button available for each one. If the issue persists, running the "Fix Windows" scans (SFC, then DISM if needed) can often resolve underlying system problems that may have been present before.</p></div></div></div>
             <div class="faq-item"><div class="faq-question"><h3>Where can I report a bug or suggest a new feature?</h3><div class="faq-toggle-icon">+</div></div><div class="faq-answer"><div class="faq-answer-content"><p>We'd love to hear from you! The best place to report bugs or suggest new features is by using the contact form at the bottom of this page or by visiting the project's official GitHub page (linked in the "About" section) and creating a new "Issue".</p></div></div></div>
-
         </section>
 
-        <!-- CONTACT FORM SECTION: A dedicated section for users to ask further questions. -->
         <section class="contact-section container">
             <div class="contact-form-container">
                 <div class="page-header" style="padding-top: 0; padding-bottom: 2rem;">
@@ -469,14 +572,6 @@
                      <p>If your question wasn't answered above, feel free to reach out directly. I'll get back to you as soon as possible.</p>
                 </div>
                 
-                <!-- ========================================================================================================== -->
-                <!-- ARCHITECTURAL NOTE FOR DEPLOYMENT:                                                                         -->
-                <!-- This form is designed for a static hosting environment like GitHub Pages. To make it functional,           -->
-                <!-- you must use a third-party form handling service like Formspree (https://formspree.io/).                   -->
-                <!-- 1. Create a free account on Formspree.                                                                     -->
-                <!-- 2. Create a new form and get your unique endpoint URL.                                                     -->
-                <!-- 3. Replace the placeholder "YOUR_UNIQUE_FORM_ID" in the `action` attribute below with your actual ID.      -->
-                <!-- ========================================================================================================== -->
                 <form id="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_FORM_ID" method="POST">
                     <div id="form-content">
                         <div class="form-group">
@@ -489,7 +584,6 @@
                         </div>
                         <button type="submit" class="form-submit-btn">Send Message</button>
                     </div>
-                    <!-- This container will display the success message after submission. -->
                     <div id="form-success-message">
                         <p>✅ Thank you for your message! I'll get back to you shortly.</p>
                     </div>
@@ -498,105 +592,122 @@
         </section>
     </main>
 
-    <!-- [FOOTER] The main footer for the website. -->
     <footer class="main-footer">
         <div class="container">
             <p>&copy; 2025 MK-Tools by Muhammad Kashan Tariq. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT: Embedded JavaScript block. Contains all logic for this page. -->
     <script>
         /* ==========================================================================
-           Global Scripts (main.js)
+           PAGE LOGIC: faq.js (Synchronized with V6.0 Protocol)
            ========================================================================== */
+        // SCOPE: Executes all code only after the entire HTML document has been fully loaded.
+        document.addEventListener('DOMContentLoaded', () => {
 
-        // --- SCRIPT 1: Header Scroll Effect ---
-        const header = document.querySelector('.main-header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
+            /* ==========================================================================
+               Global Scripts (main.js)
+               ========================================================================== */
 
-        // --- SCRIPT 2: Interactive Canvas Background ---
-        const canvas = document.getElementById('interactive-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        let particlesArray;
-        class Particle { constructor(x, y, dX, dY, s, c) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=s; this.color=c; } draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2,false); ctx.fillStyle=this.color; ctx.fill(); } update() { if(this.x>canvas.width||this.x<0){this.directionX=-this.directionX;} if(this.y>canvas.height||this.y<0){this.directionY=-this.directionY;} this.x+=this.directionX; this.y+=this.directionY; this.draw(); } }
-        function init() { particlesArray=[]; let nP=(canvas.height*canvas.width)/9000; for(let i=0;i<nP;i++){ let s=(Math.random()*2)+1; let x=(Math.random()*((innerWidth-s*2)-(s*2))+s*2); let y=(Math.random()*((innerHeight-s*2)-(s*2))+s*2); let dX=(Math.random()*.4)-.2; let dY=(Math.random()*.4)-.2; let c='rgba(154,75,255,0.15)'; particlesArray.push(new Particle(x,y,dX,dY,s,c)); } }
-        function connect() { let oV=1; for(let a=0;a<particlesArray.length;a++){ for(let b=a;b<particlesArray.length;b++){ let d=((particlesArray[a].x-particlesArray[b].x)*(particlesArray[a].x-particlesArray[b].x))+((particlesArray[a].y-particlesArray[b].y)*(particlesArray[a].y-particlesArray[b].y)); if(d<(canvas.width/7)*(canvas.height/7)){ oV=1-(d/20000); ctx.strokeStyle='rgba(154,75,255,'+oV*0.05+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x,particlesArray[a].y); ctx.lineTo(particlesArray[b].x,particlesArray[b].y); ctx.stroke(); } } } }
-        function animate() { requestAnimationFrame(animate); ctx.clearRect(0,0,innerWidth,innerHeight); for(let i=0;i<particlesArray.length;i++){particlesArray[i].update();} connect(); }
-        window.addEventListener('resize', ()=>{canvas.width=innerWidth;canvas.height=innerHeight;init();});
-        init();
-        animate();
-
-        /* ==========================================================================
-           FAQ Page Specific Scripts
-           ========================================================================== */
-        
-        // --- SCRIPT 3: FAQ Accordion Logic ---
-        const faqItems = document.querySelectorAll('.faq-item');
-        
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            
-            // [ENHANCED v2.0] Add hover effect for the border highlight.
-            item.addEventListener('mouseenter', () => {
-                item.classList.add('hovered');
-            });
-            item.addEventListener('mouseleave', () => {
-                item.classList.remove('hovered');
-            });
-
-            // Handles the click to open/close the accordion item.
-            question.addEventListener('click', () => {
-                const wasActive = item.classList.contains('active');
-                faqItems.forEach(otherItem => {
-                    otherItem.classList.remove('active');
-                });
-                if (!wasActive) {
-                    item.classList.add('active');
+            // --- SCRIPT 1: Header Scroll Effect ---
+            const header = document.querySelector('.main-header'); // CACHE: Selects the header element once for performance.
+            window.addEventListener('scroll', () => { // EVENT: Fires on every scroll action.
+                // CONDITION: Checks if the vertical scroll position is greater than 50 pixels.
+                if (window.scrollY > 50) { // ACTION: Adds 'scrolled' class if scrolled down.
+                    header.classList.add('scrolled');
+                } else { // ACTION: Removes 'scrolled' class if near the top.
+                    header.classList.remove('scrolled');
                 }
             });
-        });
 
-        // --- SCRIPT 4: Contact Form Submission Logic (for Formspree) ---
-        const contactForm = document.getElementById('contact-form');
-        const formContent = document.getElementById('form-content');
-        const successMessage = document.getElementById('form-success-message');
-
-        contactForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData(contactForm);
+            // --- SCRIPT 2: Interactive Canvas Background ---
+            const canvas = document.getElementById('interactive-canvas'); // CACHE: Selects the canvas element.
+            const ctx = canvas.getContext('2d'); // CONTEXT: Gets the 2D rendering tool.
+            canvas.width = window.innerWidth; // DIMENSION: Sets canvas width to window width.
+            canvas.height = window.innerHeight; // DIMENSION: Sets canvas height to window height.
+            let particlesArray; // DECLARATION: Array to hold all particle objects.
+            class Particle { constructor(x, y, dX, dY, s, c) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=s; this.color=c; } draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2,false); ctx.fillStyle=this.color; ctx.fill(); } update() { if(this.x>canvas.width||this.x<0){this.directionX=-this.directionX;} if(this.y>canvas.height||this.y<0){this.directionY=-this.directionY;} this.x+=this.directionX; this.y+=this.directionY; this.draw(); } }
+            function init() { particlesArray=[]; let nP=(canvas.height*canvas.width)/9000; for(let i=0;i<nP;i++){ let s=(Math.random()*2)+1; let x=(Math.random()*((innerWidth-s*2)-(s*2))+s*2); let y=(Math.random()*((innerHeight-s*2)-(s*2))+s*2); let dX=(Math.random()*.4)-.2; let dY=(Math.random()*.4)-.2; let c='rgba(154,75,255,0.15)'; particlesArray.push(new Particle(x,y,dX,dY,s,c)); } }
+            function connect() { let oV=1; for(let a=0;a<particlesArray.length;a++){ for(let b=a;b<particlesArray.length;b++){ let d=((particlesArray[a].x-particlesArray[b].x)*(particlesArray[a].x-particlesArray[b].x))+((particlesArray[a].y-particlesArray[b].y)*(particlesArray[a].y-particlesArray[b].y)); if(d<(canvas.width/7)*(canvas.height/7)){ oV=1-(d/20000); ctx.strokeStyle='rgba(154,75,255,'+oV*0.05+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x,particlesArray[a].y); ctx.lineTo(particlesArray[b].x,particlesArray[b].y); ctx.stroke(); } } } }
+            function animate() { requestAnimationFrame(animate); ctx.clearRect(0,0,innerWidth,innerHeight); for(let i=0;i<particlesArray.length;i++){particlesArray[i].update();} connect(); }
+            window.addEventListener('resize', ()=>{canvas.width=innerWidth;canvas.height=innerHeight;init();});
+            init(); // INITIALIZATION: Create the particles.
+            animate(); // START: Begin the animation loop.
             
-            try {
-                const response = await fetch(contactForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
+            // --- [ADDED] SCRIPT 3: Mobile Navigation Toggle ---
+            const primaryNav = document.querySelector('#primary-navigation'); // CACHE: Selects the mobile navigation menu UL.
+            const navToggle = document.querySelector('.mobile-nav-toggle'); // CACHE: Selects the hamburger button.
+            const bodyElement = document.querySelector('body'); // CACHE: Selects the body element.
+            navToggle.addEventListener('click', () => { // EVENT: Adds a click listener to the hamburger button.
+                const isVisible = primaryNav.getAttribute('data-visible') === 'true'; // CHECK: Determines if the menu is currently visible.
+                primaryNav.setAttribute('data-visible', !isVisible); // ACTION: Toggles the visibility state of the menu.
+                navToggle.setAttribute('aria-expanded', !isVisible); // ACTION: Toggles the ARIA attribute for accessibility.
+                bodyElement.classList.toggle('nav-open'); // ACTION: Toggles a class on the body to prevent background scrolling.
+            });
+
+            /* ==========================================================================
+               FAQ Page Specific Scripts
+               ========================================================================== */
+            
+            // --- SCRIPT 4: FAQ Accordion Logic ---
+            const faqItems = document.querySelectorAll('.faq-item'); // CACHE: Select all FAQ item containers.
+            
+            faqItems.forEach(item => { // LOOP: Iterate through each FAQ item.
+                const question = item.querySelector('.faq-question'); // CACHE: Select the clickable question area within the item.
+                
+                // EVENT: Add hover effect for the border highlight.
+                item.addEventListener('mouseenter', () => {
+                    item.classList.add('hovered'); // ACTION: Add the 'hovered' class on mouse enter.
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.classList.remove('hovered'); // ACTION: Remove the 'hovered' class on mouse leave.
                 });
 
-                if (response.ok) {
-                    formContent.style.display = 'none';
-                    successMessage.style.display = 'block';
-                } else {
-                    // This block handles server errors from Formspree.
-                    const responseData = await response.json();
-                    if (responseData.errors) {
-                        alert(responseData.errors.map(error => error.message).join(", "));
-                    } else {
-                        alert("Submission failed. Please try again later.");
+                // EVENT: Handle the click to open/close the accordion item.
+                question.addEventListener('click', () => {
+                    const wasActive = item.classList.contains('active'); // CHECK: Determine if the clicked item was already open.
+                    // This logic ensures that clicking an open item closes it, and clicking another item closes all others first.
+                    faqItems.forEach(otherItem => { // LOOP: Iterate through all items.
+                        otherItem.classList.remove('active'); // ACTION: Remove the 'active' class from all items to close them.
+                    });
+                    if (!wasActive) { // CONDITION: If the clicked item was not previously active...
+                        item.classList.add('active'); // ACTION: ...add the 'active' class to open it.
                     }
+                });
+            });
+
+            // --- SCRIPT 5: Contact Form Submission Logic (for Formspree) ---
+            const contactForm = document.getElementById('contact-form'); // CACHE: Select the contact form element.
+            const formContent = document.getElementById('form-content'); // CACHE: Select the container for the form fields.
+            const successMessage = document.getElementById('form-success-message'); // CACHE: Select the hidden success message container.
+
+            contactForm.addEventListener('submit', async function(event) { // EVENT: Fires when the form's submit button is clicked.
+                event.preventDefault(); // ACTION: Prevents the default browser behavior of a full page reload on form submission.
+                const formData = new FormData(contactForm); // DATA: Collects all the data from the form's input fields.
+                
+                try { // ASYNC OPERATION: Attempts to send the form data to the endpoint specified in the form's 'action' attribute.
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST', // METHOD: Specifies that this is a POST request.
+                        body: formData, // BODY: The actual data being sent.
+                        headers: { 'Accept': 'application/json' } // HEADER: Tells Formspree to reply with JSON.
+                    });
+
+                    if (response.ok) { // CONDITION: Checks if the submission was successful (HTTP status 200-299).
+                        formContent.style.display = 'none'; // ACTION: Hides the form fields.
+                        successMessage.style.display = 'block'; // ACTION: Shows the success message.
+                    } else { // CONDITION: Handles server-side errors from Formspree.
+                        const responseData = await response.json(); // DATA: Parses the JSON error response.
+                        if (responseData.errors) { // CONDITION: Checks if the response contains specific error details.
+                            alert(responseData.errors.map(error => error.message).join(", ")); // ACTION: Displays the specific errors to the user.
+                        } else { // CONDITION: For generic server errors.
+                            alert("Submission failed. Please try again later."); // ACTION: Displays a generic failure message.
+                        }
+                    }
+                } catch (error) { // ERROR HANDLING: Catches network errors (e.g., no internet connection).
+                    console.error('Form submission error:', error); // LOG: Logs the detailed error to the developer console.
+                    alert("Could not send message. Please check your internet connection."); // ACTION: Displays a user-friendly error message.
                 }
-            } catch (error) {
-                console.error('Form submission error:', error);
-                alert("Could not send message. Please check your internet connection.");
-            }
+            });
         });
     </script>
 </body>

@@ -1,37 +1,13 @@
 <!DOCTYPE html>
-<!-- =================================================================================== -->
-<!-- MK-TOOLS WEBSITE (v2.3) - FINALIZED ABOUT PAGE (DEFINITIVE LUXURY EDITION)        -->
-<!-- File: about.html                                                                  -->
-<!-- Version: 2.3                                                                      -->
-<!-- Description: The definitive, finalized version of the website's "About Me" page.  -->
-<!--              This build incorporates a top-tier entry animation for all content,  -->
-<!--              a re-synthesized, more detailed narrative, and maintains absolute    -->
-<!--              navigational and stylistic consistency with all other pages.         -->
-<!-- Change Log (v2.3):                                                                -->
-<!--   - ADDED: Fade-in entry animation applied to all content sections for a premium, -->
-<!--            dynamic feel upon page load.                                           -->
-<!--   - ENHANCED: "The Mission" section completely rewritten to be more detailed,      -->
-<!--               engaging, and rich with emojis for a friendly yet authoritative tone. -->
-<!--   - VERIFIED: All code, including navigation and footer, is 100% synchronized     -->
-<!--               with the other finalized pages to guarantee a consistent UX.        -->
-<!--   - ENHANCED: All comments expanded to military-grade standard, exceeding         -->
-<!--               the line count directive for maximum detail.                        -->
-<!-- =================================================================================== -->
 <html lang="en">
 <head>
-    <!-- META: Defines the character set for the document. UTF-8 is the universal standard for text encoding. -->
     <meta charset="UTF-8">
-    <!-- META: Configures the viewport for responsive design, ensuring proper scaling on all devices from mobile to desktop. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- TITLE: The title displayed in the browser tab. Crucial for SEO and user identification. -->
     <title>About | MK-Tools</title>
-    <!-- FAVICON: The icon displayed in the browser tab. -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <!-- STYLE: Embedded CSS block. Contains all styling rules for this page. -->
     <style>
         /* ==========================================================================
-           CORE: Variables & Global Styles (main.css)
-           This section is identical to other pages to ensure absolute visual consistency.
+           CORE V6.0: Variables & Global Styles (Synchronized)
            ========================================================================== */
         :root {
             /* COLOR PALETTE: Defines the entire color scheme using CSS variables for easy maintenance and theming. */
@@ -50,8 +26,7 @@
 
             /* TYPOGRAPHY & TRANSITIONS: Defines fonts and animation timings for a consistent feel. */
             --font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif; /* The font stack, prioritizing modern system fonts. */
-            --transition-speed: 0.3s; /* The standard duration for most animations. */
-            --transition-speed-fast: 0.2s; /* A faster duration for quick feedback. */
+            --transition-speed: 0.4s; /* [SYNCHRONIZED] A slightly more deliberate transition speed for a premium feel. */
         }
 
         /* Global Reset & Font Setup */
@@ -74,6 +49,17 @@
             overflow-x: hidden; /* Prevents any horizontal scrolling, ensuring a clean responsive experience. */
             line-height: 1.7; /* Sets a comfortable, slightly larger line spacing for readability on a text-heavy page. */
         }
+        
+        /* [NEW] Prevents background scroll when mobile nav is open */
+        body.nav-open {
+            overflow: hidden;
+        }
+        
+        /* Accessibility Class: Hides content visually but keeps it accessible to screen readers. */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+        }
 
         /* Interactive Canvas Background */
         #interactive-canvas {
@@ -85,24 +71,21 @@
             z-index: -1; /* Places the canvas behind all other page content. */
         }
 
-        /* Main Content Container: Optimized for readability on text-heavy pages. */
+        /* [RE-ARCHITECTED] Main Content Container Logic */
         .container {
             width: 90%; /* Sets the container to be 90% of its parent's width. */
-            max-width: 1000px; /* Constrains the width for better readability on the About page. */
+            max-width: 1200px; /* Establishes the master 1200px width to match index.html for header consistency. */
             margin: 0 auto; /* Centers the container horizontally within its parent. */
             padding: 0 15px; /* Adds horizontal padding to prevent content from touching the edges. */
         }
         
-        /* Decoupled Header Container: Guarantees consistent navigation bar width across all pages. */
-        .header-container {
-            width: 90%; /* Sets the container to be 90% of the header's width. */
-            max-width: 1200px; /* Enforces a 1200px max-width, matching the widest pages like Home. */
-            margin: 0 auto; /* Centers the container horizontally. */
-            padding: 0 15px; /* Adds horizontal padding. */
+        /* [NEW] This specific rule overrides the global container width ONLY for the container inside the <main> tag. */
+        main .container {
+            max-width: 1000px; /* Constrains the About page's text content for optimal readability. */
         }
 
         /* ==========================================================================
-           COMPONENT: Header & Navigation (Consistent with Homepage)
+           COMPONENT V6.0: Header & Navigation (Synchronized Master Template)
            ========================================================================== */
         .main-header {
             position: fixed; /* Fixes the header to the top of the viewport. */
@@ -110,14 +93,14 @@
             left: 0; /* Aligns the header to the left. */
             width: 100%; /* Stretches the header across the full width of the viewport. */
             z-index: 1000; /* Ensures the header stays above all other content on the page. */
-            padding: 1rem 0; /* Adds vertical padding inside the header. */
-            transition: background-color var(--transition-speed) ease; /* Smoothly transitions the background color on scroll. */
+            padding: 1.5rem 0; /* [SYNCHRONIZED] Sets the definitive vertical padding for a luxurious feel. */
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease; /* Smoothly transitions background and border. */
         }
 
         .main-header.scrolled {
-            background-color: rgba(35, 33, 46, 0.8); /* Adds a semi-transparent background when the user scrolls. */
-            backdrop-filter: blur(10px); /* Applies a blur effect to the background for a modern "frosted glass" look. */
-            -webkit-backdrop-filter: blur(10px); /* Vendor prefix for Safari compatibility. */
+            background-color: rgba(26, 25, 32, 0.8); /* [SYNCHRONIZED] Adds a semi-transparent background on scroll. */
+            backdrop-filter: blur(12px); /* [SYNCHRONIZED] Applies a deeper blur effect for a modern "frosted glass" look. */
+            -webkit-backdrop-filter: blur(12px); /* Vendor prefix for Safari compatibility. */
             border-bottom: 1px solid var(--border-dark); /* Adds a subtle bottom border to the header on scroll. */
         }
 
@@ -128,10 +111,11 @@
         }
 
         .logo {
-            font-size: 1.8rem; /* Sets the font size for the logo text. */
-            font-weight: bold; /* Makes the logo text bold for emphasis. */
+            font-size: 2rem; /* [SYNCHRONIZED] Sets the definitive, larger font size for the logo text. */
+            font-weight: 700; /* Makes the logo text bold for emphasis. */
             color: var(--text-dark); /* Sets the logo text color. */
             text-decoration: none; /* Removes the default underline from the anchor tag. */
+            z-index: 1001; /* Ensures the logo is clickable, even when the mobile menu is open. */
         }
 
         .logo span {
@@ -140,11 +124,11 @@
 
         .nav-links {
             list-style: none; /* Removes the default bullet points from the unordered list. */
-            display: flex; /* Arranges the list items horizontally. */
+            display: flex; /* Arranges the list items horizontally on desktop. */
         }
 
         .nav-links li {
-            margin-left: 2rem; /* Adds space between each of the navigation links. */
+            margin-left: 2.5rem; /* [SYNCHRONIZED] Sets the definitive, wider margin between navigation items. */
         }
 
         .nav-links a {
@@ -152,14 +136,35 @@
             text-decoration: none; /* Removes the underline. */
             font-weight: 500; /* Sets a medium font weight for readability. */
             transition: color var(--transition-speed) ease; /* Smoothly transitions the text color on hover. */
+            position: relative; /* [SYNCHRONIZED] Establishes a positioning context for the animated underline. */
+            padding-bottom: 8px; /* [SYNCHRONIZED] Adds space for the underline to appear without shifting text. */
         }
 
+        /* [SYNCHRONIZED] Animated underline effect for navigation links. */
+        .nav-links a::after {
+            content: ''; /* Required for pseudo-elements to render. */
+            position: absolute; /* Positions the underline relative to the link. */
+            bottom: 0; /* Aligns the underline to the bottom of the link's padding box. */
+            left: 0; /* Starts the underline at the left edge. */
+            width: 100%; /* Makes the underline the full width of the link. */
+            height: 2px; /* Sets the thickness of the underline. */
+            background-color: var(--accent-dark); /* Uses the accent color for the underline. */
+            transform: scaleX(0); /* [INITIAL STATE] The underline is scaled to zero (invisible). */
+            transform-origin: right; /* Sets the animation origin to the right side. */
+            transition: transform var(--transition-speed) cubic-bezier(0.19, 1, 0.22, 1); /* Defines the smooth animation. */
+        }
+
+        /* [SYNCHRONIZED] Defines the hover and active states for navigation links. */
         .nav-links a:hover, .nav-links a.active {
-            color: var(--accent-dark); /* Changes the link color on hover or if it's the currently active page. */
+            color: var(--text-dark); /* Changes the text color to primary on hover/active. */
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            transform: scaleX(1); /* [FINAL STATE] The underline scales to its full width. */
+            transform-origin: left; /* The animation now originates from the left, creating a "wipe" effect. */
         }
         
         /* ==========================================================================
-           PAGE: About (about.css) - LUXURY REVISION
+           PAGE: About (about.css) - Retained Styles
            ========================================================================== */
         .about-section {
             padding-top: 120px; /* Adds padding to the top to push content below the fixed header. */
@@ -328,7 +333,7 @@
            ========================================================================== */
         .main-footer {
             background-color: var(--nav-rail-dark);
-            padding: 2rem 0;
+            padding: 2.5rem 0;
             text-align: center;
             margin-top: 4rem;
             border-top: 1px solid var(--border-dark);
@@ -341,7 +346,6 @@
         /* ==========================================================================
            UTILITIES & ANIMATIONS
            ========================================================================== */
-        /* [NEW v2.3] Added fade-in animation rules, consistent with other pages. */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -359,10 +363,92 @@
         }
         
         /* ==========================================================================
-           RESPONSIVE DESIGN: Media Queries
+           RESPONSIVE DESIGN: Media Queries (Synchronized Master Template)
            ========================================================================== */
+        /* [SYNCHRONIZED] Hides the mobile navigation toggle on larger screens by default. */
+        .mobile-nav-toggle {
+            display: none;
+        }
+
+        /* MEDIA QUERY: These styles apply only on screens 768px wide or smaller. */
         @media (max-width: 768px) {
-            .nav-links { display: none; } /* Hides the main navigation links on mobile. */
+            /* [SYNCHRONIZED] Defines the mobile navigation menu container. */
+            .nav-links {
+                position: fixed; /* Positions the menu relative to the viewport. */
+                top: 0; /* Aligns the menu to the top of the viewport. */
+                right: 0; /* Aligns the menu to the right of the viewport. */
+                width: 75%; /* Sets the menu width to 75% of the screen. */
+                height: 100vh; /* Makes the menu full-height. */
+                flex-direction: column; /* Stacks navigation items vertically. */
+                padding: min(20vh, 10rem) 2rem; /* Adds padding inside the menu. */
+                margin: 0; /* Resets default margin. */
+                gap: 2rem; /* Adds space between the vertical menu items. */
+                background: rgba(26, 25, 32, 0.9); /* Applies a blurred, semi-transparent background. */
+                backdrop-filter: blur(1rem); /* The blur effect. */
+                -webkit-backdrop-filter: blur(1rem); /* Safari compatibility. */
+                transform: translateX(100%); /* [INITIAL STATE] The menu is positioned off-screen to the right. */
+                transition: transform 350ms ease-out; /* Defines the slide-in/out animation. */
+            }
+
+            .nav-links li {
+                margin-left: 0; /* Resets the horizontal margin for vertical layout. */
+                width: 100%; /* Makes each link container full-width. */
+                text-align: center; /* Centers the link text. */
+            }
+
+            .nav-links a {
+                font-size: 1.2rem; /* Increases font size for better touch interaction. */
+                color: var(--text-dark); /* Uses the primary text color for visibility against the dark background. */
+            }
+
+            /* [VISIBLE STATE] When data-visible is "true", the menu slides into view. */
+            .nav-links[data-visible="true"] {
+                transform: translateX(0%);
+            }
+
+            /* [SYNCHRONIZED] HAMBURGER ICON: Becomes visible on mobile. */
+            .mobile-nav-toggle {
+                display: block; /* Makes the button visible on mobile screens. */
+                position: fixed; /* Fixed relative to viewport for consistent placement. */
+                top: 1.7rem; /* Positions the button from the top edge of the viewport. */
+                right: 2rem; /* Positions the button from the right edge of the viewport. */
+                z-index: 2000; /* Ensures the button is above all other content. */
+                cursor: pointer; /* Indicates it's a clickable element. */
+                background: transparent; /* Removes any background color. */
+                border: 0; /* Removes any border. */
+                width: 1.8rem; /* Sets the width of the icon. */
+                height: 1.8rem; /* Sets the height of the icon. */
+            }
+            
+            .mobile-nav-toggle .icon {
+                display: block; /* Makes the inner container a block element. */
+                position: relative; /* Establishes a positioning context for the lines. */
+                width: 100%; /* Makes the icon container the full width of the parent button. */
+                height: 100%; /* Makes the icon container the full height of the parent button. */
+            }
+
+            /* [SYNCHRONIZED] HAMBURGER LINES: The three lines that form the icon. */
+            .mobile-nav-toggle .line {
+                display: block; /* Renders the line. */
+                position: absolute; /* Allows precise positioning within the icon container. */
+                height: 2px; /* Defines the thickness of the line. */
+                width: 100%; /* Makes the line full-width. */
+                background: var(--text-dark); /* Sets the color of the line. */
+                border-radius: 2px; /* Applies rounded ends to the lines. */
+                transition: transform 350ms ease-in-out, opacity 350ms ease-in-out; /* Defines the animation for transforming into an 'X'. */
+            }
+
+            /* Defines the position for each of the three lines. */
+            .mobile-nav-toggle .line-top { top: 3px; }
+            .mobile-nav-toggle .line-middle { top: 50%; transform: translateY(-50%); }
+            .mobile-nav-toggle .line-bottom { bottom: 3px; }
+
+            /* [SYNCHRONIZED] ANIMATION TO 'X': Transforms the lines when the menu is open (aria-expanded="true"). */
+            .mobile-nav-toggle[aria-expanded="true"] .line-middle { opacity: 0; } /* The middle line fades out completely. */
+            .mobile-nav-toggle[aria-expanded="true"] .line-top { transform: rotate(45deg) translate(5px, 5px); } /* The top line rotates to form one part of the 'X'. */
+            .mobile-nav-toggle[aria-expanded="true"] .line-bottom { transform: rotate(-45deg) translate(6px, -6px); } /* The bottom line rotates to form the other part of the 'X'. */
+
+            /* Page-specific responsive adjustments */
             .profile-card h1 { font-size: 2rem; } /* Reduces font size for the name on mobile. */
             .content-section h2 { font-size: 2rem; } /* Reduces font size for section headings on mobile. */
         }
@@ -370,72 +456,64 @@
 </head>
 <body>
 
-    <!-- [BACKGROUND] This canvas is used by JavaScript to render the animated particle background. -->
     <canvas id="interactive-canvas"></canvas>
 
-    <!-- [HEADER] The main header and navigation bar, synchronized with other pages. -->
     <header class="main-header">
-        <!-- [FIX v2.2] This div now uses the .header-container class to ensure a consistent 1200px max-width, fixing the navigation spacing issue. -->
-        <div class="header-container">
+        <div class="container">
             <nav class="main-nav">
-                <!-- LOGO: Links back to the home page. -->
                 <a href="index.html" class="logo">MK<span>-Tools</span></a>
-                <!-- NAVIGATION LINKS: Main site navigation, now including the FAQ link. -->
-                <ul class="nav-links">
+                
+                <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                    <span class="sr-only">Menu</span>
+                    <div class="icon">
+                        <span class="line line-top"></span>
+                        <span class="line line-middle"></span>
+                        <span class="line line-bottom"></span>
+                    </div>
+                </button>
+                
+                <ul id="primary-navigation" class="nav-links" data-visible="false">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="features.html">Features</a></li>
                     <li><a href="download.html">Download</a></li>
                     <li><a href="faq.html">FAQ</a></li>
-                    <!-- The 'active' class is now on the About link for this page. -->
                     <li><a href="about.html" class="active">About</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- [MAIN CONTENT] The primary content area of the page. -->
     <main>
-        <!-- [MODIFIED v2.2] The main content container is now separate from the header's, allowing for a different max-width for readability. -->
         <section class="about-section container">
             
-            <!-- [PROFILE CARD] The main introductory card about the creator. [ANIMATED v2.3] -->
             <div class="profile-card fade-in-section">
-                <!-- [PLACEHOLDER] This is the placeholder for your profile picture. Replace the URL in `src` with your image path. -->
                 <img src="https://placehold.co/150x150/1A1920/9A4BFF?text=MK" alt="Profile Picture of Muhammad Kashan Tariq" class="profile-picture">
                 <h1>Muhammad Kashan Tariq</h1>
                 <h2>Software Engineer & Tech Enthusiast</h2>
-                <!-- [ENHANCED v2.2] Rewritten "About Me" content to be more detailed and friendly. -->
                 <p>Hello! 👋 I'm a lifelong tech enthusiast with a deep passion for elegant software architecture, peak hardware performance, and most importantly, creating tools that genuinely make a difference. I believe that technology should empower us, not frustrate us. That's the core philosophy that drove me to create MK-Tools. 💡</p>
             </div>
 
-            <!-- [THE MISSION] A section detailing the philosophy and purpose behind MK-Tools. [ANIMATED v2.3] -->
             <div class="content-section fade-in-section">
                 <h2>🚀 The Mission 🚀</h2>
-                <!-- [ENHANCED v2.3] Rewritten "The Mission" content to be more interesting and emoji-rich. -->
                 <p>After more than a decade of building PCs 🛠️, dissecting operating systems 💻, and pushing hardware to its absolute limits ⚙️, I noticed a recurring problem: deep system optimization was a world reserved for experts and 'nerds'. Powerful, beneficial tweaks were hidden behind complex commands and obscure registry keys, inaccessible to the everyday user. <br><br> <strong>MK-Tools is the answer.</strong> It's a manifesto against bloated, confusing software. It's built on one clear goal: to empower <strong>every single user</strong> with the tools to achieve a faster, safer, and more private digital life. It bridges the gap between powerful, military-grade functionality and a simple, luxurious user experience, giving you one-click control over your machine's true potential. This is just the beginning! ✨</p>
             </div>
             
-            <!-- [CONTACT SECTION] A section with links to social and professional profiles. [ANIMATED v2.3] -->
             <div class="content-section fade-in-section">
                 <h2>📞 Contact Me 📞</h2>
                 <p>Feel free to reach out, connect, or check out my other projects.</p>
                 <div class="contact-links">
-                    <!-- GitHub Link -->
                     <a href="https://github.com/Mr-Muhammad-Kashan" target="_blank" class="contact-link" title="GitHub">
                         <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     </a>
-                    <!-- LinkedIn Link -->
                     <a href="https://www.linkedin.com/in/muhammad-kashan-tariq" target="_blank" class="contact-link" title="LinkedIn">
                         <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     </a>
-                    <!-- Email Link -->
                     <a href="mailto:m.kashan.exe@gmail.com" class="contact-link" title="Email">
                         <svg viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-21.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
                     </a>
                 </div>
             </div>
 
-            <!-- [SUPPORT SECTION] A dedicated section for the "Buy Me a Coffee" call to action. [ANIMATED v2.3] -->
             <div class="support-section fade-in-section">
                 <h2>💖 Support This Project 💖 </h2>
                 <p>If MK-Tools has helped you, consider supporting its development. Every contribution helps fuel future updates and new features!</p>
@@ -447,19 +525,17 @@
         </section>
     </main>
 
-    <!-- [FOOTER] The main footer for the website, synchronized with other pages. -->
     <footer class="main-footer">
         <div class="container">
             <p>&copy; 2025 MK-Tools by Muhammad Kashan Tariq. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT: Embedded JavaScript block. Contains all logic for this page. -->
     <script>
         /* ==========================================================================
-           PAGE LOGIC: about.js
-           This script orchestrates all interactive elements on the About page.
+           PAGE LOGIC: about.js (Synchronized V6.0 Protocol)
            ========================================================================== */
+        // SCOPE: Executes all code only after the entire HTML document has been fully loaded and parsed.
         document.addEventListener('DOMContentLoaded', () => {
             
             /* ==========================================================================
@@ -467,37 +543,72 @@
                ========================================================================== */
 
             // --- LOGIC BLOCK 1: Header Scroll Effect ---
+            // CACHE: Selects the header element once for performance.
             const header = document.querySelector('.main-header');
+            // EVENT: Fires on every scroll action.
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) { header.classList.add('scrolled'); }
-                else { header.classList.remove('scrolled'); }
+                // CONDITION: Checks if the vertical scroll position is greater than 50 pixels and toggles the 'scrolled' class accordingly.
+                header.classList.toggle('scrolled', window.scrollY > 50);
             });
 
             // --- LOGIC BLOCK 2: Canvas Background Animation ---
-            const canvas = document.getElementById('interactive-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            let particlesArray;
+            // This entire block is a self-contained module for the background effect.
+            const canvas = document.getElementById('interactive-canvas'); // CACHE: Selects the canvas element.
+            const ctx = canvas.getContext('2d'); // CONTEXT: Gets the 2D rendering tool.
+            canvas.width = window.innerWidth; // DIMENSION: Sets canvas width to window width.
+            canvas.height = window.innerHeight; // DIMENSION: Sets canvas height to window height.
+            let particlesArray; // DECLARATION: Array to hold all particle objects.
+            // CLASS: Defines the blueprint for a single particle.
             class Particle { constructor(x, y, dX, dY, s, c) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=s; this.color=c; } draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2,false); ctx.fillStyle=this.color; ctx.fill(); } update() { if(this.x>canvas.width||this.x<0){this.directionX=-this.directionX;} if(this.y>canvas.height||this.y<0){this.directionY=-this.directionY;} this.x+=this.directionX; this.y+=this.directionY; this.draw(); } }
+            // FUNCTION: Initializes the particle array.
             function initCanvas() { particlesArray=[]; let nP=(canvas.height*canvas.width)/9000; for(let i=0;i<nP;i++){ let s=(Math.random()*2)+1; let x=(Math.random()*((innerWidth-s*2)-(s*2))+s*2); let y=(Math.random()*((innerHeight-s*2)-(s*2))+s*2); let dX=(Math.random()*.4)-.2; let dY=(Math.random()*.4)-.2; let c='rgba(154,75,255,0.15)'; particlesArray.push(new Particle(x,y,dX,dY,s,c)); } }
+            // FUNCTION: Draws connecting lines between nearby particles.
             function connectCanvas() { let oV=1; for(let a=0;a<particlesArray.length;a++){ for(let b=a;b<particlesArray.length;b++){ let d=((particlesArray[a].x-particlesArray[b].x)*(particlesArray[a].x-particlesArray[b].x))+((particlesArray[a].y-particlesArray[b].y)*(particlesArray[a].y-particlesArray[b].y)); if(d<(canvas.width/7)*(canvas.height/7)){ oV=1-(d/20000); ctx.strokeStyle='rgba(154,75,255,'+oV*0.05+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x,particlesArray[a].y); ctx.lineTo(particlesArray[b].x,particlesArray[b].y); ctx.stroke(); } } } }
+            // FUNCTION: The main animation loop.
             function animateCanvas() { requestAnimationFrame(animateCanvas); ctx.clearRect(0,0,innerWidth,innerHeight); for(let i=0;i<particlesArray.length;i++){particlesArray[i].update();} connectCanvas(); }
+            // EVENT: Re-initializes the canvas on window resize.
             window.addEventListener('resize', ()=>{canvas.width=innerWidth;canvas.height=innerHeight;initCanvas();});
+            // START: Initial function calls.
             initCanvas();
             animateCanvas();
             
-            // --- [NEW v2.3] LOGIC BLOCK 3: Fade-in on Scroll Animation ---
+            // --- [IMPLANTED] LOGIC BLOCK 3: Mobile Navigation Toggle ---
+            // CACHE: Selects the mobile navigation menu UL.
+            const primaryNav = document.querySelector('#primary-navigation');
+            // CACHE: Selects the hamburger button.
+            const navToggle = document.querySelector('.mobile-nav-toggle');
+            // CACHE: Selects the body element.
+            const bodyElement = document.querySelector('body');
+            // EVENT: Adds a click listener to the hamburger button.
+            navToggle.addEventListener('click', () => {
+                // CHECK: Determines if the menu is currently visible.
+                const isVisible = primaryNav.getAttribute('data-visible') === 'true';
+                // ACTION: Toggles the visibility state of the menu.
+                primaryNav.setAttribute('data-visible', !isVisible);
+                // ACTION: Toggles the ARIA attribute for accessibility.
+                navToggle.setAttribute('aria-expanded', !isVisible);
+                // ACTION: Toggles a class on the body to prevent background scrolling.
+                bodyElement.classList.toggle('nav-open');
+            });
+            
+            // --- LOGIC BLOCK 4: Fade-in on Scroll Animation ---
             // PURPOSE: Fades in sections as they become visible in the viewport.
-            const sections = document.querySelectorAll('.fade-in-section'); // Selects all elements with the 'fade-in-section' class.
+            // CACHE: Selects all elements with the 'fade-in-section' class.
+            const sections = document.querySelectorAll('.fade-in-section');
+            // OBSERVER: Watches for elements entering the viewport.
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { // For each observed element...
-                    if (entry.isIntersecting) { // ...if it is currently visible on screen...
-                        entry.target.classList.add('is-visible'); // ...add the 'is-visible' class to trigger the fade-in animation.
-                        observer.unobserve(entry.target); // OPTIMIZATION: Stop observing the element once it has faded in.
+                // LOOP: For each observed element...
+                entries.forEach(entry => {
+                    // CONDITION: ...if it is currently visible on screen...
+                    if (entry.isIntersecting) {
+                        // ACTION: ...add the 'is-visible' class to trigger the fade-in animation.
+                        entry.target.classList.add('is-visible');
+                        // OPTIMIZATION: Stop observing the element once it has faded in.
+                        observer.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.1 }); // The animation triggers when 10% of the element is visible.
+            // ATTACH: Apply the observer to all selected sections.
             sections.forEach(section => { observer.observe(section); });
 
 
@@ -505,38 +616,48 @@
                SECTION B: ABOUT PAGE SPECIFIC LOGIC
                ========================================================================== */
             
-            // --- LOGIC BLOCK 4: "Buy Me a Coffee" Button Animation ---
+            // --- LOGIC BLOCK 5: "Buy Me a Coffee" Button Animation ---
             // PURPOSE: Creates a fun, engaging "burst" of emojis when the user hovers over the support button.
+            // CACHE: Selects the container for the button.
             const coffeeBtnContainer = document.querySelector('.coffee-button-container');
+            // CACHE: Selects the button itself.
             const coffeeBtn = document.getElementById('coffee-btn');
+            // DATA: An array of emojis to be used in the animation.
             const emojis = ['😊', '💖', '✨', '🎉', '👍', '❤️', '🔥'];
 
+            // EVENT: Adds a listener for when the mouse enters the button area.
             coffeeBtn.addEventListener('mouseenter', () => {
+                // LOOP: Creates 15 emoji elements for a burst effect.
                 for (let i = 0; i < 15; i++) { createEmoji(coffeeBtn); }
             });
 
+            // FUNCTION: Creates and animates a single emoji.
             function createEmoji(element) {
+                // CREATE: Creates a new div element for the emoji.
                 const emoji = document.createElement('div');
+                // STYLE: Adds the 'hover-emoji' class for styling.
                 emoji.classList.add('hover-emoji');
+                // CONTENT: Selects a random emoji from the array.
                 emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                // APPEND: Adds the new emoji to the button's container.
                 coffeeBtnContainer.appendChild(emoji);
+                // CALCULATION: Determines a random direction and distance for the emoji to travel.
                 const angle = Math.random() * Math.PI * 2;
                 const distance = Math.random() * 80 + 50;
                 const endX = Math.cos(angle) * distance;
                 const endY = Math.sin(angle) * distance;
+                // CALCULATION: Determines a random rotation and scale for the emoji.
                 const rotation = (Math.random() - 0.5) * 720;
                 const scale = Math.random() * 0.5 + 0.5;
+                // INITIAL STATE: Sets the initial transform to be small and centered.
                 emoji.style.transform = `translate(-50%, -50%) scale(0)`;
+                // REFLOW: Forces the browser to apply the initial state before animating.
                 emoji.getBoundingClientRect(); 
+                // FINAL STATE: Sets the final opacity and transform, which triggers the CSS transition.
                 emoji.style.opacity = 0;
                 emoji.style.transform = `translate(calc(-50% + ${endX}px), calc(-50% + ${endY}px)) scale(${scale}) rotate(${rotation}deg)`;
+                // CLEANUP: Removes the emoji element from the DOM after the animation completes.
                 setTimeout(() => { emoji.remove(); }, 800);
             }
         });
-    </script> <!-- [CLOSING TAG] Ends the JavaScript block for the page. -->
-</body> <!-- [CLOSING TAG] Ends the main body content of the HTML document. -->
-</html> <!-- [CLOSING TAG] Ends the HTML document. -->
-<!-- =================================================================================== -->
-<!-- END OF FILE: about.html                                                           -->
-<!-- All parts have been delivered. This document is now complete.                       -->
-<!-- =================================================================================== -->
+    </script> </body> </html> ```
